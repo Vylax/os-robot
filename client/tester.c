@@ -52,6 +52,7 @@ int main( void )
   printf( "Waiting tacho is plugged...\n" );
 
 #endif
+  printf(%d, ev3_tacho_init());
   while ( ev3_tacho_init() < 1 ) Sleep( 1000 );
 
   printf( "*** ( EV3 ) Hello! ***\n" );
