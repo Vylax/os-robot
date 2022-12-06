@@ -4,18 +4,12 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-// WIN32 /////////////////////////////////////////
+// include Sleep() method for the current OS
 #ifdef __WIN32__
-
 #include <windows.h>
-
-// UNIX //////////////////////////////////////////
 #else
-
 #include <unistd.h>
 #define Sleep( msec ) usleep(( msec ) * 1000 )
-
-//////////////////////////////////////////////////
 #endif
 const char const *color[] = { "?", "BLACK", "BLUE", "GREEN", "YELLOW", "RED", "WHITE", "BROWN" };
 #define COLOR_COUNT  (( int )( sizeof( color ) / sizeof( color[ 0 ])))
@@ -47,8 +41,7 @@ int main( void )
   uint32_t n, ii;
 #ifndef __ARM_ARCH_4T__
   /* Disable auto-detection of the brick (you have to set the correct address below) */
-  ev3_brick_addr = "192.168.0.204";
-
+  ev3_brick_addr = "10.42.0.184";
 #endif
   if ( ev3_init() == -1 ) return ( 1 );
 
