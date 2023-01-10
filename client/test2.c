@@ -46,7 +46,7 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
     Sleep(arm_t);
     /*  Close the hand  */
     printf("Close the hand...\n");
-    set_tacho_speed_sp(sn_arm, -hand_v);
+    set_tacho_speed_sp(sn_arm, +hand_v);
     set_tacho_time_sp(sn_arm, hand_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
     Sleep(hand_t);
@@ -64,7 +64,7 @@ void release_routine(uint8_t sn_hand, int hand_v)
     int hand_t = 1000;
     /* Open the hand    */
     printf("Open the hand...\n");
-    set_tacho_speed_sp(sn_hand, +hand_v);
+    set_tacho_speed_sp(sn_hand, -hand_v);
     set_tacho_time_sp(sn_hand, hand_t);
     set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
     Sleep(hand_t);
@@ -276,6 +276,7 @@ int main(void)
             /* NOTE: maybe it's better to subtract a certain value in order to keep a certain distance  */
             t = (float)(count_per_rot * abs(distance)) / (current_speed / 2 * PI * WHEEL_DIAM);
             /*  NOTE: fix time computation  */
+            t = t * 0.8;
             printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed);
             /*  Set speed for engines    */
             set_tacho_speed_sp(sn_left, current_speed / 2);
