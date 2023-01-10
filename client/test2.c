@@ -33,8 +33,34 @@ static bool _check_pressed(uint8_t sn)
     return (get_sensor_value(0, sn, &val) && (val != 0));
 }
 
-void grab_routine() {
-    
+void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
+{
+    int hand_t = 3000;
+    int arm_t = 3000 :
+        /*	Go down	*/
+        printf("Lowering the arm...\n");
+    set_tacho_speed_sp(sn_arm, -arm_v);
+    set_tacho_time_sp(sn_arm, arm_t);
+    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+    Sleep(arm_t);
+    /* Open the hand    */
+    printf("Open the hand...\n");
+    set_tacho_speed_sp(sn_hand, +hand_v);
+    set_tacho_time_sp(sn_hand, hand_t);
+    set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+    Sleep(hand_t);
+    /*  Close the hand  */
+    printf("Close the hand...\n");
+    set_tacho_speed_sp(sn_arm, -hand_v);
+    set_tacho_time_sp(sn_arm, hand_t);
+    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+    Sleep(hand_t);
+    /*  Go up	*/
+    printf("Raising the arm...\n");
+    set_tacho_speed_sp(sn_arm, +arm_v);
+    set_tacho_time_sp(sn_arm, 3000);
+    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+    Sleep(arm_t / 2);
     return;
 }
 
@@ -54,8 +80,10 @@ int main(void)
     // char s[ 256 ];
     // int val;
     int count_per_rot;
+    int arm_cpr, hand_cpr;
     int ball_found = 0;
     int max_speed;
+    int arm_vmax, hand_vmax;
     int dc_port = 65;
     int left_wheel_port = 66;
     int right_wheel_port = 67;
@@ -100,7 +128,7 @@ int main(void)
         get_tacho_count_per_rot(sn_left, &count_per_rot);
         printf("  count_per_rot = %d\n", count_per_rot);
         set_tacho_stop_action_inx(sn_left, TACHO_COAST);
-        //current_speed = max_speed * speed_ratio;
+        // current_speed = max_speed * speed_ratio;
     }
     else
     {
@@ -123,7 +151,40 @@ int main(void)
         printf("LEGO_EV3_M_MOTOR (RIGHT) is NOT found\n");
     }
 
-    /*      Sensors     */
+    /*  Arm engine  */
+    if (ev3_search_tacho_plugged_in(dc_port, 0, &sn_arm, 0))
+    {
+        /* Getting informations */
+        printf("LEGO_EV3_M_MOTOR (ARM) is found...\n");
+        get_tacho_max_speed(sn_arm, &arm_vmax);
+        printf("  max speed = %d\n", arm_vmax);
+        get_tacho_count_per_rot(sn_arm, &arm_cpr);
+        printf("  count_per_rot = %d\n", arm_cpr);
+        set_tacho_stop_action_inx(sn_arm, TACHO_COAST);
+    }
+    else
+    {
+        printf("LEGO_EV3_M_MOTOR (ARM) is NOT found\n");
+    }
+
+    /*  Hand engine  */
+    if (ev3_search_tacho_plugged_in(servo_port, 0, &sn_hand, 0))
+    {
+        /*  Getting informations    */
+        printf("LEGO_EV3_M_MOTOR (HAND) is found...\n");
+        get_tacho_max_speed(sn_hand, &hand_vmax);
+        printf("  max speed = %d\n", hand_vmax);
+        get_tacho_count_per_rot(sn_hand, &hand_cpr);
+        printf("  count_per_rot = %d\n", hand_cpr);
+        set_tacho_stop_action_inx(sn_hand, TACHO_COAST);
+    }
+    else
+    {
+        printf("LEGO_EV3_M_MOTOR (HAND) is NOT found\n");
+    }
+
+    /*      --- Sensors ---     */
+    /*  Initialize all the sensors  */
     ev3_sensor_init();
     /*  Color sensor    */
     if (ev3_search_sensor(LEGO_EV3_COLOR, &sn_color, 0))
@@ -134,9 +195,11 @@ int main(void)
             val = 0;
         }
         printf("\r(%s) \n", color[val]);
-        //fflush(stdout);
-    } else {
-	printf("COLOR sensor not found!\n");
+        // fflush(stdout);
+    }
+    else
+    {
+        printf("COLOR sensor not found!\n");
     }
 
     /*  Sonar sensor    */
@@ -148,10 +211,12 @@ int main(void)
             value = 0;
         }
         printf("\r(%f) \n", value);
-        //fflush(stdout);
-    } else {
-	printf("SONAR sensor not found!\n");
-	//return -1;
+        // fflush(stdout);
+    }
+    else
+    {
+        printf("SONAR sensor not found!\n");
+        return -1;
     }
     /*  Gyro sensor */
     if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0))
@@ -162,18 +227,18 @@ int main(void)
             value = 0;
         }
         printf("\r(%f) \n", value);
-        // fflush( stdout );
+        fflush(stdout);
     }
     else
     {
         printf("GYRO sensor not found!\n");
-	return -1;
+        return -1;
     }
     /*  Set the testing speed for the wheels    */
     current_speed = max_speed * speed_ratio;
-    //current_speed = current_speed / 2; //DEBUG ONLY
+    // current_speed = current_speed / 2; //DEBUG ONLY
     completed = 0;
-    printf("\n\n\n\n\n\n\n\t\tSTARTING ENGINES\n\n\n\n");
+    printf("\t\tSTARTING ENGINES\n\n\n\n");
     while (!completed)
     {
         /*  Set the desired speed for the wheels engines    */
@@ -187,7 +252,7 @@ int main(void)
         set_tacho_command_inx(sn_right, TACHO_RUN_TIMED);
         /*  Get distance from the sonar */
         get_sensor_value0(sn_sonar, &distance);
-        printf("Actual distance from object: %f\n", distance);//DEBUG ONLY
+        printf("Actual distance from object: %f\n", distance); // DEBUG ONLY
         /*  Wait n seconds  */
         Sleep(1000);
 
@@ -195,13 +260,13 @@ int main(void)
             After this routine, we close the program    */
         if (distance < 100)
         {
-	    printf("\n\n\t\tBALL APPROACHED\n\n\n\n");
+            printf("\n\n\t\tBALL APPROACHED\n\n\n\n");
             /*  Now that i'm close to the ball, i need to set a specific
                 value of t in order to get close enough so i can grab it    */
             get_sensor_value0(sn_sonar, &distance);
             /* Compute an exact t to get to the ball    */
             /* NOTE: maybe it's better to subtract a certain value in order to keep a certain distance  */
-            t = (float)(count_per_rot * abs(distance) ) / (current_speed * PI * WHEEL_DIAM);
+            t = (float)(count_per_rot * abs(distance)) / (current_speed * PI * WHEEL_DIAM);
             /*  NOTE: fix time computation  */
             printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed);
             /*  Set speed for engines    */
@@ -215,65 +280,9 @@ int main(void)
             set_tacho_command_inx(sn_right, TACHO_RUN_TIMED);
             /* Wait (also to stabilize the crane)   */
             Sleep(1000);
+            /*  Calling grab routine    */
+            grab_routine(sn_arm, sn_hand, arm_vmax, hand_vmax);
 
-            /*  NOTE 1: Maybe it's better to check if they are connected before    */
-            /*  NOTE 2: Considering we have a dc and a servo, we must define some angles for
-                        The first and setting some parameters for the second    */
-            /*  Arm motor description   */
-            if (ev3_search_tacho_plugged_in(dc_port, 0, &sn_arm, 0))
-            {
-                /* Getting informations */
-                printf("LEGO_EV3_M_MOTOR (ARM) is found...\n");
-                get_tacho_max_speed(sn_arm, &max_speed);
-                printf("  max speed = %d\n", max_speed);
-                get_tacho_count_per_rot(sn_arm, &count_per_rot);
-                printf("  count_per_rot = %d\n", count_per_rot);
-                set_tacho_stop_action_inx(sn_arm, TACHO_COAST);
-		/*	Go down	*/
-                printf("Lowering the arm...\n");
-                set_tacho_speed_sp(sn_arm, - max_speed / 50);
-                set_tacho_time_sp(sn_arm, 3000);
-                set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-		Sleep(3000);
-		/*	MOVE AFTER Go up	*/
-                printf("Raising the arm...\n");
-                set_tacho_speed_sp(sn_arm, + max_speed / 50);
-                set_tacho_time_sp(sn_arm, 3000);
-                set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-            }
-            else
-            {
-                printf("LEGO_EV3_M_MOTOR (ARM) is NOT found\n");
-            }
-
-            /*  Hand motor description  */
-            if (ev3_search_tacho_plugged_in(servo_port, 0, &sn_hand, 0))
-            {
-                /*  Getting informations    */
-                printf("LEGO_EV3_M_MOTOR (HAND) is found...\n");
-                get_tacho_max_speed(sn_hand, &max_speed);
-                printf("  max speed = %d\n", max_speed);
-                get_tacho_count_per_rot(sn_hand, &count_per_rot);
-                printf("  count_per_rot = %d\n", count_per_rot);
-                set_tacho_stop_action_inx(sn_hand, TACHO_COAST);
-                /*  Setting an appropriate time to open/close the hand  */
-                grab_t = 3000;
-                printf("Open the hand...\n");
-                /*  NOTE: check if +- is open/close */
-                set_tacho_speed_sp(sn_hand, -max_speed / 50);
-                set_tacho_time_sp(sn_hand, grab_t);
-                set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
-                Sleep(grab_t);
-                printf("Close the hand...\n");
-                set_tacho_speed_sp(sn_arm, max_speed / 50);
-                set_tacho_time_sp(sn_arm, grab_t);
-                set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-                //Sleep(grab_t);
-            }
-            else
-            {
-                printf("LEGO_EV3_M_MOTOR (HAND) is NOT found\n");
-            }
             /*  Exit the loop   */
             completed = 1;
         }
