@@ -61,6 +61,7 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 
 void release_routine(uint8_t sn_hand, int hand_v)
 {
+    hand_t = 1000;
     /* Open the hand    */
     printf("Open the hand...\n");
     set_tacho_speed_sp(sn_hand, +hand_v);
