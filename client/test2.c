@@ -36,7 +36,7 @@ static bool _check_pressed(uint8_t sn)
 void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 {
     int hand_t = 1000;
-    int arm_t = 1000 :
+    int arm_t = 1000;
         /*	Go down	*/
         printf("Lowering the arm...\n");
     set_tacho_speed_sp(sn_arm, -arm_v);
