@@ -221,6 +221,7 @@ int main(void)
     else
     {
         printf("SONAR sensor not found!\n");
+        ev3_uninit();
         return -1;
     }
     /*  Gyro sensor */
@@ -237,6 +238,7 @@ int main(void)
     else
     {
         printf("GYRO sensor not found!\n");
+        ev3_uninit();
         return -1;
     }
     /*  Set the testing speed for the wheels    */
@@ -295,5 +297,6 @@ int main(void)
         }
     }
 
+    ev3_uninit();;
     return 0;
 }
