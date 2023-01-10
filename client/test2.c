@@ -162,7 +162,6 @@ int main(void)
     completed = 0;
     while (!completed)
     {
-        printf("%d\n", d);  //remove later
         /*  Set the desired speed for the wheels engines    */
         set_tacho_speed_sp(sn_right, current_speed);
         set_tacho_speed_sp(sn_left, current_speed);
