@@ -288,6 +288,7 @@ int main(void)
             /*  Calling grab routine    */
             grab_routine(sn_arm, sn_hand, arm_vmax / 20, hand_vmax / 20);
             sleep(5000);
+            release_routine(sn_hand, hand_vmax / 20);
             /*  Calling sleep routine   */
             /*  Exit the loop   */
             completed = 1;
