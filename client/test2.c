@@ -43,19 +43,19 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
     set_tacho_speed_sp(sn_arm, -arm_v);
     set_tacho_time_sp(sn_arm, arm_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(arm_t);
+    Sleep(arm_t*5);
     /*  Close the hand  */
     printf("Close the hand...\n");
     set_tacho_speed_sp(sn_arm, +hand_v);
     set_tacho_time_sp(sn_arm, hand_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(hand_t);
+    Sleep(hand_t*5);
     /*  Go up	*/
     printf("Raising the arm...\n");
     set_tacho_speed_sp(sn_arm, +arm_v);
     set_tacho_time_sp(sn_arm, 3000);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(arm_t / 2);
+    Sleep(arm_t);
     return;
 }
 
