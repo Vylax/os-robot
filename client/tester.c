@@ -45,14 +45,14 @@ int main( void )
 #endif
   if ( ev3_init() == -1 ) return ( 1 );
 
-/*#ifndef __ARM_ARCH_4T__
+#ifndef __ARM_ARCH_4T__
   printf( "The EV3 brick auto-detection is DISABLED,\nwaiting %s online with plugged tacho...\n", ev3_brick_addr );
 
 #else
  // printf( "Waiting tacho is plugged...\n" );
 
-#endif*/
-  printf("does the program make it there ?");
+#endif
+  printf( "Waiting tacho is plugged...\n" );
   printf("Number of found: %d", ev3_tacho_init());
   while ( ev3_tacho_init() < 1 ) Sleep( 1000 );
 
