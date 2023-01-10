@@ -14,3 +14,13 @@ tester:
 	gcc tester.o -Wall -lm -lev3dev-c -o tester
 	./tester
 
+pick1:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c pick1.c -o pick1.o
+	gcc pick1.o -Wall -lm -lev3dev-c -o pick1
+	./pick1
+
+pick2:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c pick2.c -o pick2.o
+	gcc pick2.o -Wall -lm -lev3dev-c -o pick2
+	./pick2
+

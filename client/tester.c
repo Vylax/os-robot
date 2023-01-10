@@ -41,7 +41,7 @@ int main( void )
   uint32_t n, ii;
 #ifndef __ARM_ARCH_4T__
   /* Disable auto-detection of the brick (you have to set the correct address below) */
-  ev3_brick_addr = "10.42.0.184";
+  ev3_brick_addr = "10.192.59.99";
 #endif
   if ( ev3_init() == -1 ) return ( 1 );
 
@@ -49,7 +49,7 @@ int main( void )
   printf( "The EV3 brick auto-detection is DISABLED,\nwaiting %s online with plugged tacho...\n", ev3_brick_addr );
 
 #else
-  printf( "Waiting tacho is plugged...\n" );
+ // printf( "Waiting tacho is plugged...\n" );
 
 #endif*/
   printf("does the program make it there ?");
