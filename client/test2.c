@@ -33,6 +33,11 @@ static bool _check_pressed(uint8_t sn)
     return (get_sensor_value(0, sn, &val) && (val != 0));
 }
 
+void grab_routine() {
+    
+    return;
+}
+
 int main(void)
 {
     // int i;
@@ -119,6 +124,7 @@ int main(void)
     }
 
     /*      Sensors     */
+    ev3_sensor_init();
     /*  Color sensor    */
     if (ev3_search_sensor(LEGO_EV3_COLOR, &sn_color, 0))
     {
@@ -128,8 +134,11 @@ int main(void)
             val = 0;
         }
         printf("\r(%s) \n", color[val]);
-        fflush(stdout);
+        //fflush(stdout);
+    } else {
+	printf("COLOR sensor not found!\n");
     }
+
     /*  Sonar sensor    */
     if (ev3_search_sensor(LEGO_EV3_US, &sn_sonar, 0))
     {
@@ -139,10 +148,13 @@ int main(void)
             value = 0;
         }
         printf("\r(%f) \n", value);
-        fflush(stdout);
+        //fflush(stdout);
+    } else {
+	printf("SONAR sensor not found!\n");
+	//return -1;
     }
     /*  Gyro sensor */
-    if (!ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0))
+    if (ev3_search_sensor(LEGO_EV3_GYRO, &sn_gyro, 0))
     {
         printf("GYRO found, reading gyro...\n");
         if (!get_sensor_value0(sn_gyro, &value))
@@ -154,12 +166,14 @@ int main(void)
     }
     else
     {
-        printf("GYRO is not found\n");
+        printf("GYRO sensor not found!\n");
+	return -1;
     }
     /*  Set the testing speed for the wheels    */
     current_speed = max_speed * speed_ratio;
-    current_speed = current_speed / 2; //DEBUG ONLY
+    //current_speed = current_speed / 2; //DEBUG ONLY
     completed = 0;
+    printf("\n\n\n\n\n\n\n\t\tSTARTING ENGINES\n\n\n\n");
     while (!completed)
     {
         /*  Set the desired speed for the wheels engines    */
@@ -175,18 +189,19 @@ int main(void)
         get_sensor_value0(sn_sonar, &distance);
         printf("Actual distance from object: %f\n", distance);//DEBUG ONLY
         /*  Wait n seconds  */
-        Sleep(10000);
+        Sleep(1000);
 
         /*  This routine should be executed only when we are close to the ball
             After this routine, we close the program    */
-        if (distance < 500)
+        if (distance < 100)
         {
+	    printf("\n\n\t\tBALL APPROACHED\n\n\n\n");
             /*  Now that i'm close to the ball, i need to set a specific
                 value of t in order to get close enough so i can grab it    */
             get_sensor_value0(sn_sonar, &distance);
             /* Compute an exact t to get to the ball    */
             /* NOTE: maybe it's better to subtract a certain value in order to keep a certain distance  */
-            t = (float)(count_per_rot * (abs(distance) + WHEEL_DIAM)) / (current_speed * PI * WHEEL_DIAM);
+            t = (float)(count_per_rot * abs(distance) ) / (current_speed * PI * WHEEL_DIAM);
             /*  NOTE: fix time computation  */
             printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed);
             /*  Set speed for engines    */
@@ -199,7 +214,7 @@ int main(void)
             set_tacho_command_inx(sn_left, TACHO_RUN_TIMED);
             set_tacho_command_inx(sn_right, TACHO_RUN_TIMED);
             /* Wait (also to stabilize the crane)   */
-            Sleep(t * 1000);
+            Sleep(1000);
 
             /*  NOTE 1: Maybe it's better to check if they are connected before    */
             /*  NOTE 2: Considering we have a dc and a servo, we must define some angles for
@@ -214,11 +229,16 @@ int main(void)
                 get_tacho_count_per_rot(sn_arm, &count_per_rot);
                 printf("  count_per_rot = %d\n", count_per_rot);
                 set_tacho_stop_action_inx(sn_arm, TACHO_COAST);
-                printf("Raising the arm now...\n");
-                /*  We are assuming that the arm is low (?) */
-                set_tacho_speed_sp(sn_arm, max_speed / 50);
-                /*  TODO: adjust time   */
-                set_tacho_time_sp(sn_arm, 1000);
+		/*	Go down	*/
+                printf("Lowering the arm...\n");
+                set_tacho_speed_sp(sn_arm, - max_speed / 50);
+                set_tacho_time_sp(sn_arm, 3000);
+                set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+		Sleep(3000);
+		/*	MOVE AFTER Go up	*/
+                printf("Raising the arm...\n");
+                set_tacho_speed_sp(sn_arm, + max_speed / 50);
+                set_tacho_time_sp(sn_arm, 3000);
                 set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
             }
             else
@@ -243,12 +263,12 @@ int main(void)
                 set_tacho_speed_sp(sn_hand, -max_speed / 50);
                 set_tacho_time_sp(sn_hand, grab_t);
                 set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
-                Sleep(3500);
+                Sleep(grab_t);
                 printf("Close the hand...\n");
                 set_tacho_speed_sp(sn_arm, max_speed / 50);
                 set_tacho_time_sp(sn_arm, grab_t);
                 set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-                Sleep(3500);
+                //Sleep(grab_t);
             }
             else
             {
