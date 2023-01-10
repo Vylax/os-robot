@@ -35,6 +35,7 @@ static bool _check_pressed(uint8_t sn)
 
 void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 {
+    /*  NOTE: Starting position assumptions: arm is HIGH and hand is OPEN   */
     int hand_t = 1000;
     int arm_t = 1000;
     /*	Go down	*/
@@ -43,12 +44,6 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
     set_tacho_time_sp(sn_arm, arm_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
     Sleep(arm_t);
-    /* Open the hand    */
-    printf("Open the hand...\n");
-    set_tacho_speed_sp(sn_hand, +hand_v);
-    set_tacho_time_sp(sn_hand, hand_t);
-    set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
-    Sleep(hand_t);
     /*  Close the hand  */
     printf("Close the hand...\n");
     set_tacho_speed_sp(sn_arm, -hand_v);
@@ -61,6 +56,17 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
     set_tacho_time_sp(sn_arm, 3000);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
     Sleep(arm_t / 2);
+    return;
+}
+
+void release_routine(uint8_t sn_hand, int hand_v)
+{
+    /* Open the hand    */
+    printf("Open the hand...\n");
+    set_tacho_speed_sp(sn_hand, +hand_v);
+    set_tacho_time_sp(sn_hand, hand_t);
+    set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+    Sleep(hand_t);
     return;
 }
 
@@ -281,7 +287,8 @@ int main(void)
             Sleep(1000);
             /*  Calling grab routine    */
             grab_routine(sn_arm, sn_hand, arm_vmax / 20, hand_vmax / 20);
-
+            sleep(5000);
+            /*  Calling sleep routine   */
             /*  Exit the loop   */
             completed = 1;
         }
