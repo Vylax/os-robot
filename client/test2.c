@@ -37,8 +37,8 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 {
     int hand_t = 1000;
     int arm_t = 1000;
-        /*	Go down	*/
-        printf("Lowering the arm...\n");
+    /*	Go down	*/
+    printf("Lowering the arm...\n");
     set_tacho_speed_sp(sn_arm, -arm_v);
     set_tacho_time_sp(sn_arm, arm_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
@@ -94,7 +94,7 @@ int main(void)
     float distance;
     float current_speed;
     float t;
-    float speed_ratio = 0.03;
+    float speed_ratio = 0.1;
     // uint32_t n, ii;
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
@@ -253,7 +253,7 @@ int main(void)
         get_sensor_value0(sn_sonar, &distance);
         printf("Actual distance from object: %f\n", distance); // DEBUG ONLY
         /*  Wait n seconds  */
-        Sleep(1000);
+        Sleep(500);
 
         /*  This routine should be executed only when we are close to the ball
             After this routine, we close the program    */
@@ -265,12 +265,12 @@ int main(void)
             get_sensor_value0(sn_sonar, &distance);
             /* Compute an exact t to get to the ball    */
             /* NOTE: maybe it's better to subtract a certain value in order to keep a certain distance  */
-            t = (float)(count_per_rot * abs(distance)) / (current_speed * PI * WHEEL_DIAM);
+            t = (float)(count_per_rot * abs(distance)) / (current_speed / 2 * PI * WHEEL_DIAM);
             /*  NOTE: fix time computation  */
             printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed);
             /*  Set speed for engines    */
-            set_tacho_speed_sp(sn_left, current_speed);
-            set_tacho_speed_sp(sn_right, current_speed);
+            set_tacho_speed_sp(sn_left, current_speed / 2);
+            set_tacho_speed_sp(sn_right, current_speed / 2);
             /*  Set running time    */
             set_tacho_time_sp(sn_left, t * 1000);
             set_tacho_time_sp(sn_right, t * 1000);
@@ -280,7 +280,7 @@ int main(void)
             /* Wait (also to stabilize the crane)   */
             Sleep(1000);
             /*  Calling grab routine    */
-            grab_routine(sn_arm, sn_hand, arm_vmax/20, hand_vmax/20);
+            grab_routine(sn_arm, sn_hand, arm_vmax / 20, hand_vmax / 20);
 
             /*  Exit the loop   */
             completed = 1;
