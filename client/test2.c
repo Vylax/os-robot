@@ -35,8 +35,8 @@ static bool _check_pressed(uint8_t sn)
 
 void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 {
-    int hand_t = 3000;
-    int arm_t = 3000 :
+    int hand_t = 1000;
+    int arm_t = 1000 :
         /*	Go down	*/
         printf("Lowering the arm...\n");
     set_tacho_speed_sp(sn_arm, -arm_v);
@@ -94,7 +94,6 @@ int main(void)
     float distance;
     float current_speed;
     float t;
-    float grab_t;
     float speed_ratio = 0.03;
     // uint32_t n, ii;
 #ifndef __ARM_ARCH_4T__
@@ -281,7 +280,7 @@ int main(void)
             /* Wait (also to stabilize the crane)   */
             Sleep(1000);
             /*  Calling grab routine    */
-            grab_routine(sn_arm, sn_hand, arm_vmax, hand_vmax);
+            grab_routine(sn_arm, sn_hand, arm_vmax/20, hand_vmax/20);
 
             /*  Exit the loop   */
             completed = 1;
