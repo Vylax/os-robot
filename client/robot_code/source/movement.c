@@ -28,10 +28,7 @@
 #define right_wheel_port 67
 
 /*TODO:
-= create a data structure to store rays data
-= implement a dynamic array structure (List) because we can't tell for sure how many cycles the rotation of the robot can take (due to inconsistencies caused partly by the acceleration phase of motors)
 - (optionnal) implement optimized operation for list such as storing the closest ray index
-= collect rays at a given frequency
 - be able to identify symetry groups in the collected ray data (need some experimentation to figure out the symetry groups of the ball, enemy robot and walls)
 - identify the rays forming a symetry group
 - (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
@@ -50,8 +47,6 @@ void collect_and_store_ray(struct List* list) {
     initRay(&ray, distance, angle);
     put(&list, &ray);
 }
-
-void put(struct List* list, int value)
 
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
