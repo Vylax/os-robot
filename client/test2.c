@@ -35,25 +35,12 @@ static bool _check_pressed(uint8_t sn)
 
 void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 {
-    /*  NOTE: Starting position assumptions: arm is HIGH and hand is OPEN   */
-    int hand_t = 1000;
-    int arm_t = 1000;
-    /*	Go down	*/
-    printf("Lowering the arm...\n");
-    set_tacho_speed_sp(sn_arm, -arm_v);
-    set_tacho_time_sp(sn_arm, arm_t);
-    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(arm_t*5);
-    /*  Close the hand  */
-    printf("Close the hand...\n");
-    set_tacho_speed_sp(sn_arm, +hand_v);
-    set_tacho_time_sp(sn_arm, hand_t);
-    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(hand_t*5);
-    /*  Go up	*/
-    printf("Raising the arm...\n");
+    /*	NOTE: Adapted to new implementation (rem. param. later)	*/
+    int arm_t = 2300;
+    /*  Raise the ball	*/
+    printf("Raising the ball...\n");
     set_tacho_speed_sp(sn_arm, +arm_v);
-    set_tacho_time_sp(sn_arm, 3000);
+    set_tacho_time_sp(sn_arm, arm_t);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
     Sleep(arm_t);
     return;
@@ -61,10 +48,11 @@ void grab_routine(uint8_t sn_arm, uint8_t sn_hand, int arm_v, int hand_v)
 
 void release_routine(uint8_t sn_hand, int hand_v)
 {
-    int hand_t = 1000;
-    /* Open the hand    */
-    printf("Open the hand...\n");
-    set_tacho_speed_sp(sn_hand, -hand_v);
+    /*	NOTE: This should be now the throw function	*/
+    int hand_t = 400;
+    /* Start spinning */
+    printf("Throwing the ball...\n");
+    set_tacho_speed_sp(sn_hand, +hand_v);
     set_tacho_time_sp(sn_hand, hand_t);
     set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
     Sleep(hand_t);
@@ -91,9 +79,9 @@ int main(void)
     int ball_found = 0;
     int max_speed;
     int arm_vmax, hand_vmax;
-    int dc_port = 65;
-    int left_wheel_port = 66;
-    int right_wheel_port = 67;
+    int left_wheel_port = 65;
+    int right_wheel_port = 66;
+    int dc_port = 67;
     int servo_port = 68;
     int val;
     int completed;
@@ -261,8 +249,6 @@ int main(void)
         /*  Get distance from the sonar */
         get_sensor_value0(sn_sonar, &distance);
         printf("Actual distance from object: %f\n", distance); // DEBUG ONLY
-        /*  Wait n seconds  */
-        Sleep(500);
 
         /*  This routine should be executed only when we are close to the ball
             After this routine, we close the program    */
@@ -275,9 +261,9 @@ int main(void)
             /* Compute an exact t to get to the ball    */
             /* NOTE: maybe it's better to subtract a certain value in order to keep a certain distance  */
             t = (float)(count_per_rot * abs(distance)) / (current_speed / 2 * PI * WHEEL_DIAM);
-            /*  NOTE: fix time computation  */
-            t = t * 0.8;
-            printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed);
+            /*  NOTE: its just a tmp value to fix computation  */
+            t = t * 0.75;
+            printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed/2);
             /*  Set speed for engines    */
             set_tacho_speed_sp(sn_left, current_speed / 2);
             set_tacho_speed_sp(sn_right, current_speed / 2);
@@ -288,11 +274,11 @@ int main(void)
             set_tacho_command_inx(sn_left, TACHO_RUN_TIMED);
             set_tacho_command_inx(sn_right, TACHO_RUN_TIMED);
             /* Wait (also to stabilize the crane)   */
-            Sleep(1000);
+            Sleep(2000);
             /*  Calling grab routine    */
-            grab_routine(sn_arm, sn_hand, arm_vmax / 20, hand_vmax / 20);
-            Sleep(5000);
-            release_routine(sn_hand, hand_vmax / 20);
+            grab_routine(sn_arm, sn_hand, arm_vmax / 3, hand_vmax / 10);
+     	    Sleep(2000);       
+	    release_routine(sn_hand, hand_vmax );
             /*  Calling sleep routine   */
             /*  Exit the loop   */
             completed = 1;
