@@ -25,7 +25,7 @@
 #define left_wheel_port 66
 #define right_wheel_port 67
 
-void turn_robot(int angle) {
+void turn_robot(int angle, int scan=0) {
     // Set the motors to "coast" mode
     set_tacho_stop_action_inx(left_wheel_port, TACHO_COAST);
     set_tacho_stop_action_inx(right_wheel_port, TACHO_COAST);
