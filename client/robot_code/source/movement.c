@@ -91,6 +91,37 @@ struct List turn_robot(int angle, int scan=0) {
     return raysList;
 }
 
+static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
+{
+    set_tacho_speed_sp(sn_motor, speed_sp);
+    set_tacho_command_inx(sn_motor, TACHO_RUN_FOREVER);
+}
+
+static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
+{
+    set_tacho_speed_sp(sn_motor, speed);
+    set_tacho_time_sp( sn_motor, time_sp);
+    set_tacho_command_inx(sn_motor, TACHO_RUN_TIMED);
+}
+
+/// @brief keeps two motors moving forever
+void move_forever(int speed_sp)
+{
+    if (speed_sp == 0)
+        return;
+    _run_motor_forever(left_wheel_port, speed_sp);
+    _run_motor_forever(right_wheel_port, speed_sp);
+}
+
+/// @brief keeps two motors moving at a speed for a period of time
+void move_timed(int speed_sp, int time_sp)
+{
+    if (speed_sp == 0 || time_sp == 0)
+        return;
+    _run_motor_timed(left_wheel_port, speed_sp, time_sp);
+    _run_motor_timed(right_wheel_port, speed_sp, time_sp);
+}
+
 int main( void ) //TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
 {
     if ( ev3_init() == -1 ) return ( 1 );

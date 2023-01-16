@@ -1,8 +1,13 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "ev3.h"
+#include "ev3_port.h"
+#include "ev3_tacho.h"
 
 #define INITIAL_CAPACITY 10 //Initial capacity for the Dynamic storage structure (List)
+#define WHEEL_RADIUS 27.5
+#define PI 3.142857
 
 /// @brief Structure used to store the data collected from the sonar sensor
 struct Ray {
@@ -70,4 +75,10 @@ void clear(struct List* list) {
 
 int length(struct List* list) {
     return list->size;
+}
+
+float cal_run_time(uint8_t sn, int distance, int speed) {
+    int count_per_rot;
+    get_tacho_count_per_rot(sn, &count_per_rot);
+    return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
