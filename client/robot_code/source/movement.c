@@ -93,7 +93,7 @@ struct List turn_robot(int angle, int scan=0) {
     return raysList;
 }
 
-
+//whatever
 
 static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
 {
