@@ -26,3 +26,15 @@ test1:
 test2:
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c test2.c -o test2.o
 	gcc test2.o -Wall -lm -lev3dev-c -o test2
+
+robot:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../tester.c -o ../tester.o
+	gcc ../tester.o -Wall -lm -lev3dev-c -o ../tester
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../i2c.c -o ../i2c.o
+	gcc ../i2c.o -Wall -lm -lev3dev-c -o ../i2c
+	
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c source/utils.c -o source/utils.o
+	gcc source/utils.o -Wall -lm -lev3dev-c -o source/utils
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c source/movement.c -o source/movement.o
+	gcc source/movement.o -Wall -lm -lev3dev-c -o source/movement
+	

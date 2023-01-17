@@ -43,7 +43,7 @@ void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
     int angle = 0; //TODO: use the compass value here
-    float distance = 0.0; //TODO: right now get_sonar_value() is a void an requires a buffer parameter
+    float distance = 0.0; //TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
 
     initRay(&ray, distance, angle);
     put(&list, &ray);
