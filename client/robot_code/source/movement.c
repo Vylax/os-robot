@@ -24,6 +24,7 @@
 #define WHEEL_RADIUS 27.5
 #define PI 3.142857
 #define POLLING_RATE 10
+#define BALL_RADIUS 5 // TODO: get the actual value
 
 #define left_wheel_port 66
 #define right_wheel_port 67
@@ -32,6 +33,7 @@
 - (optionnal) implement optimized operation for list such as storing the closest ray index
 - be able to identify symetry groups in the collected ray data (need some experimentation to figure out the symetry groups of the ball, enemy robot and walls)
 - identify the rays forming a symetry group
+- identify the ball: since dists are in cm, if enough (but not too many, estimate the number of rays with trigonometrie over the angle of the rays) rays in a row have a dist that is in a range < BALL_RADIUS 
 - (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
 - pick the median ray index from within the rays subset
 - get the corresponding angle (knowing that the robot angle isn't the same as it was when the sweep started)
@@ -42,11 +44,21 @@
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = 0; //TODO: use the compass value here
-    float distance = 0.0; //TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
+    int angle = 0; // TODO: use the compass value here
+    float distance = 0.0; // TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
 
     initRay(&ray, distance, angle);
     put(&list, &ray);
+}
+
+void identify_ball() {
+    int firstStreakIndex = -1;
+    int firstStreakDist = -1;
+    // TODO: implement List structure for integers
+    
+    for (int i = 0; i < list->size - 1; i++) {
+        list->data[i].
+    }
 }
 
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
@@ -93,7 +105,7 @@ struct List turn_robot(int angle, int scan=0) {
     return raysList;
 }
 
-//whatever
+
 
 static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
 {
@@ -126,7 +138,7 @@ void move_timed(int speed_sp, int time_sp)
     _run_motor_timed(right_wheel_port, speed_sp, time_sp);
 }
 
-int main( void ) //TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
+int main( void ) // TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
 {
     if ( ev3_init() == -1 ) return ( 1 );
 
@@ -134,7 +146,7 @@ int main( void ) //TODO: this method is just for testing, the turn_method should
 
     printf( "*** ( EV3 ) Hello! ***\n" );
 
-    int angle = 90; //example
+    int angle = 90; // example
 
     // Turn the robot around and collect rays while doing so
     struct List rays;
