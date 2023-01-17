@@ -23,6 +23,7 @@
 //Constants declaration
 #define WHEEL_RADIUS 27.5
 #define PI 3.142857
+#define POLLING_RATE 10
 
 #define left_wheel_port 66
 #define right_wheel_port 67
@@ -42,7 +43,7 @@ void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
     int angle = 0; //TODO: use the compass value here
-    float distance = 0.0; //TODO: implement something like "get_distance()" in sensors.c that gets the value from the sonar sensor
+    float distance = 0.0; //TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
 
     initRay(&ray, distance, angle);
     put(&list, &ray);
@@ -53,11 +54,11 @@ void collect_and_store_ray(struct List* list) {
 /// @param scan if != 0, rays data will be collected
 struct List turn_robot(int angle, int scan=0) {
     
-    //initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
+    // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
     init(&raysList);
 
-    //Collect and store the initial ray
+    // Collect and store the initial ray
     if (scan) collect_and_store_ray(&raysList);
 
     // Set the motors to "coast" mode
@@ -79,16 +80,50 @@ struct List turn_robot(int angle, int scan=0) {
 
     // Wait for the motors to finish
     while (get_tacho_state(left_wheel_port) != TACHO_STATE_HOLD && get_tacho_state(right_wheel_port) != TACHO_STATE_HOLD) {
-        //Collect and store the current ray
+        // Collect and store the current ray
         if (scan) collect_and_store_ray(&raysList);
         
-        Sleep(10);//TODO: change this to the ray collecting period
+        // Wait for POLLING_RATE ms before polling again
+        Sleep(POLLING_RATE);
     }
 
-    //Collect and store the final ray
+    // Collect and store the final ray
     if (scan) collect_and_store_ray(&raysList);
 
     return raysList;
+}
+
+
+
+static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
+{
+    set_tacho_speed_sp(sn_motor, speed_sp);
+    set_tacho_command_inx(sn_motor, TACHO_RUN_FOREVER);
+}
+
+static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
+{
+    set_tacho_speed_sp(sn_motor, speed);
+    set_tacho_time_sp( sn_motor, time_sp);
+    set_tacho_command_inx(sn_motor, TACHO_RUN_TIMED);
+}
+
+/// @brief keeps two motors moving forever
+void move_forever(int speed_sp)
+{
+    if (speed_sp == 0)
+        return;
+    _run_motor_forever(left_wheel_port, speed_sp);
+    _run_motor_forever(right_wheel_port, speed_sp);
+}
+
+/// @brief keeps two motors moving at a speed for a period of time
+void move_timed(int speed_sp, int time_sp)
+{
+    if (speed_sp == 0 || time_sp == 0)
+        return;
+    _run_motor_timed(left_wheel_port, speed_sp, time_sp);
+    _run_motor_timed(right_wheel_port, speed_sp, time_sp);
 }
 
 int main( void ) //TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
@@ -101,6 +136,14 @@ int main( void ) //TODO: this method is just for testing, the turn_method should
 
     int angle = 90; //example
 
-    (void) turn_robot(angle); //note: the void casting is unnecessary but more "ethical" 
+    // Turn the robot around and collect rays while doing so
+    struct List rays;
+    rays = turn_robot(angle);
+    
+    // TODO: Process the rays here
+    
+    // Once we're done processing the rays and identifiying objects, clear the list to free memory
+    clear(rays);
+    
     return 0;
 }
