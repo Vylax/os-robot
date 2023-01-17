@@ -3,13 +3,13 @@
 #include "ev3_port.h"
 #include "ev3_sensor.h"
 
-#define SENSOR_NUMBER 4;
+#define SENSOR_NUMBER 5;
 
 /* Update if including more sensors */
 
-const char sensor_names[SENSOR_NUMBER][16] = {'LEGO_EV3_US','LEGO_EV3_GYRO','LEGO_EV3_COLOR','LEGO_EV3_TOUCH'};
+const char sensor_names[SENSOR_NUMBER][16] = {'LEGO_EV3_US','LEGO_EV3_GYRO','LEGO_EV3_COLOR','LEGO_EV3_TOUCH','HT_NXT_COMPASS'};
 
-/* INIT/UNINIT FUNCTIONS */
+/* INIT/UNINIT FUNCTIONS (use them if ports are NOT statically defined) */
 
 void init_sensors(uint8_t** ports) {
     *ports = (int *) malloc(SENSOR_NUMBER * sizeof(uint_8));
@@ -29,20 +29,22 @@ void uninit_sensors(uint8_t** ports) {
 /* GET VALUES */
 
 int get_value_sonar(uint8_t port) {
+    /* Sonar: distance in cm, (0, 2550) */
+    /* NOTE: the guide says it's expressed in cm, but those are likely mm. Just run a quick test to check */
     float buf;
     get_sensor_value0(port, &buf);
     return (int)buf;
 }
 
 int get_value_gyro_ang(uint8_t port) {
-    /* Angle: expressed in degrees, (-32768, 32767) */
+    /* Gyro angle: expressed in degrees, (-32768, 32767) */
     float buf;
     get_sensor_value0(port, &buf);
     return (int)buf;
 }
 
 int get_value_gyro_rate(uint8_t port) {
-    /* Rotational speed: expressed in deg/s, (-440, 440) */
+    /* Gyro rotational speed: expressed in deg/s, (-440, 440) */
     float buf;
     get_sensor_value1(port, &buf);
     return (int)buf;
@@ -56,6 +58,14 @@ int get_value_color(uint8_t port) {
 }
 
 int get_value_touch(uint8_t port) {
+    /* Touch: 1 if pressed, 0 otherwise */
+    float buf;
+    get_sensor_value0(port, &buf);
+    return (int)buf;
+}
+
+int get_value_compass(uint8_t port) {
+    /* Compass angle: expressed in degrees, (0, 359) */
     float buf;
     get_sensor_value0(port, &buf);
     return (int)buf;
