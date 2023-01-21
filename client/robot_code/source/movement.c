@@ -4,6 +4,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "utils.c"
+#include "sensors.c"
 
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
@@ -28,6 +29,8 @@
 
 #define left_wheel_port 66
 #define right_wheel_port 67
+#define SONAR_PORT 3
+#define COMPASS_PORT 0
 
 /*TODO:
 - (optionnal) implement optimized operation for list such as storing the closest ray index
@@ -44,14 +47,14 @@
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = 0; // TODO: use the compass value here
-    float distance = 0.0; // TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
+    int angle = get_value_compass(COMPASS_PORT); // TODO: use the compass value here
+    float distance = get_value_sonar(SONAR_PORT); // TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
 
     initRay(&ray, distance, angle);
     put(&list, &ray);
 }
 
-void identify_ball() {
+/*void identify_ball() {
     int firstStreakIndex = -1;
     int firstStreakDist = -1;
     // TODO: implement List structure for integers
@@ -59,13 +62,16 @@ void identify_ball() {
     for (int i = 0; i < list->size - 1; i++) {
         list->data[i].
     }
-}
+}*/
 
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
 struct List turn_robot(int angle, int scan=0) {
     
+    // Initialise sensors
+    reset_sonar(SONAR_PORT);
+
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
     init(&raysList);
@@ -105,7 +111,46 @@ struct List turn_robot(int angle, int scan=0) {
     return raysList;
 }
 
+/// @brief Identifie entity possible angles <br/> Needs to be combine with other functions to be complete
+/// @param raysList 
+/// @param ball_detection_threshold 
+void identify_entity(struct List* raysList, int detection_threshold) {
+    // Initialize variables to keep track of the current streak of rays
+    int streakStart = -1;
+    int streakEnd = -1;
+    int streakMinDist = -1;
+    int streakMaxDist = -1;
 
+    // Iterate through all the rays in the list
+    int i = 0;
+    while(i < raysList->size){
+        struct Ray currentRay = raysList->data[i];
+
+        // Check if the current ray is part of a streak
+        if (streakStart >= 0 && streakEnd == i - 1 && abs(currentRay.distance - streakMinDist) <= detection_threshold && abs(currentRay.distance - streakMaxDist) <= detection_threshold) {
+            streakEnd = i;
+            // Update the min and max distance for the current streak
+            streakMinDist = currentRay.distance < streakMinDist ? currentRay.distance : streakMinDist;
+            streakMaxDist = currentRay.distance > streakMaxDist ? currentRay.distance : streakMaxDist;
+        } else {
+            // If the current ray is not part of a streak, check if the previous streak is valid
+            if (streakEnd != -1 && streakStart < streakEnd) {
+                printf("Found potential ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
+            }
+            i=streakStart+1;
+
+            // Start a new streak
+            streakStart = i;
+            streakEnd = i;
+            streakMinDist = currentRay.distance;
+            streakMaxDist = currentRay.distance;
+        }
+    }
+    // Check if the last streak is valid
+    if (streakEnd != -1 && streakStart < streakEnd) {
+        printf("Found potential ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
+    }
+}
 
 static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
 {
@@ -153,7 +198,8 @@ int main( void ) // TODO: this method is just for testing, the turn_method shoul
     rays = turn_robot(angle);
     
     // TODO: Process the rays here
-    
+    identify_entity(rays, BALL_RADIUS);
+
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(rays);
     
