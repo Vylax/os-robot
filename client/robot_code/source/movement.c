@@ -67,7 +67,7 @@ void collect_and_store_ray(struct List* list) {
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
-struct List turn_robot(int angle, int scan=0) {
+struct List turn_robot(int angle, int scan) {
     
     // Initialise sensors
     reset_sonar(SONAR_PORT);
@@ -195,7 +195,7 @@ int main( void ) // TODO: this method is just for testing, the turn_method shoul
 
     // Turn the robot around and collect rays while doing so
     struct List rays;
-    rays = turn_robot(angle);
+    rays = turn_robot(angle, 1);
     
     // TODO: Process the rays here
     identify_entity(rays, BALL_RADIUS);
