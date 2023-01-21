@@ -1,24 +1,20 @@
-all:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c tester.c -o tester.o
-	gcc tester.o -Wall -lm -lev3dev-c -o tester
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c i2c.c -o i2c.o
-	gcc i2c.o -Wall -lm -lev3dev-c -o i2c
+CC 			= arm-linux-gnueabi-gcc
+CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
+INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
+LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread 
+BUILD_DIR 	= ./build
+SOURCE_DIR 	= ./source
 
-i2c:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c i2c.c -o i2c.o
-	gcc i2c.o -Wall -lm -lev3dev-c -o i2c
+OBJS = $(BUILD_DIR)/movement.o \
+		$(BUILD_DIR)/sensors.o \
+		$(BUILD_DIR)/main.o
 
-tester:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c tester.c -o tester.o
-	gcc tester.o -Wall -lm -lev3dev-c -o tester
+all: main
 
-pick1:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c pick1.c -o pick1.o
-	gcc pick1.o -Wall -lm -lev3dev-c -o pick1
+main: ${OBJS}
+	$(CC) $(INCLUDES) $(CFLAGS) $(OBJS) $(LDFLAGS) -o main
 
-pick2:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c pick2.c -o pick2.o
-	gcc pick2.o -Wall -lm -lev3dev-c -o pick2
+$(OBJS): $(BUILD_DIR)
 
 test1:
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c test1.c -o test1.o
@@ -26,3 +22,24 @@ test1:
 test2:
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c test2.c -o test2.o
 	gcc test2.o -Wall -lm -lev3dev-c -o test2
+
+robot:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../tester.c -o ../tester.o
+	gcc ../tester.o -Wall -lm -lev3dev-c -o ../tester
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../i2c.c -o ../i2c.o
+	gcc ../i2c.o -Wall -lm -lev3dev-c -o ../i2c
+	
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c source/utils.c -o source/utils.o
+	gcc source/utils.o -Wall -lm -lev3dev-c -o source/utils
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c source/movement.c -o source/movement.o
+	gcc source/movement.o -Wall -lm -lev3dev-c -o source/movement
+	
+$(BUILD_DIR):
+	mkdir $(BUILD_DIR)
+
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
+	$(CC) -c $(SOURCE_DIR)/$*.c $(INCLUDES) -o $(BUILD_DIR)/$*.o
+
+clean:
+	rm -f $(BUILD_DIR)/*.o
+	rm ./main
