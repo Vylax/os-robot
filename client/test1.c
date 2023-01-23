@@ -3,6 +3,7 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
+#include "ev3_servo.h"
 #include "ev3_sensor.h"
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
@@ -183,11 +184,14 @@ int main(void)
     ev3_sensor_init();
 
     /* Just throw */
-
-    set_tacho_speed_sp(sn_arm, +arm_vmax);
-    set_tacho_time_sp(sn_arm, 200);
+    int pos, servo_rate;
+    set_tacho_speed_sp(sn_arm, -arm_vmax);
+    set_tacho_time_sp(sn_arm, 240);
     set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
-    Sleep(200);
+    Sleep(240);
+    set_tacho_speed_sp(sn_arm, +arm_vmax/5);
+    set_tacho_time_sp(sn_arm, 400);
+    set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
 
     ev3_uninit();;
     return 0;
