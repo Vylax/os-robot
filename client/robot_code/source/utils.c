@@ -139,5 +139,5 @@ void int_list_clear(struct int_list* list) {
 float cal_run_time(uint8_t sn, int distance, int speed) {
     int count_per_rot;
     get_tacho_count_per_rot(sn, &count_per_rot);
-    return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_RADIUS) ;
+    return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
