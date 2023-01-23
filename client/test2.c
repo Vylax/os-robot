@@ -264,7 +264,7 @@ int main(void)
             t = (float)(count_per_rot * abs(distance)) / (current_speed / 2 * PI * WHEEL_DIAM);
             /*  NOTE: its just a tmp value to fix computation  */
             t = t * 0.75;
-            printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed/2);
+            printf("Tachos are going to run for %f seconds at a speed of: %f \n", t, current_speed / 2);
             /*  Set speed for engines    */
             set_tacho_speed_sp(sn_left, current_speed / 2);
             set_tacho_speed_sp(sn_right, current_speed / 2);
@@ -278,14 +278,15 @@ int main(void)
             Sleep(2000);
             /*  Calling grab routine    */
             grab_routine(sn_arm, sn_hand, arm_vmax / 3, hand_vmax / 10);
-     	    Sleep(2000);       
-	    release_routine(sn_hand, hand_vmax );
+            Sleep(2000);
+            release_routine(sn_hand, hand_vmax);
             /*  Calling sleep routine   */
             /*  Exit the loop   */
             completed = 1;
         }
     }
 
-    ev3_uninit();;
+    ev3_uninit();
+    ;
     return 0;
 }
