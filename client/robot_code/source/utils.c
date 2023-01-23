@@ -106,7 +106,7 @@ void int_list_put(struct IntList* list, int value) {
     list->size++;
 }
 
-int int_list_remove_at(struct int_list* list, int index) {
+int int_list_remove_at(struct IntList* list, int index) {
     if (index >= list->size || index < 0) {
         printf("Error: Index out of bounds\n");
         return -1;
@@ -127,11 +127,11 @@ int int_list_get(struct IntList* list, int index) {
     return list->data[index];
 }
 
-int int_list_length(struct int_List* list) {
+int int_list_length(struct IntList* list) {
     return list->size;
 }
 
-void int_list_clear(struct int_list* list) {
+void int_list_clear(struct IntList* list) {
     free(list->data);
     int_list_init(list);
 }
