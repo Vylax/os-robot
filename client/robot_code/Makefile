@@ -28,7 +28,8 @@ robot:
 	gcc ../tester.o -Wall -lm -lev3dev-c -o ../tester
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../i2c.c -o ../i2c.o
 	gcc ../i2c.o -Wall -lm -lev3dev-c -o ../i2c
-	
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+	gcc source/sensors.o -lm -lev3dev-c -o source/sensors
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
 	gcc source/utils.o -lm -lev3dev-c -o source/utils
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
