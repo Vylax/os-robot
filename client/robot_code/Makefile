@@ -24,20 +24,26 @@ test2:
 	gcc ../test2.o -Wall -lm -lev3dev-c -o ../test2
 
 robot:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../tester.c -o ../tester.o
-	gcc ../tester.o -Wall -lm -lev3dev-c -o ../tester
+	#sensors
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+	gcc source/sensors.o -lm -lev3dev-c -shared -o libraries/libsensors.so	
+	#utils
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
+	gcc source/utils.o -lm -lev3dev-c -shared -o libraries/libutils.so	
+	#movement
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
+	gcc source/movement.o -lm -lev3dev-c -shared -o libraries/libmovement.so	
+	#init
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
+	gcc source/init.o -lm -lev3dev-c -shared -o libraries/libinit.so	
+	#i2c
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wall -Wno-comment -c ../i2c.c -o ../i2c.o
 	gcc ../i2c.o -Wall -lm -lev3dev-c -o ../i2c
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
-	gcc source/sensors.o -lm -lev3dev-c -o source/sensors
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
-	gcc source/utils.o -lm -lev3dev-c -o source/utils
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
-	gcc source/movement.o -lm -lev3dev-c -o source/movement
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
-	gcc source/init.o -lm -lev3dev-c -o source/init
+	#tester
+	gcc -I./ev3dev-c/source/ev3 -L./libraries -lsensors -lutils -lmovement -linit -O2 -std=gnu99 -W -Wall -Wno-comment -c ../tester.c -o ../tester.o
+	gcc ../tester.o -Wall -lm -lev3dev-c -o ../tester
 
-#Implement later using shared library
+#Create the libraries
 sensors:
 	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
 	gcc source/sensors.o -lm -lev3dev-c -shared -o libraries/libsensors.so	
@@ -47,12 +53,13 @@ utils:
 	gcc source/utils.o -lm -lev3dev-c -shared -o libraries/libutils.so	
 
 movement:	
-	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
-	gcc source/utils.o -lm -lev3dev-c -shared -o libraries/libutils.so	
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
+	gcc source/movement.o -lm -lev3dev-c -shared -o libraries/libmovement.so	
 
 init:	
-	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
-	gcc source/utils.o -lm -lev3dev-c -shared -o libraries/libutils.so	
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
+	gcc source/init.o -lm -lev3dev-c -shared -o libraries/libinit.so	
+
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
