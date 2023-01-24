@@ -4,6 +4,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
+#include "init.h"
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
 
