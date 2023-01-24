@@ -74,3 +74,7 @@ void reset_color(uint8_t port) {
     printf("Color reset: actual sensor mode: %s\n", ev3_sensor_mode(port) );
     return;
 }
+
+int main( void ) {
+    return 0;
+}

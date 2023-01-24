@@ -195,10 +195,10 @@ int main( void ) // TODO: this method is just for testing, the turn_method shoul
     rays = turn_robot(angle, 1);
     
     // TODO: Process the rays here
-    identify_entity(rays, BALL_RADIUS);
+    identify_entity(&rays, BALL_RADIUS);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
-    clear(rays);
+    clear(&rays);
     
     return 0;
 }
