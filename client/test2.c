@@ -287,6 +287,5 @@ int main(void)
     }
 
     ev3_uninit();
-    ;
     return 0;
 }
