@@ -1,6 +1,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
@@ -9,6 +10,10 @@
 #define WHEEL_RADIUS 27.5
 #define WHEEL_DIAM 55
 #define PI 3.142857
+
+// Variables used for objects detection
+#define SENSOR_OFFSET_ANGLE 0 // TODO: Mesure the actual value (in degrees)
+#define SENSOR_OFFSET_DIST 0 // TODO: Mesure the actual value (in cm)
 
 /// @brief Structure used to store the data collected from the sonar sensor
 struct Ray {
@@ -134,6 +139,24 @@ int int_list_length(struct IntList* list) {
 void int_list_clear(struct IntList* list) {
     free(list->data);
     int_list_init(list);
+}
+
+/// @brief Update a ray with the sensor offset translation
+void update_with_offset(struct Ray* ray) {
+    double x;
+    double y;
+    
+    // Compute the vector coordinates from the offset translation 
+    double rad_angle = ((double)ray->angle * PI / 180.0);
+    x = -SENSOR_OFFSET_DIST * sin(rad_angle) - ray->distance * sin(rad_angle + SENSOR_OFFSET_ANGLE);
+    y = SENSOR_OFFSET_DIST * cos(rad_angle) + ray->distance * cos(rad_angle + SENSOR_OFFSET_ANGLE);
+    
+    // Compute the radial coordinates (r,theta) of the vector (x,y) and return them as Ray
+    int distance = (int)sqrt(x*x+y*y); // =r
+    int angle = ray->angle + SENSOR_OFFSET_ANGLE; // =theta
+
+    // Update the Ray with the offset
+    initRay(&ray, distance, angle);
 }
 
 float cal_run_time(uint8_t sn, int distance, int speed) {
