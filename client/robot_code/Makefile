@@ -38,13 +38,13 @@ robot:
 	gcc source/init.o -lm -lev3dev-c -o source/init
 
 #Implement later using shared library
-#sensors:
-#	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
-#	gcc source/sensors.o -lm -lev3dev-c -o libsensors.so	
-
 sensors:
-	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
-	gcc source/sensors.o -lm -lev3dev-c -o source/sensors
+	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+	gcc source/sensors.o -lm -lev3dev-c -shared -o libraries/libsensors.so	
+
+#sensors:
+#	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+#	gcc source/sensors.o -lm -lev3dev-c -o source/sensors
 
 utils:	
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
