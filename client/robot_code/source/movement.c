@@ -4,7 +4,6 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "utils.c"
-#include "sensors.c" // TODO: remove later on
 #include "../include/sensors.h"
 
 #ifndef __ARM_ARCH_4T__
