@@ -32,14 +32,10 @@
 #define SONAR_PORT 3
 #define COMPASS_PORT 0
 
+int ports[9];
+
 /*TODO:
-- (optionnal) implement optimized operation for list such as storing the closest ray index
-- be able to identify symetry groups in the collected ray data (need some experimentation to figure out the symetry groups of the ball, enemy robot and walls)
-- identify the rays forming a symetry group
-- identify the ball: since dists are in cm, if enough (but not too many, estimate the number of rays with trigonometrie over the angle of the rays) rays in a row have a dist that is in a range < BALL_RADIUS 
 - (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
-- pick the median ray index from within the rays subset
-- get the corresponding angle (knowing that the robot angle isn't the same as it was when the sweep started)
 - rotate the robot back to the chosen direction 
 */
 
@@ -47,10 +43,11 @@
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = get_value_compass(COMPASS_PORT); // TODO: use the compass value here
-    float distance = get_value_sonar(SONAR_PORT); // TODO: right now get_sonar_value() is a void an requires a buffer parameter + include sensor.c
+    int angle = get_value_compass(COMPASS_PORT);
+    int distance = get_value_sonar(SONAR_PORT);
 
     initRay(&ray, distance, angle);
+    update_with_offset(&ray);
     put(&list, &ray);
 }
 
