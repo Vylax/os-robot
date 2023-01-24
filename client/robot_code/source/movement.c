@@ -4,6 +4,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "utils.c"
+#include "sensors.c" // TODO: remove later on
 #include "../include/sensors.h"
 
 #ifndef __ARM_ARCH_4T__
@@ -93,14 +94,19 @@ struct List turn_robot(int angle, int scan) {
     set_tacho_command_inx(left_wheel_port, TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(right_wheel_port, TACHO_RUN_TO_REL_POS);
 
+	
+    char * state = malloc(sizeof(char) * 20);
+
     // Wait for the motors to finish
-    while (get_tacho_state(left_wheel_port) != TACHO_STATE_HOLD && get_tacho_state(right_wheel_port) != TACHO_STATE_HOLD) {
+    while (get_tacho_state(left_wheel_port, state, (size_t)20) != TACHO_STATE_HOLD || get_tacho_state(right_wheel_port, state, (size_t)20) != TACHO_STATE_HOLD) {
         // Collect and store the current ray
         if (scan) collect_and_store_ray(&raysList);
         
         // Wait for POLLING_RATE ms before polling again
         Sleep(POLLING_RATE);
     }
+
+    free(state);
 
     // Collect and store the final ray
     if (scan) collect_and_store_ray(&raysList);
@@ -157,7 +163,7 @@ static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
 
 static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
 {
-    set_tacho_speed_sp(sn_motor, speed);
+    set_tacho_speed_sp(sn_motor, speed_sp);
     set_tacho_time_sp( sn_motor, time_sp);
     set_tacho_command_inx(sn_motor, TACHO_RUN_TIMED);
 }
@@ -180,7 +186,8 @@ void move_timed(int speed_sp, int time_sp)
     _run_motor_timed(right_wheel_port, speed_sp, time_sp);
 }
 
-int main( void ) // TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
+// TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
+int main( void ) 
 {
     if ( ev3_init() == -1 ) return ( 1 );
 

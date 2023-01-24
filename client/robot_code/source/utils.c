@@ -164,8 +164,4 @@ float cal_run_time(uint8_t sn, int distance, int speed) {
     get_tacho_count_per_rot(sn, &count_per_rot);
     return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
-
-int main( void ) {
-    return 0;
-}
     
