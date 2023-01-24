@@ -7,7 +7,7 @@
 
 /* Update if including more sensors */
 
-const char sensor_names[SENSOR_NUMBER][16] = {'LEGO_EV3_US','LEGO_EV3_GYRO','LEGO_EV3_COLOR','LEGO_EV3_TOUCH','HT_NXT_COMPASS'};
+const char sensor_names[SENSOR_NUMBER][16] = {"LEGO_EV3_US","LEGO_EV3_GYRO","LEGO_EV3_COLOR","LEGO_EV3_TOUCH","HT_NXT_COMPASS"};
 
 /* GET VALUES */
 
