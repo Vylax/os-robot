@@ -30,8 +30,8 @@
 
 #define left_wheel_port 66
 #define right_wheel_port 67
-#define SONAR_PORT 3
-#define COMPASS_PORT 0
+#define SONAR_PORT 0
+#define COMPASS_PORT 4
 
 int ports[9];
 
@@ -43,8 +43,8 @@ int ports[9];
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = get_value_compass(COMPASS_PORT);
-    int distance = get_value_sonar(SONAR_PORT);
+    int angle = get_value_compass(robot_init[COMPASS_PORT]);
+    int distance = get_value_sonar(robot_init[SONAR_PORT]);
 
     initRay(&ray, distance, angle);
     update_with_offset(&ray);
@@ -57,7 +57,7 @@ void collect_and_store_ray(struct List* list) {
 struct List turn_robot(int angle, int scan) {
     
     // Initialise sensors
-    reset_sonar(SONAR_PORT);
+    reset_sonar(robot_init[SONAR_PORT]);
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
@@ -190,15 +190,18 @@ void move_timed(int speed_sp, int time_sp)
 }
 
 // TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
-int main( void ) 
+int main( void )
 {
     if ( ev3_init() == -1 ) return ( 1 );
 
     while ( ev3_tacho_init() < 1 ) Sleep( 1000 );  // Waiting for tachos being plugged
 
     printf( "*** ( EV3 ) Hello! ***\n" );
+    
+    // Initialize the automatically defined ports
+    robot_init(ports);
 
-    int angle = 90; // example
+    int angle = 90; // DEBUG
 
     // Turn the robot around and collect rays while doing so
     struct List rays;
