@@ -36,7 +36,28 @@ robot:
 	gcc source/movement.o -lm -lev3dev-c -o source/movement
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
 	gcc source/init.o -lm -lev3dev-c -o source/init
+
+#Implement later using shared library
+#sensors:
+#	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+#	gcc source/sensors.o -lm -lev3dev-c -o libsensors.so	
+
+sensors:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/sensors.c -o source/sensors.o
+	gcc source/sensors.o -lm -lev3dev-c -o source/sensors
+
+utils:	
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/utils.c -o source/utils.o
+	gcc source/utils.o -lm -lev3dev-c -o source/utils
+
+movement:
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
+	gcc source/movement.o -lm -lev3dev-c -o source/movement
 	
+init:	
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
+	gcc source/init.o -lm -lev3dev-c -o source/init
+
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
