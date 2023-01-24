@@ -13,6 +13,7 @@ int get_value_gyro_ang(uint8_t port);
 int get_value_gyro_rate(uint8_t port);
 int get_value_color(uint8_t port);
 int get_value_touch(uint8_t port);
+int get_value_compass(uint8_t port);
 /* reset sensor (where needed) */
 void reset_sonar(uint8_t port);
 void reset_gyro(uint8_t port);
