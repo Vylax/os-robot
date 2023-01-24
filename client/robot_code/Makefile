@@ -33,6 +33,8 @@ robot:
 	gcc source/utils.o -lm -lev3dev-c -o source/utils
 	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/movement.c -o source/movement.o
 	gcc source/movement.o -lm -lev3dev-c -o source/movement
+	gcc -I./ev3dev-c/source/ev3 -O2 -std=gnu99 -W -Wno-comment -c source/init.c -o source/init.o
+	gcc source/init.o -lm -lev3dev-c -o source/init
 	
 $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
