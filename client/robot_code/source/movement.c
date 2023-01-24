@@ -36,7 +36,6 @@ int ports[9];
 
 /*TODO:
 - (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
-- rotate the robot back to the chosen direction 
 */
 
 /// @brief Collect Ray data and store it in the List given as parameter
@@ -50,16 +49,6 @@ void collect_and_store_ray(struct List* list) {
     update_with_offset(&ray);
     put(list, &ray);
 }
-
-/*void identify_ball() {
-    int firstStreakIndex = -1;
-    int firstStreakDist = -1;
-    // TODO: implement List structure for integers
-    
-    for (int i = 0; i < list->size - 1; i++) {
-        list->data[i].
-    }
-}*/
 
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
@@ -97,7 +86,7 @@ struct List turn_robot(int angle, int scan) {
     char * state = malloc(sizeof(char) * 20);
 
     // Wait for the motors to finish
-    while (get_tacho_state(left_wheel_port, state, (size_t)20) != TACHO_STATE_HOLD || get_tacho_state(right_wheel_port, state, (size_t)20) != TACHO_STATE_HOLD) {
+    while (get_tacho_state(left_wheel_port, state, (size_t)20) != TACHO_HOLDING || get_tacho_state(right_wheel_port, state, (size_t)20) != TACHO_HOLDING) {
         // Collect and store the current ray
         if (scan) collect_and_store_ray(&raysList);
         
@@ -138,6 +127,14 @@ void identify_entity(struct List* raysList, int detection_threshold) {
             // If the current ray is not part of a streak, check if the previous streak is valid
             if (streakEnd != -1 && streakStart < streakEnd) {
                 printf("Found potential ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
+                
+                double alpha = abs(raysList->data[streakStart].angle - raysList->data[streakEnd].angle) / 2 * PI / 180.0; // Note: alpha is in radians
+                double object_radius = streakMaxDist * sin(alpha);
+                
+                // Check if the object we found is a ball
+                if(BALL_RADIUS/3 <= object_radius && object_radius <= BALL_RADIUS)
+                    break;
+                printf("The object found at angles [%d, %d] is not recognized as a ball\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
             }
             i=streakStart+1;
 
@@ -150,7 +147,13 @@ void identify_entity(struct List* raysList, int detection_threshold) {
     }
     // Check if the last streak is valid
     if (streakEnd != -1 && streakStart < streakEnd) {
-        printf("Found potential ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
+        printf("Found ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
+        
+        // Compute target angle
+        int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
+        
+        // Rotate the robot toward the ball
+        (void) turn_robot(target_angle, 0);
     }
 }
 
