@@ -36,7 +36,7 @@ int left_wheel_port = 65;
 int right_wheel_port = 66;
 int hand_port = 67;
 int arm_port = 68;
-const char sensor_names[5][16] = {"LEGO_EV3_US", "LEGO_EV3_GYRO", "LEGO_EV3_COLOR", "LEGO_EV3_TOUCH", "HT_NXT_COMPASS"};
+const int sensor_names[5] = [LEGO_EV3_US, LEGO_EV3_GYRO, LEGO_EV3_COLOR, LEGO_EV3_TOUCH, HT_NXT_COMPASS];
 
 void robot_init(uint8_t *components)
 {
