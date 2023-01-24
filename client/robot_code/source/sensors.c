@@ -1,4 +1,4 @@
-#include "sensors.h"
+#include "../include/sensors.h"
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_sensor.h"
@@ -73,4 +73,8 @@ void reset_color(uint8_t port) {
     set_sensor_mode(port, "COL-COLOR");
     printf("Color reset: actual sensor mode: %s\n", ev3_sensor_mode(port) );
     return;
+}
+
+int main( void ) {
+    return 0;
 }

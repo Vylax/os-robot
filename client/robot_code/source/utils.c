@@ -156,7 +156,7 @@ void update_with_offset(struct Ray* ray) {
     int angle = ray->angle + SENSOR_OFFSET_ANGLE; // =theta
 
     // Update the Ray with the offset
-    initRay(&ray, distance, angle);
+    initRay(ray, distance, angle);
 }
 
 float cal_run_time(uint8_t sn, int distance, int speed) {
@@ -164,3 +164,8 @@ float cal_run_time(uint8_t sn, int distance, int speed) {
     get_tacho_count_per_rot(sn, &count_per_rot);
     return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
+
+int main( void ) {
+    return 0;
+}
+    
