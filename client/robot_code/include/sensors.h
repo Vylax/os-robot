@@ -1,5 +1,8 @@
 /* TODO fix the includes if nec. */
+#include "ev3.h"
+#include "ev3_port.h"
 #include "ev3_sensor.h"
+
 
 /* init/uninit functions */
 void init_sensors(uint8_t** ports);
