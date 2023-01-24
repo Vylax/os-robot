@@ -9,23 +9,6 @@
 
 const char sensor_names[SENSOR_NUMBER][16] = {'LEGO_EV3_US','LEGO_EV3_GYRO','LEGO_EV3_COLOR','LEGO_EV3_TOUCH','HT_NXT_COMPASS'};
 
-/* INIT/UNINIT FUNCTIONS (use them if ports are NOT statically defined) */
-
-void init_sensors(uint8_t** ports) {
-    *ports = (int *) malloc(SENSOR_NUMBER * sizeof(uint_8));
-    ev3_init();
-    for(int i = 0; i < SENSOR_NUMBER; i++) {
-        ev3_search_sensor(sensor_names[i], &((*ports)[i]) , 0);
-    }
-    return;
-}
-
-void uninit_sensors(uint8_t** ports) {
-    free(*ports);
-    ev3_uninit();
-    return;    
-}
-
 /* GET VALUES */
 
 int get_value_sonar(uint8_t port) {
