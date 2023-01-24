@@ -15,7 +15,9 @@ int ball_slot1 = 0;
 int ball_slot2 = 0;
 
 /* TODO:    All values related to the 'hand' are
-            purely indicative, they should be fixed     */
+            purely indicative, they should be fixed
+            ALSO the direction of the hand should be checked
+*/
 
 /*      Hand        */
 int grabbing_speed = 500;
