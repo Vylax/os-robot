@@ -40,25 +40,22 @@ void test1()
 /// @brief Shoot a ball already in hand to the basket
 void test2()
 {
-    // Todo
-    aim_routine();
-    // Todo
-    throw_routine();
+    //aim_routine();
+    //throw_routine();
 }
 
 /// @brief Scan the environment to find the ball and go get it
 void test3()
 {
-    turn_robot();
-
-    test1();
+    //turn_robot();
+    //test1();
 }
 
 /// @brief Scan the environment to find the ball, go get it and throw it
 void test4()
 {
-    test3();
-    test2();
+    //test3();
+    //test2();
 }
 
 /// @brief Behave as an attacker
@@ -77,7 +74,7 @@ int main()
 {
     /* Initialize sensors & motors */
     robot_init(ports);
-    
+
     // movement test from movement.c
     movement_test(ports);
 
