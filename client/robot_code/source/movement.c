@@ -25,12 +25,12 @@
 #define WHEEL_RADIUS 27.5
 #define PI 3.142857
 #define POLLING_RATE 10
-#define BALL_RADIUS 5 // TODO: get the actual value
+#define BALL_RADIUS 2.5 // TODO: get the actual value
 
 #define left_wheel_port 66
 #define right_wheel_port 67
-#define SONAR_PORT 3
-#define COMPASS_PORT 0
+#define SONAR_PORT 0
+#define COMPASS_PORT 4
 
 int ports[9];
 
@@ -42,8 +42,8 @@ int ports[9];
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = get_value_compass(COMPASS_PORT);
-    int distance = get_value_sonar(SONAR_PORT);
+    int angle = get_value_compass(robot_init[COMPASS_PORT]);
+    int distance = get_value_sonar(robot_init[SONAR_PORT]);
 
     initRay(&ray, distance, angle);
     update_with_offset(&ray);
@@ -56,7 +56,7 @@ void collect_and_store_ray(struct List* list) {
 struct List turn_robot(int angle, int scan) {
     
     // Initialise sensors
-    reset_sonar(SONAR_PORT);
+    reset_sonar(robot_init[SONAR_PORT]);
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
@@ -102,10 +102,9 @@ struct List turn_robot(int angle, int scan) {
     return raysList;
 }
 
-/// @brief Identifie entity possible angles <br/> Needs to be combine with other functions to be complete
+/// @brief Identifie a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-/// @param ball_detection_threshold 
-void identify_entity(struct List* raysList, int detection_threshold) {
+int turn_to_ball(struct List* raysList) {
     // Initialize variables to keep track of the current streak of rays
     int streakStart = -1;
     int streakEnd = -1;
@@ -118,7 +117,7 @@ void identify_entity(struct List* raysList, int detection_threshold) {
         struct Ray currentRay = raysList->data[i];
 
         // Check if the current ray is part of a streak
-        if (streakStart >= 0 && streakEnd == i - 1 && abs(currentRay.distance - streakMinDist) <= detection_threshold && abs(currentRay.distance - streakMaxDist) <= detection_threshold) {
+        if (streakStart >= 0 && streakEnd == i - 1 && abs(currentRay.distance - streakMinDist) <= BALL_RADIUS && abs(currentRay.distance - streakMaxDist) <= BALL_RADIUS) {
             streakEnd = i;
             // Update the min and max distance for the current streak
             streakMinDist = currentRay.distance < streakMinDist ? currentRay.distance : streakMinDist;
@@ -132,7 +131,7 @@ void identify_entity(struct List* raysList, int detection_threshold) {
                 double object_radius = streakMaxDist * sin(alpha);
                 
                 // Check if the object we found is a ball
-                if(BALL_RADIUS/3 <= object_radius && object_radius <= BALL_RADIUS)
+                if(BALL_RADIUS/3.0 <= object_radius && object_radius <= BALL_RADIUS)
                     break;
                 printf("The object found at angles [%d, %d] is not recognized as a ball\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
             }
@@ -154,7 +153,10 @@ void identify_entity(struct List* raysList, int detection_threshold) {
         
         // Rotate the robot toward the ball
         (void) turn_robot(target_angle, 0);
+        
+        return streakMinDist + BALL_RADIUS;
     }
+    return -1;
 }
 
 static void _run_motor_forever(uint8_t sn_motor, int speed_sp)
@@ -189,25 +191,34 @@ void move_timed(int speed_sp, int time_sp)
 }
 
 // TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
-int main( void ) 
+int main( void )
 {
     if ( ev3_init() == -1 ) return ( 1 );
 
     while ( ev3_tacho_init() < 1 ) Sleep( 1000 );  // Waiting for tachos being plugged
 
     printf( "*** ( EV3 ) Hello! ***\n" );
+    
+    // Initialize the automatically defined ports
+    robot_init(ports);
 
-    int angle = 90; // example
+    int angle = 90; // DEBUG
 
     // Turn the robot around and collect rays while doing so
     struct List rays;
     rays = turn_robot(angle, 1);
     
-    // TODO: Process the rays here
-    identify_entity(&rays, BALL_RADIUS);
+    // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
+    int dist_to_ball = turn_to_ball(&rays);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(&rays);
+    
+    // Example code of what to do next
+    if(dist_to_ball >= 0) {
+        printf("Moving forward %d cm to reach the ball\n", dist_to_ball);
+        // Move forward dist_to_ball cm here
+    }
     
     return 0;
 }
