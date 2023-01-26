@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "../include/utils.h"
 
 /* TODO: remove static functions from here */
 
@@ -12,7 +12,7 @@ struct List turn_robot(int angle, int scan, int* components);
 
 /// @brief Identify a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-int turn_to_ball(struct List* raysList);
+int turn_to_ball(struct List* raysList, int* components);
 
 /// @brief keeps two motors moving forever
 void move_forever(int speed_sp);

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
@@ -99,7 +100,7 @@ struct List turn_robot(int angle, int scan, int* components) {
 
 /// @brief Identifie a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-int turn_to_ball(struct List* raysList) {
+int turn_to_ball(struct List* raysList, int* components) {
     // Initialize variables to keep track of the current streak of rays
     int streakStart = -1;
     int streakEnd = -1;
@@ -147,7 +148,7 @@ int turn_to_ball(struct List* raysList) {
         int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
         
         // Rotate the robot toward the ball
-        (void) turn_robot(target_angle, 0);
+        (void) turn_robot(target_angle, 0, components);
         
         return streakMinDist + BALL_RADIUS;
     }
@@ -196,7 +197,7 @@ void movement_test(int* components)
     rays = turn_robot(angle, 1, components);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
-    int dist_to_ball = turn_to_ball(&rays);
+    int dist_to_ball = turn_to_ball(&rays, components);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(&rays);
