@@ -16,6 +16,12 @@
 #define SENSOR_OFFSET_ANGLE 0 // TODO: Mesure the actual value (in degrees)
 #define SENSOR_OFFSET_DIST 0 // TODO: Mesure the actual value (in cm)
 
+void initRay(struct Ray* ray, int distance, int angle) {
+    ray->distance = distance;
+    ray->time = time(NULL); //TODO: check if this gives time is ms, otherwise fix it
+    ray->angle = angle;
+}
+
 void init(struct List* list) {
     list->size = 0;
     list->capacity = INITIAL_CAPACITY;
@@ -63,13 +69,6 @@ void clear(struct List* list) {
 int length(struct List* list) {
     return list->size;
 }
-
-//INT List structure
-struct IntList {
-    int* data;
-    int size;
-    int capacity;
-};
 
 void int_list_init(struct IntList* list) {
     list->size = 0;
