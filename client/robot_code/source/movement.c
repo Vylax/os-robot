@@ -42,8 +42,8 @@ int ports[9];
 void collect_and_store_ray(struct List* list) {
     struct Ray ray;
 
-    int angle = get_value_compass(robot_init[COMPASS_PORT]);
-    int distance = get_value_sonar(robot_init[SONAR_PORT]);
+    int angle = get_value_compass(ports[COMPASS_PORT]);
+    int distance = get_value_sonar(ports[SONAR_PORT]);
 
     initRay(&ray, distance, angle);
     update_with_offset(&ray);
@@ -56,7 +56,7 @@ void collect_and_store_ray(struct List* list) {
 struct List turn_robot(int angle, int scan) {
     
     // Initialise sensors
-    reset_sonar(robot_init[SONAR_PORT]);
+    reset_sonar(ports[SONAR_PORT]);
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
