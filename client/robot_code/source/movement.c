@@ -190,9 +190,10 @@ void move_timed(int speed_sp, int time_sp)
     _run_motor_timed(right_wheel_port, speed_sp, time_sp);
 }
 
-// TODO: this method is just for testing, the turn_method should only be called from the main.c script in the final version
-int main( void )
+/// @brief Used as a test of movement functionalities
+void movement_test()
 {
+    /* TODO: fix variable declarations */
     if ( ev3_init() == -1 ) return ( 1 );
 
     while ( ev3_tacho_init() < 1 ) Sleep( 1000 );  // Waiting for tachos being plugged
@@ -218,7 +219,6 @@ int main( void )
     if(dist_to_ball >= 0) {
         printf("Moving forward %d cm to reach the ball\n", dist_to_ball);
         // Move forward dist_to_ball cm here
-    }
-    
-    return 0;
+    }    
+    return;
 }

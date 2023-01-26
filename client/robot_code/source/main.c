@@ -5,8 +5,8 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 
-#include "ball.h
-#include "sensors.h
+#include "ball.h"
+#include "sensors.h"
 #include "movement.h"
 #include "init.h"
 #include "utils.h"
@@ -71,11 +71,10 @@ void defender()
     // Todo: implement the startegy
 }
 
-
-
-
 int main()
 {
+    // movement test from movement.c
+    movement_test();
 
     // test1()
 
