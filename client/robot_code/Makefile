@@ -20,7 +20,7 @@ LIBS  = $(LIB_DIR)/libmovement.so \
 all: main
 
 #NOTE: all tests should be implemented inside main.c
-main: ${LIBS}
+main: $(BUILD_DIR)/main.o ${LIBS}
 	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) -c $(BUILD_DIR)/main.o -o main
 
 #Generate all obj files neede to build each final executable
