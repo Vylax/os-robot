@@ -3,8 +3,8 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include <include/utils.h>
-#include <include/sensors.h>
+#include "../include/utils.h"
+#include "../include/sensors.h"
 
 #ifndef __ARM_ARCH_4T__
     /* Disable auto-detection of the brick (you have to set the correct address below) */
