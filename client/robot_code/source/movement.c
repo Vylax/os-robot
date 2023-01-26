@@ -27,23 +27,18 @@
 #define POLLING_RATE 10
 #define BALL_RADIUS 2.5 // TODO: get the actual value
 
-#define left_wheel_port 66
-#define right_wheel_port 67
-#define SONAR_PORT 0
-#define COMPASS_PORT 4
-
-int ports[9];
+enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 /*TODO:
 - (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
 */
 
 /// @brief Collect Ray data and store it in the List given as parameter
-void collect_and_store_ray(struct List* list) {
+void collect_and_store_ray(struct List* list, int* components) {
     struct Ray ray;
 
-    int angle = get_value_compass(ports[COMPASS_PORT]);
-    int distance = get_value_sonar(ports[SONAR_PORT]);
+    int angle = get_value_compass(components[COMPASS]);
+    int distance = get_value_sonar(components[SONAR]);
 
     initRay(&ray, distance, angle);
     update_with_offset(&ray);
@@ -53,21 +48,21 @@ void collect_and_store_ray(struct List* list) {
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
-struct List turn_robot(int angle, int scan) {
+struct List turn_robot(int angle, int scan, int* components) {
     
     // Initialise sensors
-    reset_sonar(ports[SONAR_PORT]);
+    reset_sonar(components[SONAR]);
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     struct List raysList;
     init(&raysList);
 
     // Collect and store the initial ray
-    if (scan) collect_and_store_ray(&raysList);
+    if (scan) collect_and_store_ray(&raysList, components);
 
     // Set the motors to "coast" mode
-    set_tacho_stop_action_inx(left_wheel_port, TACHO_COAST);
-    set_tacho_stop_action_inx(right_wheel_port, TACHO_COAST);
+    set_tacho_stop_action_inx(components[LEFT_MOTOR], TACHO_COAST);
+    set_tacho_stop_action_inx(components[RIGHT_MOTOR], TACHO_COAST);
 
     // Calculate the number of degrees to rotate each wheel
     float wheel_rotations = angle / (2 * PI * WHEEL_RADIUS);
@@ -75,20 +70,20 @@ struct List turn_robot(int angle, int scan) {
     int right_degrees = (int)(wheel_rotations * 360);
 
     // Set the motors to rotate to the calculated number of degrees
-    set_tacho_position_sp(left_wheel_port, left_degrees);
-    set_tacho_position_sp(right_wheel_port, right_degrees);
+    set_tacho_position_sp(components[LEFT_MOTOR], left_degrees);
+    set_tacho_position_sp(components[RIGHT_MOTOR], right_degrees);
 
     // Start the motors
-    set_tacho_command_inx(left_wheel_port, TACHO_RUN_TO_REL_POS);
-    set_tacho_command_inx(right_wheel_port, TACHO_RUN_TO_REL_POS);
+    set_tacho_command_inx(components[LEFT_MOTOR], TACHO_RUN_TO_REL_POS);
+    set_tacho_command_inx(components[RIGHT_MOTOR], TACHO_RUN_TO_REL_POS);
 
 	
     char * state = malloc(sizeof(char) * 20);
 
     // Wait for the motors to finish
-    while (get_tacho_state(left_wheel_port, state, (size_t)20) != TACHO_HOLDING || get_tacho_state(right_wheel_port, state, (size_t)20) != TACHO_HOLDING) {
+    while (get_tacho_state(components[LEFT_MOTOR], state, (size_t)20) != TACHO_HOLDING || get_tacho_state(components[RIGHT_MOTOR], state, (size_t)20) != TACHO_HOLDING) {
         // Collect and store the current ray
-        if (scan) collect_and_store_ray(&raysList);
+        if (scan) collect_and_store_ray(&raysList, components);
         
         // Wait for POLLING_RATE ms before polling again
         Sleep(POLLING_RATE);
@@ -97,7 +92,7 @@ struct List turn_robot(int angle, int scan) {
     free(state);
 
     // Collect and store the final ray
-    if (scan) collect_and_store_ray(&raysList);
+    if (scan) collect_and_store_ray(&raysList, components);
 
     return raysList;
 }
@@ -177,8 +172,8 @@ void move_forever(int speed_sp)
 {
     if (speed_sp == 0)
         return;
-    _run_motor_forever(left_wheel_port, speed_sp);
-    _run_motor_forever(right_wheel_port, speed_sp);
+    _run_motor_forever(components[LEFT_MOTOR], speed_sp);
+    _run_motor_forever(components[RIGHT_MOTOR], speed_sp);
 }
 
 /// @brief keeps two motors moving at a speed for a period of time
@@ -186,28 +181,19 @@ void move_timed(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
-    _run_motor_timed(left_wheel_port, speed_sp, time_sp);
-    _run_motor_timed(right_wheel_port, speed_sp, time_sp);
+    _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
+    _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
 }
 
 /// @brief Used as a test of movement functionalities
-void movement_test()
+void movement_test(int* components)
 {
-    /* TODO: fix variable declarations */
-    if ( ev3_init() == -1 ) return ( 1 );
-
-    while ( ev3_tacho_init() < 1 ) Sleep( 1000 );  // Waiting for tachos being plugged
-
-    printf( "*** ( EV3 ) Hello! ***\n" );
-    
-    // Initialize the automatically defined ports
-    robot_init(ports);
-
+    printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
     int angle = 90; // DEBUG
 
     // Turn the robot around and collect rays while doing so
     struct List rays;
-    rays = turn_robot(angle, 1);
+    rays = turn_robot(angle, 1, components);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
     int dist_to_ball = turn_to_ball(&rays);
@@ -220,5 +206,6 @@ void movement_test()
         printf("Moving forward %d cm to reach the ball\n", dist_to_ball);
         // Move forward dist_to_ball cm here
     }    
+    printf("\n\n-- END OF MOVEMENT TEST --\n\n");
     return;
 }
