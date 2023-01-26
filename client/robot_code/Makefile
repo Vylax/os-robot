@@ -13,8 +13,8 @@ INCLUDE_DIR = ./include
 LIBS  = $(LIB_DIR)/libmovement.so \
 		$(LIB_DIR)/libsensors.so \
 		$(LIB_DIR)/libinit.so \
-		$(LIB_DIR)/libutils.o \
-		$(LIB_DIR)/libball.o \
+		$(LIB_DIR)/libutils.so \
+		$(LIB_DIR)/libball.so \
 
 
 all: main
