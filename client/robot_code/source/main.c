@@ -14,6 +14,8 @@
 #define left_wheel_port 66
 #define right_wheel_port 67
 
+int ports[9];
+
 void stop_handler()
 {
     stop(TACHO_COAST);
@@ -73,8 +75,9 @@ void defender()
 
 int main()
 {
+    robot_init(ports);
     // movement test from movement.c
-    movement_test();
+    movement_test(ports);
 
     // test1()
 
@@ -86,5 +89,6 @@ int main()
 
     // defender()
 
+    robot_uninit();
     return 0;
 }
