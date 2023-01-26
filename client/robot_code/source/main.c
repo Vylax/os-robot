@@ -75,7 +75,9 @@ void defender()
 
 int main()
 {
+    /* Initialize sensors & motors */
     robot_init(ports);
+    
     // movement test from movement.c
     movement_test(ports);
 
@@ -89,6 +91,7 @@ int main()
 
     // defender()
 
+    /* Uninitialize the robot */
     robot_uninit();
     return 0;
 }
