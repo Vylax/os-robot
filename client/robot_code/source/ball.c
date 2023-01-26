@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "ev3.h"
 #include "ev3_port.h"
-#include "ev3_tacho"
+#include "ev3_tacho.h"
 #include "ball.h"
 
 /* Tells if the hand is currently grabbing a ball */
