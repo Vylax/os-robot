@@ -4,9 +4,12 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include "sensors.h"
-#include "movements.h"
-#include "utils.c"
+
+#include <ball.h>
+#include <sensors.h>
+#include <movement.h>
+#include <init.h>
+#include <utils.h>
 
 #define left_wheel_port 66
 #define right_wheel_port 67
