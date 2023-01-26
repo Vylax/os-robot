@@ -7,6 +7,18 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "../include/ball.h"
+// WIN32 /////////////////////////////////////////
+#ifdef __WIN32__
+
+#include <windows.h>
+
+// UNIX //////////////////////////////////////////
+#else
+
+#include <unistd.h>
+#define Sleep(msec) usleep((msec)*1000)
+//////////////////////////////////////////////////
+#endif
 
 /* Tells if the hand is currently grabbing a ball */
 int ball_slot1 = 0;
