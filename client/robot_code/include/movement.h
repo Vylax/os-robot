@@ -15,10 +15,10 @@ struct List turn_robot(int angle, int scan, int* components);
 int turn_to_ball(struct List* raysList, int* components);
 
 /// @brief keeps two motors moving forever
-void move_forever(int speed_sp);
+void move_forever(int speed_sp, int* components);
 
 /// @brief keeps two motors moving at a speed for a period of time
-void move_timed(int speed_sp, int time_sp);
+void move_timed(int speed_sp, int time_sp, int* components);
 
 /// @brief Used as a test of movement functionalities
 void movement_test(int* components);

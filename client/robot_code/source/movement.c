@@ -169,7 +169,7 @@ static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
 }
 
 /// @brief keeps two motors moving forever
-void move_forever(int speed_sp)
+void move_forever(int speed_sp, int* components)
 {
     if (speed_sp == 0)
         return;
@@ -178,7 +178,7 @@ void move_forever(int speed_sp)
 }
 
 /// @brief keeps two motors moving at a speed for a period of time
-void move_timed(int speed_sp, int time_sp)
+void move_timed(int speed_sp, int time_sp, int* components)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
