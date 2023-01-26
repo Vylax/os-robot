@@ -17,3 +17,6 @@ void move_forever(int speed_sp);
 
 /// @brief keeps two motors moving at a speed for a period of time
 void move_timed(int speed_sp, int time_sp);
+
+/// @brief Used as a test of movement functionalities
+void movement_test();
