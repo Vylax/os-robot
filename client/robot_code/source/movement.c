@@ -25,7 +25,7 @@
 #define WHEEL_RADIUS 27.5
 #define PI 3.142857
 #define POLLING_RATE 10
-#define BALL_RADIUS 2.5 // TODO: get the actual value
+#define BALL_RADIUS 2.5
 
 #define left_wheel_port 66
 #define right_wheel_port 67
@@ -33,10 +33,6 @@
 #define COMPASS_PORT 4
 
 int ports[9];
-
-/*TODO:
-- (optionnal) apply some mapping transformation (interpolation, extrapolation, ...) in order to compensate for the acceleration phase of the motors ???
-*/
 
 /// @brief Collect Ray data and store it in the List given as parameter
 void collect_and_store_ray(struct List* list) {

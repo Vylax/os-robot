@@ -1,4 +1,3 @@
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -18,13 +17,11 @@
 /// @brief Structure used to store the data collected from the sonar sensor
 struct Ray {
     int distance;
-    time_t time;
     int angle;
 };
 
 void initRay(struct Ray* ray, int distance, int angle) {
     ray->distance = distance;
-    ray->time = time(NULL); //TODO: check if this gives time is ms, otherwise fix it
     ray->angle = angle;
 }
 
