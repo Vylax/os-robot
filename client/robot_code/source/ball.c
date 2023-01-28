@@ -1,12 +1,16 @@
-/* 2023-01-23 The robot has now 2 motors related to the ball:
+/*  2023-01-23: The robot has now 2 motors related to the ball:
     1) One, called 'hand', it's used to grab the ball from the ground and put it in the shooting position
-    2) The second one, called 'arm', it's used to shoot the ball */
+    2) The second one, called 'arm', it's used to shoot the ball 
+    2023-01-28: TODO modified the order of actions: Lower the hand, get closer to the ball, grab the ball 
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "../include/ball.h"
+#include "../include/movement.h"
+
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
 
@@ -19,6 +23,8 @@
 #define Sleep(msec) usleep((msec)*1000)
 //////////////////////////////////////////////////
 #endif
+
+enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 /* Tells if the hand is currently grabbing a ball */
 int ball_slot1 = 0;
@@ -40,31 +46,19 @@ int shooting_speed = 1050;
 int shooting_time = 240;
 int shooting_cooldown = 400;
 
-int initialize_arm(int servo_port, uint8_t *sn_arm)
-{
-    /* Initialization is made somewhere else...*/
-    return 0;
-}
-
-int initialize_hand(int dc_port, uint8_t *sn_hand)
-{
-    /* Initialization is made somewhere else...*/
-    return 0;
-}
-
-int shoot_ball(uint8_t sn_arm)
+int shoot_ball(uint8_t* components)
 {
     /* NOTE: maybe we need to shoot based on sensor input */
     /*       i.e. don't shoot always at maximum range */
     if (ball_slot2 == 1)
     {
-        set_tacho_speed_sp(sn_arm, -shooting_speed);
-        set_tacho_time_sp(sn_arm, shooting_time);
-        set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(components[ARM], -shooting_speed);
+        set_tacho_time_sp(components[ARM], shooting_time);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
         Sleep(shooting_time);
-        set_tacho_speed_sp(sn_arm, +shooting_speed / 5);
-        set_tacho_time_sp(sn_arm, shooting_cooldown);
-        set_tacho_command_inx(sn_arm, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(components[ARM], +shooting_speed / 5);
+        set_tacho_time_sp(components[ARM], shooting_cooldown);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
         // set flags
         ball_slot2 = 0;
     }
@@ -78,7 +72,7 @@ int shoot_ball(uint8_t sn_arm)
     return 0;
 }
 
-int grab_ball(uint8_t sn_hand)
+int grab_ball(uint8_t* components)
 {
     /* Used to grab the ball from the ground */
     /* NOTE: this function does not imply rising the ball
@@ -87,14 +81,17 @@ int grab_ball(uint8_t sn_hand)
     if (ball_slot1 == 0)
     {
         // step 1: go down
-        set_tacho_speed_sp(sn_hand, risefall_speed);
-        set_tacho_time_sp(sn_hand, risefall_time);
-        set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(components[HAND], risefall_speed);
+        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(risefall_time);
-        // step 2: grab
-        set_tacho_speed_sp(sn_hand, -grabbing_speed);
-        set_tacho_time_sp(sn_hand, grabbing_time);
-        set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+        // step 2: align
+        // TODO: check values accordingly to predicted distance
+        move_timed(400,300,components);
+        // step 3: grab
+        set_tacho_speed_sp(components[HAND], -grabbing_speed);
+        set_tacho_time_sp(components[HAND], grabbing_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(grabbing_time);
         // update flags
         ball_slot1 = 1;
@@ -106,7 +103,7 @@ int grab_ball(uint8_t sn_hand)
     return 0;
 }
 
-int reload(uint8_t sn_hand)
+int reload(uint8_t* components)
 {
     /* NOTE: use this function after take_ball
              so we can assume that the ball is already
@@ -114,14 +111,14 @@ int reload(uint8_t sn_hand)
     if (ball_slot1 == 1 && ball_slot2 == 0)
     {
         // step 1: go up
-        set_tacho_speed_sp(sn_hand, -risefall_speed);
-        set_tacho_time_sp(sn_hand, risefall_time);
-        set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(components[HAND], -risefall_speed);
+        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(risefall_time);
         // step 2: release
-        set_tacho_speed_sp(sn_hand, +grabbing_speed);
-        set_tacho_time_sp(sn_hand, grabbing_time);
-        set_tacho_command_inx(sn_hand, TACHO_RUN_TIMED);
+        set_tacho_speed_sp(components[HAND], +grabbing_speed);
+        set_tacho_time_sp(components[HAND], grabbing_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(grabbing_time);
         // update flags
         ball_slot1 = 0;
