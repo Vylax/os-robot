@@ -4,8 +4,8 @@
 # Libraries should be put in /libraries
 CC 			= arm-linux-gnueabi-gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
-INCLUDES 	= -I~/ev3dev-c/source/ev3 -I./ev3dev-c/source/ev3 -I./include/ -I./libraries
-LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread -lsensors -lutils -lmovement -linit -lball
+INCLUDES 	= -I~/ev3dev-c/source/ev3 -I./include/
+LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
 BUILD_DIR 	= ./build
 LIB_DIR		= ./libraries
 SOURCE_DIR 	= ./source
@@ -27,7 +27,7 @@ all: main
 
 #NOTE: all tests should be implemented inside main.c
 main: $(BUILD_DIR)/main.o ${OBJS}
-	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) $(BUILD_DIR)/main.o $(OBJS) -o main
+	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) -o main $(BUILD_DIR)/main.o $(OBJS)
 
 #Generate all obj files neede to build each final executable
 $(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
