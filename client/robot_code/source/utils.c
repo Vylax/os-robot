@@ -1,4 +1,3 @@
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -16,11 +15,17 @@
 #define SENSOR_OFFSET_ANGLE 0 // TODO: Mesure the actual value (in degrees)
 #define SENSOR_OFFSET_DIST 0 // TODO: Mesure the actual value (in cm)
 
+
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
+
+/// @brief Structure used to store the data collected from the sonar sensor
+struct Ray {
+    int distance;
+    int angle;
+};
 
 void initRay(struct Ray* ray, int distance, int angle) {
     ray->distance = distance;
-    ray->time = time(NULL); //TODO: check if this gives time is ms, otherwise fix it
     ray->angle = angle;
 }
 
