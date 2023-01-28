@@ -4,6 +4,7 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
+#include "ev3_sensor.h"
 #include "../include/ball.h"
 #include "../include/sensors.h"
 #include "../include/movement.h"
