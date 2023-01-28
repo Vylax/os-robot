@@ -1,5 +1,4 @@
 #include "ev3.h"
-#include "utils.h" //For List type
 
 /// @brief Collect Ray data and store it in the List given as parameter
 void collect_and_store_ray(struct List* list, uint8_t* components);
