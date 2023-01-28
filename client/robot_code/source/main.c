@@ -37,11 +37,11 @@ void stop_handler()
 void test1()
 {
     const int SPEED = 800;
-    int distance;
+    int distance, t;
 
     get_sonar_value(&distance);
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
-    move_timed(SPEED, t);
+    move_timed(SPEED, t, components);
     Sleep(t);
     // Todo
     grab_routine();
