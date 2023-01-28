@@ -38,7 +38,7 @@ $(LIB_DIR)/libutils.so: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
 $(LIB_DIR)/libinit.so: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
 	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -I./include -O2 -std=gnu99 -W -Wno-comment -c $(SOURCE_DIR)/init.c -lm -lev3dev-c -o $(LIB_DIR)/libinit.so
 
-$(LIB_DIR)/libball.so: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h
+$(LIB_DIR)/libball.so: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/libmovement.so
 	gcc -shared -fPIC -I./ev3dev-c/source/ev3 -I./include -O2 -std=gnu99 -W -Wno-comment -c $(SOURCE_DIR)/ball.c -lm -lev3dev-c -o $(LIB_DIR)/libball.so
 
 $(LIB_DIR)/libmovement.so: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/libsensors.so
