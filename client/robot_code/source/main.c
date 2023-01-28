@@ -5,11 +5,11 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-#include "ball.h"
-#include "sensors.h"
-#include "movement.h"
-#include "init.h"
-#include "utils.h"
+#include "/include/ball.h"
+#include "/include/sensors.h"
+#include "/include/movement.h"
+#include "/include/init.h"
+#include "/include/utils.h"
 
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
