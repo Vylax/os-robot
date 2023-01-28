@@ -47,4 +47,5 @@ $(LIB_DIR)/libmovement.so: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(
 #NOTE: should be checked
 clean:
 	rm -f $(BUILD_DIR)/*.o
+	rm -f $(LIB_DIR)/*.so
 	rm ./main
