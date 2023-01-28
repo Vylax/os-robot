@@ -18,27 +18,6 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-/// @brief Structure used to store the data collected from the sonar sensor
-struct Ray {
-    int distance;
-    time_t time;
-    int angle;
-};
-
-/// @brief Dynamic storage structure (resizeable)
-struct List {
-    struct Ray* data;
-    int size;
-    int capacity;
-};
-
-//INT List structure
-struct IntList {
-    int* data;
-    int size;
-    int capacity;
-};
-
 void initRay(struct Ray* ray, int distance, int angle) {
     ray->distance = distance;
     ray->angle = angle;
