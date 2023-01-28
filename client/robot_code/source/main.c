@@ -4,17 +4,28 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
+#include ".../include/ball.h"
+#include "../include/sensors.h"
+#include "../include/movement.h"
+#include "../include/init.h"
+#include "../include/utils.h"
 
-#include "ball.h"
-#include "sensors.h"
-#include "movement.h"
-#include "init.h"
-#include "utils.h"
+// WIN32 /////////////////////////////////////////
+#ifdef __WIN32__
 
-#define left_wheel_port 66
-#define right_wheel_port 67
+#include <windows.h>
 
-int ports[9];
+// UNIX //////////////////////////////////////////
+#else
+
+#include <unistd.h>
+#define Sleep(msec) usleep((msec)*1000)
+//////////////////////////////////////////////////
+#endif
+
+enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
+
+uint8_t components[9];
 
 void stop_handler()
 {
@@ -29,7 +40,7 @@ void test1()
     int distance;
 
     get_sonar_value(&distance);
-    t = cal_run_time(left_wheel_port, distance, SPEED);
+    t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
     move_timed(SPEED, t);
     Sleep(t);
     // Todo
@@ -73,10 +84,10 @@ void defender()
 int main()
 {
     /* Initialize sensors & motors */
-    robot_init(ports);
+    robot_init(components);
 
     // movement test from movement.c
-    movement_test(ports);
+    movement_test(components);
 
     // test1()
 

@@ -18,6 +18,8 @@
 //////////////////////////////////////////////////
 #endif
 
+enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
+
 /* The easiest way to implement a unified init for sensors and motors,
    with fixed positions. */
 /*

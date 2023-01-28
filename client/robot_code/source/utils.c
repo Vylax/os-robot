@@ -5,7 +5,7 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include "utils.h"
+#include "../include/utils.h"
 
 #define INITIAL_CAPACITY 10 //Initial capacity for the Dynamic storage structure (List)
 #define WHEEL_RADIUS 27.5
@@ -15,6 +15,8 @@
 // Variables used for objects detection
 #define SENSOR_OFFSET_ANGLE 0 // TODO: Mesure the actual value (in degrees)
 #define SENSOR_OFFSET_DIST 0 // TODO: Mesure the actual value (in cm)
+
+enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 void initRay(struct Ray* ray, int distance, int angle) {
     ray->distance = distance;
@@ -139,9 +141,9 @@ void update_with_offset(struct Ray* ray) {
     initRay(ray, distance, angle);
 }
 
-float cal_run_time(uint8_t sn, int distance, int speed) {
+float cal_run_time(uint8_t component, int distance, int speed) {
     int count_per_rot;
-    get_tacho_count_per_rot(sn, &count_per_rot);
+    get_tacho_count_per_rot(component, &count_per_rot);
     return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
     

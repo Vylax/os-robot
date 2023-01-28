@@ -4,6 +4,7 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
+#include "../include/movement.h"
 #include "../include/utils.h"
 #include "../include/sensors.h"
 
@@ -35,7 +36,7 @@ enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 */
 
 /// @brief Collect Ray data and store it in the List given as parameter
-void collect_and_store_ray(struct List* list, int* components) {
+void collect_and_store_ray(struct List* list, uint8_t* components) {
     struct Ray ray;
 
     int angle = get_value_compass(components[COMPASS]);
@@ -49,7 +50,7 @@ void collect_and_store_ray(struct List* list, int* components) {
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
-struct List turn_robot(int angle, int scan, int* components) {
+struct List turn_robot(int angle, int scan, uint8_t* components) {
     
     // Initialise sensors
     reset_sonar(components[SONAR]);
@@ -100,7 +101,7 @@ struct List turn_robot(int angle, int scan, int* components) {
 
 /// @brief Identifie a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-int turn_to_ball(struct List* raysList, int* components) {
+int turn_to_ball(struct List* raysList, uint8_t* components) {
     // Initialize variables to keep track of the current streak of rays
     int streakStart = -1;
     int streakEnd = -1;
@@ -169,7 +170,7 @@ static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
 }
 
 /// @brief keeps two motors moving forever
-void move_forever(int speed_sp, int* components)
+void move_forever(int speed_sp, uint8_t* components)
 {
     if (speed_sp == 0)
         return;
@@ -178,7 +179,7 @@ void move_forever(int speed_sp, int* components)
 }
 
 /// @brief keeps two motors moving at a speed for a period of time
-void move_timed(int speed_sp, int time_sp, int* components)
+void move_timed(int speed_sp, int time_sp, uint8_t* components)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
@@ -187,7 +188,7 @@ void move_timed(int speed_sp, int time_sp, int* components)
 }
 
 /// @brief Used as a test of movement functionalities
-void movement_test(int* components)
+void movement_test(uint8_t* components)
 {
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
     int angle = 90; // DEBUG
