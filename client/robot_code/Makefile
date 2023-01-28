@@ -4,7 +4,7 @@
 # Libraries should be put in /libraries
 CC 			= arm-linux-gnueabi-gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
-INCLUDES 	= -I~/ev3dev-c/source/ev3 -I./include/
+INCLUDES 	= -I~/ev3dev-c/source/ev3 -I./ev3dev-c/source/ev3 -I./include/ -I./libraries
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread -lsensors -lutils -lmovement -linit -lball
 BUILD_DIR 	= ./build
 LIB_DIR		= ./libraries
@@ -52,19 +52,19 @@ $(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
 
 #Create the executables
 $(LIB_DIR)/sensors.o: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
-	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/sensors.o $(SOURCE_DIR)/sensors.c
+	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/sensors.o -c $(SOURCE_DIR)/sensors.c
 
 $(LIB_DIR)/utils.o: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
-	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/utils.o $(SOURCE_DIR)/utils.c
+	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/utils.o -c $(SOURCE_DIR)/utils.c
 
 $(LIB_DIR)/init.o: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
-	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/init.o $(SOURCE_DIR)/init.c
+	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/init.o -c $(SOURCE_DIR)/init.c
 
 $(LIB_DIR)/movement.o: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/sensors.o
-	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/movement.o $(SOURCE_DIR)/movement.c
+	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/movement.o -c $(SOURCE_DIR)/movement.c
 
 $(LIB_DIR)/ball.o: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/movement.o
-	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/ball.o $(SOURCE_DIR)/ball.c
+	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/ball.o -c $(SOURCE_DIR)/ball.c
 
 #NOTE: should be checked
 clean:
