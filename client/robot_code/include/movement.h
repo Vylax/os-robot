@@ -1,6 +1,8 @@
 #ifndef HEADER_MOVEMENT
 #define HEADER_MOVEMENT
 
+#include "./utils.h"
+
 /// @brief Collect Ray data and store it in the List given as parameter
 void collect_and_store_ray(List* list, uint8_t* components);
 
