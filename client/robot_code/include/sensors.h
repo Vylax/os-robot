@@ -1,3 +1,6 @@
+#ifndef HEADER_SENSORS
+#define HEADER_SENSORS
+
 /* get value from sensor */
 int get_value_sonar(uint8_t component);
 int get_value_gyro_ang(uint8_t component);
@@ -9,3 +12,5 @@ int get_value_compass(uint8_t component);
 void reset_sonar(uint8_t component);
 void reset_gyro(uint8_t component);
 void reset_color(uint8_t component);
+
+#endif

@@ -1,5 +1,7 @@
-// Structures
+#ifndef HEADER_UTILS
+#define HEADER_UTILS
 
+// Structures
 /// @brief Structure used to store the data collected from the sonar sensor
 typedef struct Ray {
     int distance;
@@ -9,7 +11,7 @@ typedef struct Ray {
 
 /// @brief Dynamic storage structure (resizeable)
 typedef struct List {
-    struct Ray* data;
+    Ray* data;
     int size;
     int capacity;
 } List;
@@ -56,3 +58,4 @@ void update_with_offset(struct Ray* ray);
 
 float cal_run_time(uint8_t component, int distance, int speed);
     
+#endif

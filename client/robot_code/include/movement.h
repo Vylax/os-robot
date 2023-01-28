@@ -1,3 +1,6 @@
+#ifndef HEADER_MOVEMENT
+#define HEADER_MOVEMENT
+
 /// @brief Collect Ray data and store it in the List given as parameter
 void collect_and_store_ray(List* list, uint8_t* components);
 
@@ -18,3 +21,5 @@ void move_timed(int speed_sp, int time_sp, uint8_t* components);
 
 /// @brief Used as a test of movement functionalities
 void movement_test(uint8_t* components);
+
+#endif

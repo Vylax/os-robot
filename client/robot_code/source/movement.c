@@ -32,8 +32,8 @@
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 /// @brief Collect Ray data and store it in the List given as parameter
-void collect_and_store_ray(struct List* list, uint8_t* components) {
-    struct Ray ray;
+void collect_and_store_ray(List* list, uint8_t* components) {
+    Ray ray;
 
     int angle = get_value_compass(components[COMPASS]);
     int distance = get_value_sonar(components[SONAR]);
@@ -46,13 +46,13 @@ void collect_and_store_ray(struct List* list, uint8_t* components) {
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
-struct List turn_robot(int angle, int scan, uint8_t* components) {
+List turn_robot(int angle, int scan, uint8_t* components) {
     
     // Initialise sensors
     reset_sonar(components[SONAR]);
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
-    struct List raysList;
+    List raysList;
     init(&raysList);
 
     // Collect and store the initial ray
@@ -97,7 +97,7 @@ struct List turn_robot(int angle, int scan, uint8_t* components) {
 
 /// @brief Identifie a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-int turn_to_ball(struct List* raysList, uint8_t* components) {
+int turn_to_ball(List* raysList, uint8_t* components) {
     // Initialize variables to keep track of the current streak of rays
     int streakStart = -1;
     int streakEnd = -1;
@@ -107,7 +107,7 @@ int turn_to_ball(struct List* raysList, uint8_t* components) {
     // Iterate through all the rays in the list
     int i = 0;
     while(i < raysList->size){
-        struct Ray currentRay = raysList->data[i];
+        Ray currentRay = raysList->data[i];
 
         // Check if the current ray is part of a streak
         if (streakStart >= 0 && streakEnd == i - 1 && abs(currentRay.distance - streakMinDist) <= BALL_RADIUS && abs(currentRay.distance - streakMaxDist) <= BALL_RADIUS) {
@@ -190,7 +190,7 @@ void movement_test(uint8_t* components)
     int angle = 90; // DEBUG
 
     // Turn the robot around and collect rays while doing so
-    struct List rays;
+    List rays;
     rays = turn_robot(angle, 1, components);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
