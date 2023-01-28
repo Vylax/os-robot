@@ -39,12 +39,12 @@ void test1()
     const int SPEED = 800;
     int distance, t;
 
-    get_sonar_value(&distance);
+    //get_value_sonar(&distance);   FIX
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
     move_timed(SPEED, t, components);
     Sleep(t);
     // Todo
-    grab_routine();
+    //grab_routine();
     
 }
 
