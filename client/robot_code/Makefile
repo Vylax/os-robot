@@ -21,7 +21,7 @@ all: main
 
 #NOTE: all tests should be implemented inside main.c
 main: $(BUILD_DIR)/main.o ${LIBS}
-	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) -c $(BUILD_DIR)/main.o -o main
+	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) $(BUILD_DIR)/main.o -o main
 
 #Generate all obj files neede to build each final executable
 $(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
