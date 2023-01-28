@@ -25,7 +25,7 @@ main: $(BUILD_DIR)/main.o ${LIBS}
 
 #Generate all obj files neede to build each final executable
 $(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
-	$(CC) -c $(SOURCE_DIR)/main.c $(INCLUDES) -o $(BUILD_DIR)/main.o
+	$(CC) $(INCLUDES) $(CFLAGS) -o $(BUILD_DIR)/main.o $(SOURCE_DIR)/main.c
 
 
 #Create the libraries (updated)
