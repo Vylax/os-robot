@@ -30,7 +30,7 @@ uint8_t components[9];
 
 void stop_handler()
 {
-    stop(TACHO_COAST);
+    //stop(TACHO_COAST);
     exit(0);
 }
 
