@@ -10,42 +10,64 @@ BUILD_DIR 	= ./build
 LIB_DIR		= ./libraries
 SOURCE_DIR 	= ./source
 INCLUDE_DIR = ./include
-LIBS  = $(LIB_DIR)/libmovement.so \
-		$(LIB_DIR)/libsensors.so \
-		$(LIB_DIR)/libinit.so \
-		$(LIB_DIR)/libutils.so \
-		$(LIB_DIR)/libball.so \
+# LIBS  = $(LIB_DIR)/libmovement.so \
+# 		$(LIB_DIR)/libsensors.so \
+# 		$(LIB_DIR)/libinit.so \
+# 		$(LIB_DIR)/libutils.so \
+# 		$(LIB_DIR)/libball.so
+
+OBJS =	$(LIB_DIR)/movement.o \
+		$(LIB_DIR)/sensors.o \
+		$(LIB_DIR)/init.o \
+		$(LIB_DIR)/utils.o \
+		$(LIB_DIR)/ball.o
 
 
 all: main
 
 #NOTE: all tests should be implemented inside main.c
-main: $(BUILD_DIR)/main.o ${LIBS}
-	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) $(BUILD_DIR)/main.o -o main
+main: $(BUILD_DIR)/main.o ${OBJS}
+	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) $(BUILD_DIR)/main.o $(OBJS) -o main
 
 #Generate all obj files neede to build each final executable
 $(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
 	$(CC) $(INCLUDES) $(CFLAGS) -o $(BUILD_DIR)/main.o $(SOURCE_DIR)/main.c
 
 
-#Create the libraries (updated)
-$(LIB_DIR)/libsensors.so: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
-	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libsensors.so $(SOURCE_DIR)/sensors.c
+#Create the libraries (deprecated)
+# $(LIB_DIR)/libsensors.so: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
+# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libsensors.so $(SOURCE_DIR)/sensors.c
 
-$(LIB_DIR)/libutils.so: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
-	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libutils.so $(SOURCE_DIR)/utils.c
+# $(LIB_DIR)/libutils.so: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
+# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libutils.so $(SOURCE_DIR)/utils.c
 
-$(LIB_DIR)/libinit.so: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
-	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libinit.so $(SOURCE_DIR)/init.c
+# $(LIB_DIR)/libinit.so: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
+# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libinit.so $(SOURCE_DIR)/init.c
 
-$(LIB_DIR)/libball.so: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/libmovement.so
-	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libball.so $(SOURCE_DIR)/ball.c
+# $(LIB_DIR)/libball.so: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/libmovement.so
+# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libball.so $(SOURCE_DIR)/ball.c
 
-$(LIB_DIR)/libmovement.so: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/libsensors.so
-	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libmovement.so $(SOURCE_DIR)/movement.c
+# $(LIB_DIR)/libmovement.so: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/libsensors.so
+# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libmovement.so $(SOURCE_DIR)/movement.c
+
+#Create the executables
+$(LIB_DIR)/sensors.o: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
+	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/sensors.o $(SOURCE_DIR)/sensors.c
+
+$(LIB_DIR)/utils.o: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
+	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/utils.o $(SOURCE_DIR)/utils.c
+
+$(LIB_DIR)/init.o: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
+	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/init.o $(SOURCE_DIR)/init.c
+
+$(LIB_DIR)/movement.o: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/sensors.o
+	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/movement.o $(SOURCE_DIR)/movement.c
+
+$(LIB_DIR)/ball.o: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/movement.o
+	gcc -c -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/ball.o $(SOURCE_DIR)/ball.c
 
 #NOTE: should be checked
 clean:
 	rm -f $(BUILD_DIR)/*.o
-	rm -f $(LIB_DIR)/*.so
+	rm -f $(LIB_DIR)/*.o
 	rm ./main
