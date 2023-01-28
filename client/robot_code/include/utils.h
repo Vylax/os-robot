@@ -1,25 +1,27 @@
 // Structures
 
 /// @brief Structure used to store the data collected from the sonar sensor
-struct Ray {
+typedef struct Ray {
     int distance;
     time_t time;
     int angle;
-};
+} Ray;
 
 /// @brief Dynamic storage structure (resizeable)
-struct List {
+typedef struct List {
     struct Ray* data;
     int size;
     int capacity;
-};
+} List;
 
 //INT List structure
-struct IntList {
+typedef struct IntList {
     int* data;
     int size;
     int capacity;
-};
+} IntList;
+
+
 
 // Functions
 
