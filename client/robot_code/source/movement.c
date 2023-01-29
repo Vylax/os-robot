@@ -9,11 +9,6 @@
 #include "../include/utils.h"
 #include "../include/sensors.h"
 
-#ifndef __ARM_ARCH_4T__
-    /* Disable auto-detection of the brick (you have to set the correct address below) */
-    ev3_brick_addr = "10.192.59.99";
-#endif
-
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
 #include <windows.h>
