@@ -32,7 +32,7 @@ $(BUILD_DIR):
 	mkdir $(BUILD_DIR)
 
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
-	$(CC) -c $(SOURCE_DIR)/$*.c $(INCLUDES) -o $(BUILD_DIR)/$*.o
+	$(CC) -c $(SOURCE_DIR)/$*.c $(INCLUDES) $(CFLAGS) -o $(BUILD_DIR)/$*.o
 
 clean:
 	rm -f $(BUILD_DIR)/*.o
