@@ -1,5 +1,5 @@
 CC 			= gcc
-CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
+CFLAGS 		= -O2 -g -std=gnu99 -W -Wno-comment
 INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
 BUILD_DIR 	= ./build
