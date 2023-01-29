@@ -49,9 +49,11 @@ void robot_init()
 //     ev3_brick_addr = "10.192.59.99";
 // #endif
     // initialize the robot
-    if (ev3_init() == -1)
-        printf("ev3 initialization failed!\n");
-        exit(EXIT_FAILURE);
+if (ev3_init() == -1)
+{
+    printf("ev3 initialization failed!\n");
+    exit(EXIT_FAILURE);
+}
 #ifndef __ARM_ARCH_4T__
     printf("The EV3 brick auto-detection is DISABLED,\nwaiting %s online with plugged tacho...\n", ev3_brick_addr);
 #else
