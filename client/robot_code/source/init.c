@@ -44,10 +44,10 @@ static const int sensor_names[5] = {LEGO_EV3_US, LEGO_EV3_GYRO, LEGO_EV3_COLOR, 
 void robot_init(uint8_t *components)
 {
 
-#ifndef __ARM_ARCH_4T__
-    /* Disable auto-detection of the brick (you have to set the correct address below) */
-    ev3_brick_addr = "10.192.59.99";
-#endif
+// #ifndef __ARM_ARCH_4T__
+//     /* Disable auto-detection of the brick (you have to set the correct address below) */
+//     ev3_brick_addr = "10.192.59.99";
+// #endif
     // initialize the robot
     if (ev3_init() == -1)
         printf("ev3 initialization failed!\n");
