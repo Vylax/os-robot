@@ -4,7 +4,7 @@
 # Libraries should be put in /libraries
 CC 			= arm-linux-gnueabi-gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
-INCLUDES 	= -I~/ev3dev-c/source/ev3 -I./include/
+INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
 BUILD_DIR 	= ./build
 LIB_DIR		= ./libraries
@@ -70,4 +70,4 @@ $(LIB_DIR)/ball.o: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/movemen
 clean:
 	rm -f $(BUILD_DIR)/*.o
 	rm -f $(LIB_DIR)/*.o
-	rm ./main
+	rm -f ./main
