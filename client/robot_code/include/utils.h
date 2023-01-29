@@ -1,6 +1,8 @@
 #ifndef HEADER_UTILS
 #define HEADER_UTILS
 
+extern uint8_t components[];
+
 // Structures
 /// @brief Structure used to store the data collected from the sonar sensor
 typedef struct Ray {

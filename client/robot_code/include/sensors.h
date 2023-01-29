@@ -1,6 +1,8 @@
 #ifndef HEADER_SENSORS
 #define HEADER_SENSORS
 
+extern uint8_t components[];
+
 /* get value from sensor */
 int get_value_sonar(uint8_t component);
 int get_value_gyro_ang(uint8_t component);

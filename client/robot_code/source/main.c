@@ -43,7 +43,7 @@ void test1()
 
     //get_value_sonar(&distance);   FIX
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
-    move_timed(SPEED, t, components);
+    move_timed(SPEED, t);
     Sleep(t);
     // Todo
     //grab_routine();
@@ -86,10 +86,10 @@ void defender()
 int main()
 {
     /* Initialize sensors & motors */
-    robot_init(components);
+    robot_init();
 
     // movement test from movement.c
-    movement_test(components);
+    movement_test();
 
     // test1()
 

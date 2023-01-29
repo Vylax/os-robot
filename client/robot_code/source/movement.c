@@ -28,7 +28,7 @@
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 /// @brief Collect Ray data and store it in the List given as parameter
-void collect_and_store_ray(List* list, uint8_t* components) {
+void collect_and_store_ray(List* list) {
     Ray ray;
 
     int angle = get_value_compass(components[COMPASS]);
@@ -42,7 +42,7 @@ void collect_and_store_ray(List* list, uint8_t* components) {
 /// @brief turns the robot of a given angle and (optionaly) collect rays data
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
-List turn_robot(int angle, int scan, uint8_t* components) {
+List turn_robot(int angle, int scan) {
     
     // Initialise sensors
     reset_sonar(components[SONAR]);
@@ -52,7 +52,7 @@ List turn_robot(int angle, int scan, uint8_t* components) {
     init(&raysList);
 
     // Collect and store the initial ray
-    if (scan) collect_and_store_ray(&raysList, components);
+    if (scan) collect_and_store_ray(&raysList);
 
     // Set the motors to "coast" mode
     set_tacho_stop_action_inx(components[LEFT_MOTOR], TACHO_COAST);
@@ -77,7 +77,7 @@ List turn_robot(int angle, int scan, uint8_t* components) {
     // Wait for the motors to finish
     while (get_tacho_state(components[LEFT_MOTOR], state, (size_t)20) != TACHO_HOLDING || get_tacho_state(components[RIGHT_MOTOR], state, (size_t)20) != TACHO_HOLDING) {
         // Collect and store the current ray
-        if (scan) collect_and_store_ray(&raysList, components);
+        if (scan) collect_and_store_ray(&raysList);
         
         // Wait for POLLING_RATE ms before polling again
         Sleep(POLLING_RATE);
@@ -86,14 +86,14 @@ List turn_robot(int angle, int scan, uint8_t* components) {
     free(state);
 
     // Collect and store the final ray
-    if (scan) collect_and_store_ray(&raysList, components);
+    if (scan) collect_and_store_ray(&raysList);
 
     return raysList;
 }
 
 /// @brief Identifie a ball position, and turn the robot towards it <br/> Returns the distance of the robot center of mass from the ball or -1 if no ball was found
 /// @param raysList 
-int turn_to_ball(List* raysList, uint8_t* components) {
+int turn_to_ball(List* raysList) {
     // Initialize variables to keep track of the current streak of rays
     int streakStart = -1;
     int streakEnd = -1;
@@ -141,7 +141,7 @@ int turn_to_ball(List* raysList, uint8_t* components) {
         int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
         
         // Rotate the robot toward the ball
-        (void) turn_robot(target_angle, 0, components);
+        (void) turn_robot(target_angle, 0);
         
         return streakMinDist + BALL_RADIUS;
     }
@@ -162,7 +162,7 @@ static void _run_motor_timed(uint8_t sn_motor, int speed_sp, int time_sp)
 }
 
 /// @brief keeps two motors moving forever
-void move_forever(int speed_sp, uint8_t* components)
+void move_forever(int speed_sp)
 {
     if (speed_sp == 0)
         return;
@@ -171,7 +171,7 @@ void move_forever(int speed_sp, uint8_t* components)
 }
 
 /// @brief keeps two motors moving at a speed for a period of time
-void move_timed(int speed_sp, int time_sp, uint8_t* components)
+void move_timed(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
@@ -180,17 +180,17 @@ void move_timed(int speed_sp, int time_sp, uint8_t* components)
 }
 
 /// @brief Used as a test of movement functionalities
-void movement_test(uint8_t* components)
+void movement_test()
 {
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
     int angle = 90; // DEBUG
 
     // Turn the robot around and collect rays while doing so
     List rays;
-    rays = turn_robot(angle, 1, components);
+    rays = turn_robot(angle, 1);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
-    int dist_to_ball = turn_to_ball(&rays, components);
+    int dist_to_ball = turn_to_ball(&rays);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(&rays);

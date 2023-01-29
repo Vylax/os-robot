@@ -47,7 +47,7 @@ int shooting_speed = 1050;
 int shooting_time = 240;
 int shooting_cooldown = 400;
 
-int shoot_ball(uint8_t* components)
+int shoot_ball()
 {
     /* NOTE: maybe we need to shoot based on sensor input */
     /*       i.e. don't shoot always at maximum range */
@@ -73,7 +73,7 @@ int shoot_ball(uint8_t* components)
     return 0;
 }
 
-int grab_ball(uint8_t* components)
+int grab_ball()
 {
     /* Used to grab the ball from the ground */
     /* NOTE: this function does not imply rising the ball
@@ -88,7 +88,7 @@ int grab_ball(uint8_t* components)
         Sleep(risefall_time);
         // step 2: align
         // TODO: check values accordingly to predicted distance
-        move_timed(400,300,components);
+        move_timed(400,300);
         // step 3: grab
         set_tacho_speed_sp(components[HAND], -grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
@@ -104,7 +104,7 @@ int grab_ball(uint8_t* components)
     return 0;
 }
 
-int reload(uint8_t* components)
+int reload()
 {
     /* NOTE: use this function after take_ball
              so we can assume that the ball is already

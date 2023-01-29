@@ -41,7 +41,7 @@ int arm_port = 68;
 
 static const int sensor_names[5] = {LEGO_EV3_US, LEGO_EV3_GYRO, LEGO_EV3_COLOR, LEGO_EV3_TOUCH, HT_NXT_COMPASS};
 
-void robot_init(uint8_t *components)
+void robot_init()
 {
 
 // #ifndef __ARM_ARCH_4T__
