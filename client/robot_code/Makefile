@@ -36,4 +36,4 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
 
 clean:
 	rm -f $(BUILD_DIR)/*.o
-	rm ./main
+	rm -f ./main
