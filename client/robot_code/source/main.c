@@ -85,10 +85,15 @@ void defender()
 
 int main()
 {
-    printf("\n\nDEBUG;\n\n");
     /* Initialize sensors & motors */
     robot_init();
 
+    /* Should print all the corrispondent ports */
+    for (int i = 0; i < 9; i++)
+    {
+        printf("Components[%d]: %d\n", i, components[i]);
+    }
+    
     // movement test from movement.c
     movement_test();
 
