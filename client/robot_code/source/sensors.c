@@ -16,66 +16,66 @@ const char sensor_names[SENSOR_NUMBER][16] = {"LEGO_EV3_US","LEGO_EV3_GYRO","LEG
 
 /* GET VALUES */
 
-int get_value_sonar(uint8_t component) {
+int get_value_sonar() {
     /* Sonar: distance in cm, (0, 2550) */
     /* NOTE: the guide says it's expressed in cm, but those are likely mm. Just run a quick test to check */
     float buf;
-    get_sensor_value0(component, &buf);
+    get_sensor_value0(components[SONAR], &buf);
     return (int)buf;
 }
 
-int get_value_gyro_ang(uint8_t component) {
+int get_value_gyro_ang() {
     /* Gyro angle: expressed in degrees, (-32768, 32767) */
     float buf;
-    get_sensor_value0(component, &buf);
+    get_sensor_value0(components[GYRO], &buf);
     return (int)buf;
 }
 
-int get_value_gyro_rate(uint8_t component) {
+int get_value_gyro_rate() {
     /* Gyro rotational speed: expressed in deg/s, (-440, 440) */
     float buf;
-    get_sensor_value1(component, &buf);
+    get_sensor_value1(components[GYRO], &buf);
     return (int)buf;
 }
 
-int get_value_color(uint8_t component) {
+int get_value_color() {
     /* Color: integer between (0, 7) */
     float buf;
-    get_sensor_value1(component, &buf);
+    get_sensor_value1(components[COLOR], &buf);
     return (int)buf;
 }
 
-int get_value_touch(uint8_t component) {
+int get_value_touch() {
     /* Touch: 1 if pressed, 0 otherwise */
     float buf;
-    get_sensor_value0(component, &buf);
+    get_sensor_value0(components[TOUCH], &buf);
     return (int)buf;
 }
 
-int get_value_compass(uint8_t component) {
+int get_value_compass() {
     /* Compass angle: expressed in degrees, (0, 359) */
     float buf;
-    get_sensor_value0(component, &buf);
+    get_sensor_value0(components[COMPASS], &buf);
     return (int)buf;
 }
 
 /* RESET FUNCTIONS */
 
-void reset_sonar(uint8_t component) {
-    set_sensor_mode(component, "US-DIST-CM");
+void reset_sonar() {
+    set_sensor_mode(components[SONAR], "US-DIST-CM");
     printf("Sonar reset: actual sensor mode: %s\n", ev3_sensor_mode(component));
     return;
 }
 
-void reset_gyro(uint8_t component) {
-    set_sensor_mode(component, "GYRO-CAL");
-    set_sensor_mode(component, "GYRO-G&A");
+void reset_gyro() {
+    set_sensor_mode(components[GYRO], "GYRO-CAL");
+    set_sensor_mode(components[GYRO], "GYRO-G&A");
     printf("Gyro reset: actual sensor mode: %s\n", ev3_sensor_mode(component) );
     return;
 }
 
-void reset_color(uint8_t component) {
-    set_sensor_mode(component, "COL-COLOR");
+void reset_color() {
+    set_sensor_mode(components[COLOR], "COL-COLOR");
     printf("Color reset: actual sensor mode: %s\n", ev3_sensor_mode(component) );
     return;
 }
