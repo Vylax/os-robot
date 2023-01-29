@@ -1,73 +1,31 @@
-# Executable files should be put in /build
-# Source files should be put in /source
-# Header files should be put in /include
-# Libraries should be put in /libraries
 CC 			= arm-linux-gnueabi-gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
 INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
 BUILD_DIR 	= ./build
-LIB_DIR		= ./libraries
 SOURCE_DIR 	= ./source
-INCLUDE_DIR = ./include
-# LIBS  = $(LIB_DIR)/libmovement.so \
-# 		$(LIB_DIR)/libsensors.so \
-# 		$(LIB_DIR)/libinit.so \
-# 		$(LIB_DIR)/libutils.so \
-# 		$(LIB_DIR)/libball.so
 
-OBJS =	$(LIB_DIR)/movement.o \
-		$(LIB_DIR)/sensors.o \
-		$(LIB_DIR)/init.o \
-		$(LIB_DIR)/utils.o \
-		$(LIB_DIR)/ball.o
-
+OBJS = \
+	$(BUILD_DIR)/utils.o \
+	$(BUILD_DIR)/init.o \
+	$(BUILD_DIR)/sensors.o \
+	$(BUILD_DIR)/movement.o \
+	$(BUILD_DIR)/ball.o \
+	$(BUILD_DIR)/main.o
 
 all: main
 
-#NOTE: all tests should be implemented inside main.c
-main: $(BUILD_DIR)/main.o ${OBJS}
-	$(CC) $(INCLUDES) $(CFLAGS) $(LDFLAGS) -o main $(BUILD_DIR)/main.o $(OBJS)
+main: ${OBJS}
+	$(CC) $(INCLUDES) $(CFLAGS) $(OBJS) $(LDFLAGS) -o main
 
-#Generate all obj files neede to build each final executable
-$(BUILD_DIR)/main.o: $(SOURCE_DIR)/main.c
-	$(CC) $(INCLUDES) $(CFLAGS) -o $(BUILD_DIR)/main.o $(SOURCE_DIR)/main.c
+$(OBJS): $(BUILD_DIR)
 
+$(BUILD_DIR):
+	mkdir $(BUILD_DIR)
 
-#Create the libraries (deprecated)
-# $(LIB_DIR)/libsensors.so: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
-# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libsensors.so $(SOURCE_DIR)/sensors.c
+$(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
+	$(CC) -c $(SOURCE_DIR)/$*.c $(INCLUDES) -o $(BUILD_DIR)/$*.o
 
-# $(LIB_DIR)/libutils.so: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
-# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libutils.so $(SOURCE_DIR)/utils.c
-
-# $(LIB_DIR)/libinit.so: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
-# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libinit.so $(SOURCE_DIR)/init.c
-
-# $(LIB_DIR)/libball.so: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/libmovement.so
-# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libball.so $(SOURCE_DIR)/ball.c
-
-# $(LIB_DIR)/libmovement.so: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/libsensors.so
-# 	gcc -shared -fPIC $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -lm -lev3dev-c -o $(LIB_DIR)/libmovement.so $(SOURCE_DIR)/movement.c
-
-#Create the executables
-$(LIB_DIR)/sensors.o: $(SOURCE_DIR)/sensors.c $(INCLUDE_DIR)/sensors.h
-	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/sensors.o -c $(SOURCE_DIR)/sensors.c
-
-$(LIB_DIR)/utils.o: $(SOURCE_DIR)/utils.c $(INCLUDE_DIR)/utils.h
-	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/utils.o -c $(SOURCE_DIR)/utils.c
-
-$(LIB_DIR)/init.o: $(SOURCE_DIR)/init.c $(INCLUDE_DIR)/init.h
-	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/init.o -c $(SOURCE_DIR)/init.c
-
-$(LIB_DIR)/movement.o: $(SOURCE_DIR)/movement.c $(INCLUDE_DIR)/movement.h $(LIB_DIR)/sensors.o
-	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/movement.o -c $(SOURCE_DIR)/movement.c
-
-$(LIB_DIR)/ball.o: $(SOURCE_DIR)/ball.c $(INCLUDE_DIR)/ball.h $(LIB_DIR)/movement.o
-	gcc $(INCLUDES) -O2 -std=gnu99 -W -Wno-comment -o $(LIB_DIR)/ball.o -c $(SOURCE_DIR)/ball.c
-
-#NOTE: should be checked
 clean:
 	rm -f $(BUILD_DIR)/*.o
-	rm -f $(LIB_DIR)/*.o
-	rm -f ./main
+	rm ./main
