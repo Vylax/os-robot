@@ -1,4 +1,4 @@
-CC 			= arm-linux-gnueabi-gcc
+CC 			= gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
 INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
@@ -13,7 +13,15 @@ OBJS = \
 	$(BUILD_DIR)/ball.o \
 	$(BUILD_DIR)/main.o
 
-all: main
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Linux)
+    CROSS_COMPILE =
+else
+    CROSS_COMPILE = arm-linux-gnueabi-
+endif
+
+cross: main
 
 main: ${OBJS}
 	$(CC) $(INCLUDES) $(CFLAGS) $(OBJS) $(LDFLAGS) -o main
