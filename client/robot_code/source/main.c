@@ -85,6 +85,7 @@ void defender()
 
 int main()
 {
+    printf("\n\nDEBUG;\n\n");
     /* Initialize sensors & motors */
     robot_init();
 
