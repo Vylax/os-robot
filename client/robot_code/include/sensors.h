@@ -1,7 +1,7 @@
 #ifndef HEADER_SENSORS
 #define HEADER_SENSORS
 
-extern s[];
+extern uint8_t components[];
 
 /* get value from sensor */
 int get_value_sonar();
