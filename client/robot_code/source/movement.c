@@ -5,9 +5,9 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-#include "../include/movement.h"
-#include "../include/utils.h"
-#include "../include/sensors.h"
+#include "movement.h"
+#include "utils.h"
+#include "sensors.h"
 
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__

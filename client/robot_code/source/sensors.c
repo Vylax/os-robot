@@ -3,7 +3,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-#include "../include/sensors.h"
+#include "sensors.h"
 
 #define SENSOR_NUMBER 5
 

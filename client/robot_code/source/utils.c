@@ -5,7 +5,7 @@
 #include "ev3_port.h"
 #include "ev3_tacho.h"
 #include "ev3_sensor.h"
-#include "../include/utils.h"
+#include "utils.h"
 
 #define INITIAL_CAPACITY 10 //Initial capacity for the Dynamic storage structure (List)
 #define WHEEL_RADIUS 27.5
