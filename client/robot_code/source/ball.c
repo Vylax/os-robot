@@ -39,7 +39,7 @@ int ball_slot2 = 0;
 
 /*      Hand        */
 int grabbing_speed = 200;
-int grabbing_time = 400;
+int grabbing_time = 200;
 int risefall_speed = 300;
 int risefall_time = 500;
 /*      Arm         */
