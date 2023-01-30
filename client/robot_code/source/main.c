@@ -43,9 +43,9 @@ void test1()
 
     //Spinning one wheel
     move_wheel_timed(1000, 5000, 0);
-    move_wheel_timed(-1000, 5000, 1);
+    //move_wheel_timed(-1000, 5000, 1);
     Sleep(5500);
-    move_wheel_timed(-1000, 5000, 0);
+    //move_wheel_timed(-1000, 5000, 0);
     move_wheel_timed(1000, 5000, 1);
     Sleep(5000);
     //get_value_sonar(&distance);   FIX
