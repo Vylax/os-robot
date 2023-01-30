@@ -44,7 +44,7 @@ int risefall_speed = 300;
 int risefall_time = 500;
 /*      Arm         */
 int shooting_speed = 1050;
-int shooting_time = 240;
+int shooting_time = 350;
 int shooting_cooldown = 400;
 
 int shoot_ball()
@@ -88,7 +88,7 @@ int grab_ball()
         Sleep(risefall_time);
         // step 2: align
         // TODO: check values accordingly to predicted distance
-        move_timed(200,3000);
+        move_timed(200,2000);
         Sleep(2000);
         // step 3: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
