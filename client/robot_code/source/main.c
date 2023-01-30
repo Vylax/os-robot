@@ -42,11 +42,11 @@ void test1()
     distance = 0;
 
     //Spinning one wheel
-    move_wheel_timed(500, 10000, 0);
-    move_wheel_timed(-500, 10000, 1);
+    move_wheel_timed(200, 10000, 0);
+    move_wheel_timed(-200, 10000, 1);
     Sleep(10000);
-    move_wheel_timed(-500, 10000, 0);
-    move_wheel_timed(500, 10000, 1);
+    move_wheel_timed(-200, 10000, 0);
+    move_wheel_timed(200, 10000, 1);
     Sleep(10000);
     //get_value_sonar(&distance);   FIX
     //t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
