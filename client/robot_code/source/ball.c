@@ -38,7 +38,7 @@ int ball_slot2 = 0;
 */
 
 /*      Hand        */
-int grabbing_speed = 150;
+int grabbing_speed = 300;
 int grabbing_time = 300;
 int risefall_speed = 300;
 int risefall_time = 500;
@@ -81,16 +81,20 @@ int grab_ball()
 
     if (ball_slot1 == 0)
     {
-        // step 1: go down
+        // step 1: go up
+        set_tacho_speed_sp(components[HAND], risefall_speed);
+        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+        // step 2: align
+        move_timed(200,2000);
+        Sleep(2000);
+        Sleep(risefall_time);
+        // step 3: go down
         set_tacho_speed_sp(components[HAND], -risefall_speed);
         set_tacho_time_sp(components[HAND], risefall_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(risefall_time);
-        // step 2: align
-        // TODO: check values accordingly to predicted distance
-        move_timed(200,2000);
-        Sleep(2000);
-        // step 3: grab
+        // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
