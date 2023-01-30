@@ -19,10 +19,10 @@ all: main
 main: ${OBJS}
 	$(CC) $(INCLUDES) $(CFLAGS) $(OBJS) $(LDFLAGS) -o main
 
-$(OBJS): $(BUILD_DIR)
+#$(OBJS): $(BUILD_DIR)
 
-$(BUILD_DIR):
-	mkdir $(BUILD_DIR)
+#$(BUILD_DIR):
+#	mkdir $(BUILD_DIR)
 
 $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c
 	$(CC) -c $(SOURCE_DIR)/$*.c $(INCLUDES) $(CFLAGS) -o $(BUILD_DIR)/$*.o
