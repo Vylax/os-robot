@@ -44,7 +44,7 @@ int risefall_speed = 300;
 int risefall_time = 500;
 /*      Arm         */
 int shooting_speed = 1050;
-int shooting_time = 600;
+int shooting_time = 1000;
 int shooting_cooldown = 400;
 
 int shoot_ball()
