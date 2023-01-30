@@ -44,7 +44,7 @@ int risefall_speed = 300;
 int risefall_time = 500;
 /*      Arm         */
 int shooting_speed = 1050;
-int shooting_time = 1000;
+int shooting_time = 350;
 int shooting_cooldown = 400;
 
 int shoot_ball()
@@ -53,11 +53,11 @@ int shoot_ball()
     /*       i.e. don't shoot always at maximum range */
     if (ball_slot2 == 1)
     {
-        set_tacho_speed_sp(components[ARM], -shooting_speed);
+        set_tacho_speed_sp(components[ARM], shooting_speed);
         set_tacho_time_sp(components[ARM], shooting_time);
         set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
         Sleep(shooting_time);
-        set_tacho_speed_sp(components[ARM], +shooting_speed / 5);
+        set_tacho_speed_sp(components[ARM], -shooting_speed / 5);
         set_tacho_time_sp(components[ARM], shooting_cooldown);
         set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
         // set flags
