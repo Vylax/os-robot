@@ -54,7 +54,7 @@ void test1()
 void test2()
 {
     grab_ball();
-    //reload();
+    reload();
     //shoot_ball();
 }
 
