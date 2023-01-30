@@ -119,7 +119,7 @@ int reload()
         Sleep(risefall_time);
         // step 2: release
         set_tacho_speed_sp(components[HAND], -grabbing_speed);
-        set_tacho_time_sp(components[HAND], grabbing_time);
+        set_tacho_time_sp(components[HAND], grabbing_time*0.5);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(grabbing_time);
         // update flags
