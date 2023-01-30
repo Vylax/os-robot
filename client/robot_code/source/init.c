@@ -34,9 +34,9 @@ enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
     ports[8] = Hand
 */
 
-int left_wheel_port = 65;
-int right_wheel_port = 66;
-int hand_port = 67;
+int left_wheel_port = 66;
+int right_wheel_port = 67;
+int hand_port = 65;
 int arm_port = 68;
 
 static const int sensor_names[5] = {LEGO_EV3_US, LEGO_EV3_GYRO, LEGO_EV3_COLOR, LEGO_EV3_TOUCH, HT_NXT_COMPASS};
