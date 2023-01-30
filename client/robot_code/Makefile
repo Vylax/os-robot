@@ -1,5 +1,5 @@
 #NOTE: when compiling inside ev3 robot, use CC=gcc; when cross compiling, substitute CC with arm-linux-gnueabi-gcc
-CC 			= arm-linux-gnueabi-gcc
+CC 			= gcc
 CFLAGS 		= -O2 -g -std=gnu99 -W -Wall -Wno-comment
 INCLUDES 	= -I./ev3dev-c/source/ev3 -I./include/
 LDFLAGS 	= -L./libraries -lrt -lm -lev3dev-c -lpthread
