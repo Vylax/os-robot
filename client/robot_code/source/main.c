@@ -41,10 +41,15 @@ void test1()
     int distance, t;
     distance = 0;
 
+    //Spinning one wheel
+    move_wheel_timed(500, 10000, 0);
+    Sleep(10000);
+    move_wheel_timed(500, 10000, 1);
+    Sleep(10000);
     //get_value_sonar(&distance);   FIX
-    t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
-    move_timed(SPEED, t);
-    Sleep(t);
+    //t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
+    //move_timed(SPEED, t);
+    //Sleep(t);
     // Todo
     //grab_routine();
     
@@ -54,9 +59,9 @@ void test1()
 void test2()
 {
     //TODO: remove later
-    move_forever(200);
-    Sleep(3000);
-    grab_ball();
+    //move_forever(200);
+    //Sleep(3000);
+    //grab_ball();
     //reload();
     //shoot_ball();
 }

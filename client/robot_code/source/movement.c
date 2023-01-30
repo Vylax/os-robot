@@ -182,6 +182,16 @@ void move_timed(int speed_sp, int time_sp)
     _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
 }
 
+void move_wheel_timed(int speed_sp, int time_sp, int flag)
+{
+    if (speed_sp == 0 || time_sp == 0)
+        return;
+    if(flag == 0)
+        _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
+    else 
+        _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
+}
+
 /// @brief Used as a test of movement functionalities
 void movement_test()
 {
