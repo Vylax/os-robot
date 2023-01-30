@@ -53,8 +53,9 @@ void test1()
 /// @brief Shoot a ball already in hand to the basket
 void test2()
 {
-    //aim_routine();
-    //throw_routine();
+    grab_ball();
+    //reload();
+    //shoot_ball();
 }
 
 /// @brief Scan the environment to find the ball and go get it
@@ -94,8 +95,9 @@ int main()
         printf("Components[%d]: %d\n", i, components[i]);
     }
     
+    test2();
     // movement test from movement.c
-    movement_test();
+    //movement_test();
 
     // test1()
 
