@@ -54,8 +54,8 @@ void test1()
 void test2()
 {
     grab_ball();
-    reload();
-    shoot_ball();
+    //reload();
+    //shoot_ball();
 }
 
 /// @brief Scan the environment to find the ball and go get it
