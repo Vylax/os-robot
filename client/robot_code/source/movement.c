@@ -33,7 +33,8 @@ void collect_and_store_ray(List* list) {
 
     int angle = get_value_compass(components[COMPASS]);
     int distance = get_value_sonar(components[SONAR]);
-
+    //debug
+    printf("Compass value = %d, Sonar value = %d", angle, distance);
     initRay(&ray, distance, angle);
     update_with_offset(&ray);
     put(list, &ray);
