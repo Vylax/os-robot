@@ -39,7 +39,7 @@ int ball_slot2 = 0;
 
 /*      Hand        */
 int grabbing_speed = 300;
-int grabbing_time = 300;
+int grabbing_time = 250;
 int risefall_speed = 300;
 int risefall_time = 500;
 /*      Arm         */
@@ -85,14 +85,19 @@ int grab_ball()
         set_tacho_speed_sp(components[HAND], risefall_speed);
         set_tacho_time_sp(components[HAND], risefall_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        // step 2: align
-        move_timed(200,2000);
-        Sleep(2000);
-        Sleep(risefall_time);
-        // step 3: go down
+        /* In the meanwhile, the robot is still moving under the robot */
+        /* i.e., if after we detect the ball we have to move for 50cm,
+            we will run this function when 10cm are left, so that we raise the hand 
+            in order to let the ball pass.
+        */
+        // step 2: go down
         set_tacho_speed_sp(components[HAND], -risefall_speed);
         set_tacho_time_sp(components[HAND], risefall_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+        Sleep(risefall_time);
+        // step 3: align
+        move_timed(200,2000);
+        Sleep(2000);
         Sleep(risefall_time);
         // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);

@@ -53,6 +53,9 @@ void test1()
 /// @brief Shoot a ball already in hand to the basket
 void test2()
 {
+    //TODO: remove later
+    move_forever(200);
+    Sleep(3000);
     grab_ball();
     //reload();
     //shoot_ball();
