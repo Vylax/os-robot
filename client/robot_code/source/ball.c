@@ -88,7 +88,7 @@ int grab_ball()
         Sleep(risefall_time);
         // step 2: align
         // TODO: check values accordingly to predicted distance
-        move_timed(200,300);
+        move_timed(2000,300);
         // step 3: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
