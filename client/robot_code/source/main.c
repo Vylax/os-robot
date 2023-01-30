@@ -53,8 +53,8 @@ void test1()
 /// @brief Shoot a ball already in hand to the basket
 void test2()
 {
-    grab_ball();
-    reload();
+    //grab_ball();
+    //reload();
     shoot_ball();
 }
 
