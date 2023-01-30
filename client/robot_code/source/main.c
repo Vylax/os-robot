@@ -103,7 +103,8 @@ int main()
         printf("Components[%d]: %d\n", i, components[i]);
     }
     
-    test2();
+    test1();
+    //test2();
     // movement test from movement.c
     //movement_test();
 
