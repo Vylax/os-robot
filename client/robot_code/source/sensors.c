@@ -63,7 +63,8 @@ int get_value_compass() {
 void reset_sonar() {
     char outputMode[32];
     set_sensor_mode(components[SONAR], "US-DIST-CM");
-    printf("Sonar reset: actual sensor mode: %s\n", get_sensor_mode(components[SONAR],outputMode,32));
+    get_sensor_mode(components[SONAR],outputMode,32);
+    printf("Sonar reset: actual sensor mode: %s\n", outputMode);
     return;
 }
 
@@ -71,13 +72,15 @@ void reset_gyro() {
     char outputMode[32];
     set_sensor_mode(components[GYRO], "GYRO-CAL");
     set_sensor_mode(components[GYRO], "GYRO-G&A");
-    printf("Gyro reset: actual sensor mode: %s\n", get_sensor_mode(components[GYRO],outputMode,32));
+    get_sensor_mode(components[GYRO],outputMode,32);
+    printf("Gyro reset: actual sensor mode: %s\n", outputMode);
     return;
 }
 
 void reset_color() {
     char outputMode[32];
     set_sensor_mode(components[COLOR], "COL-COLOR");
-    printf("Color reset: actual sensor mode: %s\n", get_sensor_mode(components[COLOR],outputMode,32));
+    get_sensor_mode(components[COLOR],outputMode,32);
+    printf("Color reset: actual sensor mode: %s\n", outputMode);
     return;
 }
