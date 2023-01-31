@@ -128,15 +128,16 @@ int turn_to_ball(List* raysList) {
                     break;
                 printf("The object found at angles [%d, %d] is not recognized as a ball\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
             }
-            i=streakStart+1;
 
             // Start a new streak
-            streakStart = i;
-            streakEnd = i;
+            streakStart = i + 1;
+            streakEnd = i + 1;
             streakMinDist = currentRay.distance;
             streakMaxDist = currentRay.distance;
         }
+        i++;
     }
+
     // Check if the last streak is valid
     if (streakEnd != -1 && streakStart < streakEnd) {
         printf("Found ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
