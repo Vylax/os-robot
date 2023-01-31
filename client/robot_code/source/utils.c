@@ -13,8 +13,8 @@
 #define PI 3.142857
 
 // Variables used for objects detection
-#define SENSOR_OFFSET_ANGLE 0 // TODO: Mesure the actual value (in degrees)
-#define SENSOR_OFFSET_DIST 0 // TODO: Mesure the actual value (in cm)
+#define SENSOR_OFFSET_ANGLE 14.85 // TODO: Mesure the actual value (in degrees)
+#define SENSOR_OFFSET_DIST 6.5 // TODO: Mesure the actual value (in cm)
 
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
