@@ -71,20 +71,13 @@ List turn_robot(int angle, int scan) {
     set_tacho_command_inx(components[LEFT_MOTOR], TACHO_RUN_TO_REL_POS);
     set_tacho_command_inx(components[RIGHT_MOTOR], TACHO_RUN_TO_REL_POS);
 
-	
-    char * state_left = malloc(sizeof(char) * 20);
-    char * state_right = malloc(sizeof(char) * 20);
-    get_tacho_state(components[LEFT_MOTOR], state_left, (size_t)20);
-    get_tacho_state(components[RIGHT_MOTOR], state_right, (size_t)20);
-    int a,b;
-
+    char * state = malloc(sizeof(char) * 20);
+    
     // Wait for the motors to finish
-    while (state_left != "" || state_right != "") {
-        // Retrieve current state
-        a = get_tacho_state(components[LEFT_MOTOR], state_left, (size_t)20);
-        b = get_tacho_state(components[RIGHT_MOTOR], state_right, (size_t)20);
+    while (get_tacho_state(components[LEFT_MOTOR], state, (size_t)20) != 1 || get_tacho_state(components[RIGHT_MOTOR], state, (size_t)20) != 1) {
+        printf("Inside loop...\n");
+        
         // Collect and store the current ray
-        printf("state_left: %d %s\tstate_right: %d %s\n", a, state_left, b, state_right);   //DEBUG
         if (scan) collect_and_store_ray(&raysList);
         
         // Wait for POLLING_RATE ms before polling again
