@@ -149,7 +149,7 @@ int turn_to_ball(List* raysList) {
         
         // Compute target angle
         int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
-        
+        printf("Located ball: target_angle = %d", target_angle);
         //DEBUG
         //int target_angle = (raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2 + 180;
         //if(target_angle >= 360) target_angle -= 360;
