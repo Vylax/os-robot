@@ -105,7 +105,7 @@ int turn_to_ball(List* raysList) {
 
     // Iterate through all the rays in the list
     int i = 0;
-    printf("Debug: i = $d\n", i);
+    printf("Debug: i = %d\n", i);
     while(i < raysList->size){
         Ray currentRay = raysList->data[i];
 
