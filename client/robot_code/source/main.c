@@ -41,7 +41,7 @@ void test1()
     int distance, t;
     distance = 50;
 
-    get_value_sonar(&distance);   FIX
+    get_value_sonar(&distance);
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
     move_timed(SPEED, t);
     Sleep(t);
