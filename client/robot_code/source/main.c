@@ -39,19 +39,12 @@ void test1()
 {
     const int SPEED = 800;
     int distance, t;
-    distance = 0;
+    distance = 50;
 
-    //Spinning one wheel
-    move_wheel_timed(200, 5000, 0);
-    move_wheel_timed(-200, 5000, 1);
-    Sleep(5500);
-    move_wheel_timed(-200, 5000, 0);
-    move_wheel_timed(200, 5000, 1);
-    Sleep(5000);
-    //get_value_sonar(&distance);   FIX
-    //t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
-    //move_timed(SPEED, t);
-    //Sleep(t);
+    get_value_sonar(&distance);   FIX
+    t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
+    move_timed(SPEED, t);
+    Sleep(t);
     // Todo
     //grab_routine();
     
