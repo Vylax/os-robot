@@ -37,7 +37,7 @@ void stop_handler()
 /// @brief Move forward and get the ball
 void test1()
 {
-    const int SPEED = 500;
+    const int SPEED = 100;
     int distance, t;
     distance = 500; //mm
 

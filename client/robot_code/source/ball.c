@@ -66,8 +66,8 @@ int grab_ball()
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(risefall_time);
         // step 3: align
-        move_timed(200,2000);
-        Sleep(2000);
+        move_timed(150,2700);
+        Sleep(2700);
         // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
