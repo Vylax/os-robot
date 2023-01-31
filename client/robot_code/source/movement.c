@@ -62,6 +62,7 @@ List turn_robot(int angle, int scan) {
 
     float rotation_distance = AXIS_LENGTH * sin(radiants / 2);
     float wheel_rotations = rotation_distance / (2 * PI * WHEEL_RADIUS);
+    printf("Wheel rotations: %f", wheel_rotations);
 
     // Calculate the number of degrees to rotate each wheel
     int left_degrees = (int)(-1 * wheel_rotations * 360);
@@ -88,7 +89,7 @@ List turn_robot(int angle, int scan) {
         Sleep(POLLING_RATE);
     }
 
-    printf("AFter while\n");
+    printf("After while\n");
 
     free(state);
 
