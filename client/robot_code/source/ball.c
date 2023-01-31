@@ -32,11 +32,6 @@ int ball_slot1 = 0;
 /* Tells if there is a ball ready to be shot */
 int ball_slot2 = 0;
 
-/* TODO:    All values related to the 'hand' are
-            purely indicative, they should be fixed
-            ALSO the direction of the hand should be checked
-*/
-
 /*      Hand        */
 int grabbing_speed = 300;
 int grabbing_time = 250;

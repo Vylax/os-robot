@@ -45,8 +45,8 @@ void collect_and_store_ray(List* list) {
 /// @param scan if != 0, rays data will be collected
 List turn_robot(int angle, int scan) {
     
-    // Initialise sensors
-    reset_sonar(components[SONAR]);
+    // Reset sonar
+    reset_sonar();
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
     List raysList;
