@@ -78,7 +78,7 @@ List turn_robot(int angle, int scan) {
     get_tacho_state(components[RIGHT_MOTOR], state_right, (size_t)20);
 
     // Wait for the motors to finish
-    while (state_left != "TACHO_HOLDING" || state_right != "TACHO_HOLDING") {
+    while (state_left != "" || state_right != "") {
         // Retrieve current state
         get_tacho_state(components[LEFT_MOTOR], state_left, (size_t)20);
         get_tacho_state(components[RIGHT_MOTOR], state_right, (size_t)20);
