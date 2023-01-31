@@ -201,8 +201,8 @@ void movement_test()
     int angle = 90; // DEBUG
 
     //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
-    set_tacho_speed_sp(components[LEFT_MOTOR], 200);
-    set_tacho_speed_sp(components[RIGHT_MOTOR], 200);
+    set_tacho_speed_sp(components[LEFT_MOTOR], 50);
+    set_tacho_speed_sp(components[RIGHT_MOTOR], 50);
 
     // Turn the robot around and collect rays while doing so
     List rays;
