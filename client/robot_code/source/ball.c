@@ -35,38 +35,12 @@ int ball_slot2 = 0;
 /*      Hand        */
 int grabbing_speed = 300;
 int grabbing_time = 250;
-int risefall_speed = 300;
-int risefall_time = 500;
+int risefall_speed = 200;
+int risefall_time = 1000;
 /*      Arm         */
 int shooting_speed = 1050;
 int shooting_time = 280;
 int shooting_cooldown = 400;
-
-int shoot_ball()
-{
-    /* NOTE: maybe we need to shoot based on sensor input */
-    /*       i.e. don't shoot always at maximum range */
-    if (ball_slot2 == 1)
-    {
-        set_tacho_speed_sp(components[ARM], shooting_speed);
-        set_tacho_time_sp(components[ARM], shooting_time);
-        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
-        Sleep(shooting_time);
-        set_tacho_speed_sp(components[ARM], -shooting_speed / 5);
-        set_tacho_time_sp(components[ARM], shooting_cooldown);
-        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
-        // set flags
-        ball_slot2 = 0;
-    }
-    else
-    {
-        if (ball_slot1 == 0)
-            printf("Find a ball first!\n");
-        if (ball_slot1 == 1)
-            printf("Load the ball first!\n");
-    }
-    return 0;
-}
 
 int grab_ball()
 {
@@ -94,7 +68,6 @@ int grab_ball()
         // step 3: align
         move_timed(200,2000);
         Sleep(2000);
-        Sleep(risefall_time);
         // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
@@ -139,6 +112,32 @@ int reload()
             printf("Ball already loaded!\n");
         if (ball_slot1 == 1 && ball_slot2 == 1)
             printf("Shot the other ball first!\n");
+    }
+    return 0;
+}
+
+int shoot_ball()
+{
+    /* NOTE: maybe we need to shoot based on sensor input */
+    /*       i.e. don't shoot always at maximum range */
+    if (ball_slot2 == 1)
+    {
+        set_tacho_speed_sp(components[ARM], shooting_speed);
+        set_tacho_time_sp(components[ARM], shooting_time);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
+        Sleep(shooting_time);
+        set_tacho_speed_sp(components[ARM], -shooting_speed / 5);
+        set_tacho_time_sp(components[ARM], shooting_cooldown);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
+        // set flags
+        ball_slot2 = 0;
+    }
+    else
+    {
+        if (ball_slot1 == 0)
+            printf("Find a ball first!\n");
+        if (ball_slot1 == 1)
+            printf("Load the ball first!\n");
     }
     return 0;
 }
