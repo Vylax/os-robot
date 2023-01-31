@@ -86,8 +86,7 @@ List turn_robot(int angle, int scan) {
 
     printf("AFter while\n");
 
-    free(state_left);
-    free(state_right);
+    free(state);
 
     // Collect and store the final ray
     if (scan) collect_and_store_ray(&raysList);
