@@ -21,9 +21,10 @@
 
 //Constants declaration
 #define WHEEL_RADIUS 27.5
-#define PI 3.142857
+#define PI 3.14159
 #define POLLING_RATE 10
 #define BALL_RADIUS 2.5
+#define AXIS_LENGTH 15
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
@@ -58,8 +59,10 @@ List turn_robot(int angle, int scan) {
     set_tacho_stop_action_inx(components[LEFT_MOTOR], TACHO_COAST);
     set_tacho_stop_action_inx(components[RIGHT_MOTOR], TACHO_COAST);
 
+    float rotation_distance = AXIS_LENGTH * sin(angle);
+    float wheel_rotations = rotation_distance / (2 * PI * WHEEL_RADIUS);
+
     // Calculate the number of degrees to rotate each wheel
-    float wheel_rotations = angle / (2 * PI * WHEEL_RADIUS);
     int left_degrees = (int)(-1 * wheel_rotations * 360);
     int right_degrees = (int)(wheel_rotations * 360);
 
@@ -201,12 +204,12 @@ void movement_test()
     int angle = 90; // DEBUG
 
     //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
-    set_tacho_speed_sp(components[LEFT_MOTOR], 50);
-    set_tacho_speed_sp(components[RIGHT_MOTOR], 50);
+    set_tacho_speed_sp(components[LEFT_MOTOR], 200);
+    set_tacho_speed_sp(components[RIGHT_MOTOR], 200);
 
     // Turn the robot around and collect rays while doing so
     List rays;
-    rays = turn_robot(angle, 1);
+    rays = turn_robot(angle*PI/180, 1);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
     int dist_to_ball = turn_to_ball(&rays);
