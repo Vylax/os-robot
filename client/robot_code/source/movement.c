@@ -148,11 +148,11 @@ int turn_to_ball(List* raysList) {
         printf("Found ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
         
         // Compute target angle
-        //int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
+        int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
         
         //DEBUG
-        int target_angle = (raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2 + 180;
-        if(target_angle >= 360) target_angle -= 360;
+        //int target_angle = (raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2 + 180;
+        //if(target_angle >= 360) target_angle -= 360;
 
         // Rotate the robot toward the ball
         (void) turn_robot(target_angle, 0);
@@ -219,7 +219,6 @@ void movement_test()
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
     int dist_to_ball = turn_to_ball(&rays);
-    printf("DEBUG: dist_to_ball = %d\n", dist_to_ball);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(&rays);
