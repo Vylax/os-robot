@@ -207,11 +207,11 @@ void move_wheel_timed(int speed_sp, int time_sp, int flag)
 void movement_test()
 {
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
-    int angle = 90;
+    int angle = 360;
 
     //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
-    set_tacho_speed_sp(components[LEFT_MOTOR], 200);
-    set_tacho_speed_sp(components[RIGHT_MOTOR], 200);
+    set_tacho_speed_sp(components[LEFT_MOTOR], 150);
+    set_tacho_speed_sp(components[RIGHT_MOTOR], 150);
 
     // Turn the robot around and collect rays while doing so
     List rays;
