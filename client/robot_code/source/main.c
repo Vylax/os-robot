@@ -39,7 +39,7 @@ void test1()
 {
     const int SPEED = 800;
     int distance, t;
-    distance = 50;
+    distance = 1000; //mm
 
     get_value_sonar(&distance);
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
