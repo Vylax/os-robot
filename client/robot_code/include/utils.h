@@ -58,6 +58,6 @@ void int_list_clear(struct IntList* list);
 /// @brief Update a ray with the sensor offset translation
 void update_with_offset(struct Ray* ray);
 
-float cal_run_time(uint8_t component, int distance, int speed);
+float cal_run_time(int distance, int speed);
     
 #endif

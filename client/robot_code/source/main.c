@@ -42,7 +42,7 @@ void test1()
     distance = 500; //mm
 
     get_value_sonar(&distance);
-    t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
+    t = cal_run_time(distance, SPEED);
     move_timed(SPEED, t);
     Sleep(t);
     //grab_routine
