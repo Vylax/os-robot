@@ -37,17 +37,17 @@ void stop_handler()
 /// @brief Move forward and get the ball
 void test1()
 {
-    const int SPEED = 800;
+    const int SPEED = 500;
     int distance, t;
-    distance = 1000; //mm
+    distance = 500; //mm
 
     get_value_sonar(&distance);
     t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
     move_timed(SPEED, t);
     Sleep(t);
-    // Todo
-    //grab_routine();
-    
+    //grab_routine
+    grab_ball();
+    return;
 }
 
 /// @brief Shoot a ball already in hand to the basket
