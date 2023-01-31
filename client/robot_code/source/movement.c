@@ -135,8 +135,8 @@ int turn_to_ball(List* raysList) {
             }
 
             // Start a new streak
-            streakStart = i + 1;
-            streakEnd = i + 1;
+            streakStart = i;
+            streakEnd = i;
             streakMinDist = currentRay.distance;
             streakMaxDist = currentRay.distance;
         }
