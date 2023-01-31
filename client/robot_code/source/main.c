@@ -37,9 +37,9 @@ void stop_handler()
 /// @brief Move forward and get the ball
 void test1()
 {
-    const int SPEED = 100;
+    const int SPEED = 300;
     int distance, t;
-    distance = 500; //mm
+    distance = 300; //mm
 
     get_value_sonar(&distance);
     t = cal_run_time(distance, SPEED);
