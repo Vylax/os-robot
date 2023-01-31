@@ -59,7 +59,7 @@ List turn_robot(int angle, int scan) {
     set_tacho_stop_action_inx(components[LEFT_MOTOR], TACHO_COAST);
     set_tacho_stop_action_inx(components[RIGHT_MOTOR], TACHO_COAST);
 
-    float rotation_distance = AXIS_LENGTH * sin(angle);
+    float rotation_distance = AXIS_LENGTH * sin(angle / 2);
     float wheel_rotations = rotation_distance / (2 * PI * WHEEL_RADIUS);
 
     // Calculate the number of degrees to rotate each wheel
