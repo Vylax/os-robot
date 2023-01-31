@@ -24,7 +24,7 @@
 #define PI 3.14159
 #define POLLING_RATE 10
 #define BALL_RADIUS 2.5
-#define AXIS_LENGTH 15
+#define AXIS_LENGTH 150
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
@@ -62,7 +62,7 @@ List turn_robot(int angle, int scan) {
 
     float rotation_distance = AXIS_LENGTH * sin(radiants / 2);
     float wheel_rotations = rotation_distance / (2 * PI * WHEEL_RADIUS);
-    printf("Wheel rotations: %f", wheel_rotations);
+    printf("Wheel rotations: %f\n", wheel_rotations);
 
     // Calculate the number of degrees to rotate each wheel
     int left_degrees = (int)(-1 * wheel_rotations * 360);
