@@ -44,7 +44,7 @@ void test1()
     get_value_sonar(&distance);
     t = cal_run_time(distance, SPEED);
     move_timed(-SPEED, t);
-    Sleep(t);
+    Sleep(t-500);
     //grab_routine
     grab_ball();
     return;
