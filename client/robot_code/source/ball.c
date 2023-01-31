@@ -36,7 +36,7 @@ int ball_slot2 = 0;
 int grabbing_speed = 300;
 int grabbing_time = 250;
 int risefall_speed = 200;
-int risefall_time = 1000;
+int risefall_time = 800;
 /*      Arm         */
 int shooting_speed = 1050;
 int shooting_time = 280;
