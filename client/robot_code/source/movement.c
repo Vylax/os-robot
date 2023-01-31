@@ -205,6 +205,7 @@ void movement_test()
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
     int dist_to_ball = turn_to_ball(&rays);
+    printf("DEBUG: dist_to_ball = %d", dist_to_ball);
 
     // Once we're done processing the rays and identifiying objects, clear the list to free memory
     clear(&rays);
