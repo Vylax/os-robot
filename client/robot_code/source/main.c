@@ -100,7 +100,7 @@ int main()
     
     
     // movement test from movement.c
-    //movement_test();
+    movement_test();
 
     // test1()
 
