@@ -149,7 +149,7 @@ int turn_to_ball(List* raysList) {
         
         // Compute target angle
         int target_angle = abs(raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2; // Note: this is not the same value as alpha
-        printf("Located ball: target_angle = %d", target_angle);
+        printf("Located ball: target_angle = %d\n", target_angle);
         //DEBUG
         //int target_angle = (raysList->data[streakStart].angle + raysList->data[streakEnd].angle)/2 + 180;
         //if(target_angle >= 360) target_angle -= 360;
@@ -207,7 +207,7 @@ void move_wheel_timed(int speed_sp, int time_sp, int flag)
 void movement_test()
 {
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
-    int angle = 360;
+    int angle = 90;
 
     //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
     set_tacho_speed_sp(components[LEFT_MOTOR], 150);
