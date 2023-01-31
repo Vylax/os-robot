@@ -11,7 +11,6 @@ enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
 
 /* Update if including more sensors */
-
 const char sensor_names[SENSOR_NUMBER][16] = {"LEGO_EV3_US","LEGO_EV3_GYRO","LEGO_EV3_COLOR","LEGO_EV3_TOUCH","HT_NXT_COMPASS"};
 
 /* GET VALUES */
@@ -62,20 +61,23 @@ int get_value_compass() {
 /* RESET FUNCTIONS */
 
 void reset_sonar() {
+    char outputMode[32];
     set_sensor_mode(components[SONAR], "US-DIST-CM");
-    printf("Sonar reset: actual sensor mode: %s\n", ev3_sensor_mode(components[SONAR]));
+    printf("Sonar reset: actual sensor mode: %s\n", get_sensor_mode(components[SONAR],outputMode,32));
     return;
 }
 
 void reset_gyro() {
+    char outputMode[32];
     set_sensor_mode(components[GYRO], "GYRO-CAL");
     set_sensor_mode(components[GYRO], "GYRO-G&A");
-    printf("Gyro reset: actual sensor mode: %s\n", ev3_sensor_mode(components[GYRO]) );
+    printf("Gyro reset: actual sensor mode: %s\n", get_sensor_mode(components[GYRO],outputMode,32));
     return;
 }
 
 void reset_color() {
+    char outputMode[32];
     set_sensor_mode(components[COLOR], "COL-COLOR");
-    printf("Color reset: actual sensor mode: %s\n", ev3_sensor_mode(components[COLOR]) );
+    printf("Color reset: actual sensor mode: %s\n", get_sensor_mode(components[COLOR],outputMode,32));
     return;
 }
