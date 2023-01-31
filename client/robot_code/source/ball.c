@@ -33,10 +33,14 @@ int ball_slot1 = 0;
 int ball_slot2 = 0;
 
 /*      Hand        */
-int grabbing_speed = 300;
+int grabbing_speed = 300;//ball grab
 int grabbing_time = 250;
-int risefall_speed = 200;
-int risefall_time = 800;
+int release_speed = -300;//ball release
+int release_time = 100;
+int rise_speed = 200;//raise claw
+int rise_time = 800;
+int fall_speed = -200;//lower claw
+int fall_time = 800;
 /*      Arm         */
 int shooting_speed = 1050;
 int shooting_time = 280;
@@ -50,23 +54,19 @@ int grab_ball()
 
     if (ball_slot1 == 0)
     {
+        int time;
         // step 1: go up
-        set_tacho_speed_sp(components[HAND], risefall_speed);
-        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_speed_sp(components[HAND], rise_speed);
+        set_tacho_time_sp(components[HAND], rise_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(risefall_time);
-        /* In the meanwhile, the robot is still moving under the robot */
-        /* i.e. if after we detect the ball we have to move for 50cm,
-            we will run this function when 10cm are left, so that we raise the hand 
-            in order to let the ball pass.
-        */
+        Sleep(rise_time);
         // step 2: go down
-        set_tacho_speed_sp(components[HAND], -risefall_speed);
-        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_speed_sp(components[HAND], fall_speed);
+        set_tacho_time_sp(components[HAND], fall_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(risefall_time);
+        Sleep(fall_time);
         // step 3: align
-        move_timed(150,2700);
+        move_timed(, );
         Sleep(2700);
         // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
@@ -91,15 +91,15 @@ int reload()
     if (ball_slot1 == 1 && ball_slot2 == 0)
     {
         // step 1: go up
-        set_tacho_speed_sp(components[HAND], risefall_speed);
-        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_speed_sp(components[HAND], rise_speed);
+        set_tacho_time_sp(components[HAND], rise_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(risefall_time);
+        Sleep(rise_time);
         // step 2: release
-        set_tacho_speed_sp(components[HAND], -grabbing_speed);
-        set_tacho_time_sp(components[HAND], grabbing_time*0.4);
+        set_tacho_speed_sp(components[HAND], release_speed);
+        set_tacho_time_sp(components[HAND], release_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(grabbing_time);
+        Sleep(release_time);
         // update flags
         ball_slot1 = 0;
         ball_slot2 = 1;

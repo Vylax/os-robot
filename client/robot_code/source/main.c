@@ -26,7 +26,7 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-uint8_t components[9];
+uint8_t components[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 void stop_handler()
 {
@@ -44,7 +44,7 @@ void test1()
     get_value_sonar(&distance);
     t = cal_run_time(distance, SPEED);
     move_timed(-SPEED, t);
-    Sleep(t-500);
+    Sleep(t);
     //grab_routine
     grab_ball();
     return;
@@ -98,8 +98,7 @@ int main()
         printf("Components[%d]: %d\n", i, components[i]);
     }
     
-    test1();
-    //test2();
+    
     // movement test from movement.c
     //movement_test();
 
