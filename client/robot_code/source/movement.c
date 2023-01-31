@@ -80,7 +80,7 @@ List turn_robot(int angle, int scan) {
     
     // Wait for the motors to finish
     while (get_tacho_state(components[LEFT_MOTOR], state, (size_t)20) != 1 || get_tacho_state(components[RIGHT_MOTOR], state, (size_t)20) != 1) {
-        printf("Inside loop... state=%s\n", state);
+        //printf("Inside loop... state=%s\n", state); //DEBUG
         
         // Collect and store the current ray
         if (scan) collect_and_store_ray(&raysList);
