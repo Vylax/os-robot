@@ -200,7 +200,7 @@ void movement_test()
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
     int angle = 90; // DEBUG
 
-    //Setting speeds (Don't exceed N)
+    //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
     set_tacho_speed_sp(components[LEFT_MOTOR], 200);
     set_tacho_speed_sp(components[RIGHT_MOTOR], 200);
 

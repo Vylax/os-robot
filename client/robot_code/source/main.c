@@ -36,7 +36,7 @@ void stop_handler()
 
 /// @brief Move forward and get the ball
 void test1()
-{
+{   /*
     const int SPEED = 300;
     int distance, t;
     distance = 350; //mm
@@ -48,6 +48,7 @@ void test1()
     //grab_routine
     grab_ball();
     return;
+    */
 }
 
 /// @brief Shoot a ball already in hand to the basket
