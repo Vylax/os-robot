@@ -209,7 +209,7 @@ void movement_test()
 
     // Turn the robot around and collect rays while doing so
     List rays;
-    rays = turn_robot(angle*PI/180, 1);
+    rays = turn_robot(angle, 1);
     
     // Process the rays to find a ball, and set robot direction towards it if one is found and get the distance to the ball (-1 if there is no ball)
     int dist_to_ball = turn_to_ball(&rays);
