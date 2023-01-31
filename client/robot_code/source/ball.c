@@ -54,7 +54,7 @@ int grab_ball()
 
     if (ball_slot1 == 0)
     {
-        int time;
+        //int time;
         // step 1: go up
         set_tacho_speed_sp(components[HAND], rise_speed);
         set_tacho_time_sp(components[HAND], rise_time);
@@ -66,7 +66,7 @@ int grab_ball()
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(fall_time);
         // step 3: align
-        move_timed(, );
+        //move_timed(, );
         Sleep(2700);
         // step 4: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
