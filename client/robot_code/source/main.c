@@ -99,7 +99,7 @@ void attacker()
 
     speed_forward = -200;
     speed_backward = 200;
-    speed_turning = 100;
+    speed_turning = 60;
 
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
@@ -142,7 +142,7 @@ void attacker()
 
     // 7) turn left to 0 (shoot)
     printf("7 \n");
-    t7 = 8000;
+    t7 = 9000;
     turn_left(speed_turning, t7);
 
     shoot_ball();
