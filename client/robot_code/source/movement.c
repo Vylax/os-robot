@@ -125,8 +125,9 @@ int turn_to_ball(List* raysList) {
             if (streakEnd != -1 && streakStart < streakEnd) {
                 printf("Found potential ball at angles [%d, %d]\n", raysList->data[streakStart].angle, raysList->data[streakEnd].angle);
                 
-                double alpha = abs(raysList->data[streakStart].angle - raysList->data[streakEnd].angle) / 2 * PI / 180.0; // Note: alpha is in radians
-                double object_radius = streakMaxDist * sin(alpha);
+                double alpha = abs(raysList->data[streakStart].angle - raysList->data[streakEnd].angle) / 2.0 * PI / 180.0; // Note: alpha is in radians
+                printf("DEBUG: pot. ball alpha = %f, streakMin = %d, streakMax = %d\n", alpha, streakMinDist, streakMaxDist); //DEBUG
+                double object_radius = streakMaxDist * sin(alpha);  //CHECK
                 
                 // Check if the object we found is a ball
                 if(BALL_RADIUS/3.0 <= object_radius && object_radius <= BALL_RADIUS)
