@@ -98,7 +98,7 @@ void attacker()
     int t1, t2, t3, t4, t5, t6, t7;
 
     speed_forward = 300;
-    speed_backward = 300;
+    speed_backward = -300;
     speed_turning = 200;
 
     // Todo: implement the strategy
