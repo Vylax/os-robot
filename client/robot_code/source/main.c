@@ -105,7 +105,7 @@ void attacker()
     // 1)from the start position, move forward for 65cm 
     printf("1 \n");
     t1 = cal_run_time(650, speed_forward);
-    printf("Waiting for %d secs", t1);
+    // printf("Waiting for %d secs", t1);
     move_timed(speed_forward, t1);
     
     // 2)turn right to +90 

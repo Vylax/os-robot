@@ -192,7 +192,7 @@ void move_timed(int speed_sp, int time_sp)
         return;
     _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
     _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
-    Sleep(time_sp);
+    Sleep(time_sp + 1000);
 }
 
 void turn_right(int speed_sp, int time_sp)
@@ -201,7 +201,7 @@ void turn_right(int speed_sp, int time_sp)
         return;
     _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
     _run_motor_timed(components[RIGHT_MOTOR], -speed_sp, time_sp);
-    Sleep(time_sp);
+    Sleep(time_sp + 1000);
 }
 
 void turn_left(int speed_sp, int time_sp)

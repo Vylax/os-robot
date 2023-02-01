@@ -56,13 +56,13 @@ int grab_ball(int flag)
     {
         //int time;
         // step 1: go down
-        set_tacho_speed_sp(components[HAND], fall_speed);
-        set_tacho_time_sp(components[HAND], fall_time);
-        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(fall_time);
+        // set_tacho_speed_sp(components[HAND], fall_speed);
+        // set_tacho_time_sp(components[HAND], fall_time);
+        // set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+        // Sleep(fall_time);
         // step 3: align
         //move_timed(, );
-        Sleep(2700);
+        // Sleep(2700);
         // step 2: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
