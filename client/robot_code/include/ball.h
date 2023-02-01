@@ -4,7 +4,7 @@
 extern uint8_t components[];
 
 int shoot_ball();
-int grab_ball();
+int grab_ball(int flag);
 int reload();
 
 #endif

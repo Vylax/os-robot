@@ -115,6 +115,7 @@ void attacker()
     move_timed(speed_forward, t3);
     
     // (get the 1st ball) 
+    grab_ball(1);
     
     
     // 4) turn right to +180 
@@ -126,7 +127,7 @@ void attacker()
     move_timed(speed_forward, t5);
     
     // (get the second ball) 
-    
+    grab_ball(2);
 
     // 6)  moving forward 60cm (to the shooting point) 
     t6 = cal_run_time(600, speed_forward);

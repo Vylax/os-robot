@@ -46,7 +46,7 @@ int shooting_speed = 1050;
 int shooting_time = 280;
 int shooting_cooldown = 400;
 
-int grab_ball()
+int grab_ball(int flag)
 {
     /* Used to grab the ball from the ground */
     /* NOTE: this function does not imply rising the ball
@@ -55,12 +55,7 @@ int grab_ball()
     if (ball_slot1 == 0)
     {
         //int time;
-        // step 1: go up
-        set_tacho_speed_sp(components[HAND], rise_speed);
-        set_tacho_time_sp(components[HAND], rise_time);
-        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(rise_time);
-        // step 2: go down
+        // step 1: go down
         set_tacho_speed_sp(components[HAND], fall_speed);
         set_tacho_time_sp(components[HAND], fall_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
@@ -68,11 +63,19 @@ int grab_ball()
         // step 3: align
         //move_timed(, );
         Sleep(2700);
-        // step 4: grab
+        // step 2: grab
         set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(grabbing_time);
+        if(flag == 1)
+        {
+            //step 3: go up
+            set_tacho_speed_sp(components[HAND], rise_speed);
+            set_tacho_time_sp(components[HAND], rise_time);
+            set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+            Sleep(rise_time);
+        }
         // update flags
         ball_slot1 = 1;
     }
