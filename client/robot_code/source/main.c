@@ -97,44 +97,51 @@ void attacker()
     int speed_forward, speed_backward, speed_turning;
     int t1, t2, t3, t4, t5, t6, t7;
 
-    speed_forward = 300;
-    speed_backward = -300;
-    speed_turning = 200;
+    speed_forward = -200;
+    speed_backward = 200;
+    speed_turning = 100;
 
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
+    printf("1 \n");
     t1 = cal_run_time(650, speed_forward);
     move_timed(speed_forward, t1);
     
     // 2)turn right to +90 
+    printf("2 \n");
     t2 = 2000;
     turn_right(speed_turning, t2);
     
     // 3)move backward for 40cm 
+    printf("3 \n");
     t3 = cal_run_time(400, speed_forward);
-    move_timed(speed_forward, t3);
+    move_timed(speed_backward, t3);
     
     // (get the 1st ball) 
     grab_ball(1);
     
     
     // 4) turn right to +180 
-    t4 = 2000;
+    printf("4 \n");
+    t4 = 4000;
     turn_right(speed_turning, t4);
     
     // 5) move backward for 50cm 
+    printf("5 \n");
     t5 = cal_run_time(500, speed_forward);
-    move_timed(speed_forward, t5);
+    move_timed(speed_backward, t5);
     
     // (get the second ball) 
     grab_ball(2);
 
     // 6)  moving forward 60cm (to the shooting point) 
+    printf("6 \n");
     t6 = cal_run_time(600, speed_forward);
     move_timed(speed_forward, t6);
 
     // 7) turn left to 0 (shoot)
-    t7 = 4000;
+    printf("7 \n");
+    t7 = 8000;
     turn_left(speed_turning, t7);
 }
 
