@@ -113,6 +113,7 @@ int main(int argc, char const *argv[])
         printf("Components[%d]: %d\n", i, components[i]);
     }
     
+    while(1) {
     // movement_test()
     if (!strcmp("movement", argv[1])) movement_test();
     // test1()
@@ -129,6 +130,7 @@ int main(int argc, char const *argv[])
     if (!strcmp("attacker", argv[1])) attacker();
     // defender()
     if (!strcmp("defender", argv[1])) defender();
+    }
      
     /* Uninitialize the robot */
     robot_uninit();

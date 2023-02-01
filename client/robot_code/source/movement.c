@@ -60,7 +60,7 @@ List turn_robot(int angle, int scan) {
 
     float rotation_distance = PI * AXIS_LENGTH * (angle / 360.00); //2 * PI * (AXIS_LENGTH/2) * (angle / 360)
     float wheel_rotations = rotation_distance / (2 * PI * WHEEL_RADIUS);
-    printf("Wheel rotations: %f\n", wheel_rotations);
+    printf("Wheel rotations: %f\n, Angle = %d", wheel_rotations, angle);
 
     // Calculate the number of degrees to rotate each wheel
     int left_degrees = (int)(-1 * wheel_rotations * 360);
