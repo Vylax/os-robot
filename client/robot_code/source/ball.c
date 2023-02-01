@@ -52,7 +52,7 @@ int grab_ball(int flag)
     /* NOTE: this function does not imply rising the ball
              because maybe we are already carring another ball*/
 
-    if (ball_slot1 == 0)
+    if (ball_slot1 == 0 || ball_slot2 == 0)
     {
         //int time;
         // step 3: align
@@ -75,9 +75,11 @@ int grab_ball(int flag)
             set_tacho_time_sp(components[HAND], fall_time);
             set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
             Sleep(fall_time);
-        }
+            ball_slot1 = 1;
+        } else {
         // update flags
-        ball_slot1 = 1;
+            ball_slot2 = 1;
+        }
     }
     else
     {

@@ -115,7 +115,7 @@ void attacker()
     
     // 3)move backward for 40cm 
     printf("3 \n");
-    t3 = cal_run_time(400, speed_forward);
+    t3 = cal_run_time(360, speed_forward);
     move_timed(speed_backward, t3);
     
     // (get the 1st ball) 
@@ -129,7 +129,7 @@ void attacker()
     
     // 5) move backward for 50cm 
     printf("5 \n");
-    t5 = cal_run_time(500, speed_forward);
+    t5 = cal_run_time(440, speed_forward);
     move_timed(speed_backward, t5);
     
     // (get the second ball) 
@@ -144,6 +144,8 @@ void attacker()
     printf("7 \n");
     t7 = 8000;
     turn_left(speed_turning, t7);
+
+    shoot_ball();
 }
 
 /// @brief  Behave as an defender
