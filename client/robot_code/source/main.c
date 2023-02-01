@@ -110,7 +110,7 @@ void attacker()
     
     // 2)turn right to +90 
     printf("2 \n");
-    t2 = 2000;
+    t2 = 4000;
     turn_right(speed_turning, t2);
     
     // 3)move backward for 40cm 

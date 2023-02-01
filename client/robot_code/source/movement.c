@@ -199,8 +199,8 @@ void turn_right(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
-    _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
-    _run_motor_timed(components[RIGHT_MOTOR], -speed_sp, time_sp);
+    _run_motor_timed(components[LEFT_MOTOR], -speed_sp, time_sp);
+    _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
     Sleep(time_sp + 1000);
 }
 
@@ -208,8 +208,8 @@ void turn_left(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
-    _run_motor_timed(components[LEFT_MOTOR], -speed_sp, time_sp);
-    _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
+    _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
+    _run_motor_timed(components[RIGHT_MOTOR], -speed_sp, time_sp);
     Sleep(time_sp);
 }
 
