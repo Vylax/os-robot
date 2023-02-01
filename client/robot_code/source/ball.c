@@ -55,11 +55,6 @@ int grab_ball(int flag)
     if (ball_slot1 == 0)
     {
         //int time;
-        // step 1: go down
-        // set_tacho_speed_sp(components[HAND], fall_speed);
-        // set_tacho_time_sp(components[HAND], fall_time);
-        // set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        // Sleep(fall_time);
         // step 3: align
         //move_timed(, );
         // Sleep(2700);
@@ -75,6 +70,11 @@ int grab_ball(int flag)
             set_tacho_time_sp(components[HAND], rise_time);
             set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
             Sleep(rise_time);
+            // step 1: go down
+            set_tacho_speed_sp(components[HAND], fall_speed);
+            set_tacho_time_sp(components[HAND], fall_time);
+            set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+            Sleep(fall_time);
         }
         // update flags
         ball_slot1 = 1;
