@@ -83,6 +83,7 @@ void test4()
 void test5 ()
 {
     cal_run_time(100, 500);
+    Sleep(1000);
     return;
 }
 
@@ -153,6 +154,8 @@ int main(int argc, char const *argv[])
     {
         printf("components[%d]: %d\n", i, components[i]);
     }
+
+    test5();
     
     // movement_test()
     if (!strcmp("movement", argv[1])) movement_test();
