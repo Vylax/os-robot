@@ -27,7 +27,7 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-uint8_[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+uint8_[9] components = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 void stop_handler()
 {
