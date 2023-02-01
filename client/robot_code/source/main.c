@@ -103,9 +103,10 @@ void attacker()
 
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
-    printf("1 \n");
+    printf("1 ");
     t1 = cal_run_time(650, speed_forward);
     move_timed(speed_forward, t1);
+    printf("waiting for %.4f secs", t1);
     
     // 2)turn right to +90 
     printf("2 \n");
