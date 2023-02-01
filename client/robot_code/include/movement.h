@@ -32,4 +32,6 @@ void turn_right(int speed_sp, int time_sp);
 /// @brief turns the robot to its right
 void turn_left(int speed_sp, int time_sp);
 
+void movement_test();
+
 #endif
