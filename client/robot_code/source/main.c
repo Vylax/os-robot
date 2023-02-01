@@ -130,6 +130,7 @@ int main(int argc, char const *argv[])
     if (!strcmp("attacker", argv[1])) attacker();
     // defender()
     if (!strcmp("defender", argv[1])) defender();
+    Sleep(5000);
     }
      
     /* Uninitialize the robot */
