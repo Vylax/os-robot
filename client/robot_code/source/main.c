@@ -137,7 +137,7 @@ void attacker()
 
     // 6)  moving forward 60cm (to the shooting point) 
     printf("6 \n");
-    t6 = cal_run_time(600, speed_forward);
+    t6 = cal_run_time(100, speed_forward);
     move_timed(speed_forward, t6);
 
     // 7) turn left to 0 (shoot)
@@ -146,6 +146,11 @@ void attacker()
     turn_left(speed_turning, t7);
 
     shoot_ball();
+
+    reload();
+
+    shoot_ball();
+
 }
 
 /// @brief  Behave as an defender

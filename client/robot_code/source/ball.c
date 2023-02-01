@@ -75,10 +75,10 @@ int grab_ball(int flag)
             set_tacho_time_sp(components[HAND], fall_time);
             set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
             Sleep(fall_time);
-            ball_slot1 = 1;
+            ball_slot2 = 1;
         } else {
         // update flags
-            ball_slot2 = 1;
+            ball_slot1 = 1;
         }
     }
     else
@@ -95,7 +95,7 @@ int reload()
              been grabbed */
     if (ball_slot1 == 1 && ball_slot2 == 0)
     {
-        /*
+        
         // step 1: go up
         set_tacho_speed_sp(components[HAND], rise_speed);
         set_tacho_time_sp(components[HAND], rise_time);
