@@ -1,13 +1,18 @@
-#include "ev3.h"
+#ifndef HEADER_SENSORS
+#define HEADER_SENSORS
+
+extern uint8_t components[];
 
 /* get value from sensor */
-int get_value_sonar(uint8_t component);
-int get_value_gyro_ang(uint8_t component);
-int get_value_gyro_rate(uint8_t component);
-int get_value_color(uint8_t component);
-int get_value_touch(uint8_t component);
-int get_value_compass(uint8_t component);
+int get_value_sonar();
+int get_value_gyro_ang();
+int get_value_gyro_rate();
+int get_value_color();
+int get_value_touch();
+int get_value_compass();
 /* reset sensor (where needed) */
-void reset_sonar(uint8_t component);
-void reset_gyro(uint8_t component);
-void reset_color(uint8_t component);
+void reset_sonar();
+void reset_gyro();
+void reset_color();
+
+#endif

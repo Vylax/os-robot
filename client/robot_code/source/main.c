@@ -4,11 +4,12 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include ".../include/ball.h"
-#include "../include/sensors.h"
-#include "../include/movement.h"
-#include "../include/init.h"
-#include "../include/utils.h"
+#include "ev3_sensor.h"
+#include "ball.h"
+#include "sensors.h"
+#include "movement.h"
+#include "init.h"
+#include "utils.h"
 
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
@@ -25,34 +26,40 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-uint8_t components[9];
+uint8_t components[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 void stop_handler()
 {
-    stop(TACHO_COAST);
+    //stop(TACHO_COAST);
     exit(0);
 }
 
 /// @brief Move forward and get the ball
 void test1()
-{
-    const int SPEED = 800;
-    int distance;
+{   /*
+    const int SPEED = 300;
+    int distance, t;
+    distance = 350; //mm
 
-    get_sonar_value(&distance);
-    t = cal_run_time(components[LEFT_MOTOR], distance, SPEED);
-    move_timed(SPEED, t);
+    get_value_sonar(&distance);
+    t = cal_run_time(distance, SPEED);
+    move_timed(-SPEED, t);
     Sleep(t);
-    // Todo
-    grab_routine();
-    
+    //grab_routine
+    grab_ball();
+    return;
+    */
 }
 
 /// @brief Shoot a ball already in hand to the basket
 void test2()
 {
-    //aim_routine();
-    //throw_routine();
+    //TODO: remove later
+    //move_forever(200);
+    //Sleep(3000);
+    //grab_ball();
+    //reload();
+    //shoot_ball();
 }
 
 /// @brief Scan the environment to find the ball and go get it
@@ -124,10 +131,17 @@ void defender()
 int main()
 {
     /* Initialize sensors & motors */
-    robot_init(components);
+    robot_init();
 
+    /* Should print all the corrispondent ports */
+    for (int i = 0; i < 9; i++)
+    {
+        printf("Components[%d]: %d\n", i, components[i]);
+    }
+    
+    
     // movement test from movement.c
-    movement_test(components);
+    movement_test();
 
     // test1()
 

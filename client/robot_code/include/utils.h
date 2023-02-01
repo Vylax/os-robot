@@ -1,26 +1,33 @@
-#include "ev3.h"
-#include <time.h>
+#ifndef HEADER_UTILS
+#define HEADER_UTILS
 
+extern uint8_t components[];
+
+// Structures
 /// @brief Structure used to store the data collected from the sonar sensor
-struct Ray {
+typedef struct Ray {
     int distance;
     time_t time;
     int angle;
-};
+} Ray;
 
 /// @brief Dynamic storage structure (resizeable)
-struct List {
-    struct Ray* data;
+typedef struct List {
+    Ray* data;
     int size;
     int capacity;
-};
+} List;
 
 //INT List structure
-struct IntList {
+typedef struct IntList {
     int* data;
     int size;
     int capacity;
-};
+} IntList;
+
+
+
+// Functions
 
 void initRay(struct Ray* ray, int distance, int angle);
 
@@ -51,5 +58,6 @@ void int_list_clear(struct IntList* list);
 /// @brief Update a ray with the sensor offset translation
 void update_with_offset(struct Ray* ray);
 
-float cal_run_time(uint8_t component, int distance, int speed);
+float cal_run_time(int distance, int speed);
     
+#endif

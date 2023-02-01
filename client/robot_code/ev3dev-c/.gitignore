@@ -1,0 +1,15 @@
+html/
+
+*.ast
+*.bak
+*.exe
+*.log
+*.o
+*.pyc
+*.sublime-workspace
+
+.tags
+sftp-config.json
+source/sensors.json
+makefile.predict
+args

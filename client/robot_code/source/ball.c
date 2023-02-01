@@ -8,8 +8,9 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include "../include/ball.h"
-#include "../include/movement.h"
+#include "ev3_sensor.h"
+#include "ball.h"
+#include "movement.h"
 
 // WIN32 /////////////////////////////////////////
 #ifdef __WIN32__
@@ -31,48 +32,21 @@ int ball_slot1 = 0;
 /* Tells if there is a ball ready to be shot */
 int ball_slot2 = 0;
 
-/* TODO:    All values related to the 'hand' are
-            purely indicative, they should be fixed
-            ALSO the direction of the hand should be checked
-*/
-
 /*      Hand        */
-int grabbing_speed = 500;
-int grabbing_time = 200;
-int risefall_speed = 500;
-int risefall_time = 500;
+int grabbing_speed = 300;//ball grab
+int grabbing_time = 250;
+int release_speed = -300;//ball release
+int release_time = 100;
+int rise_speed = 200;//raise claw
+int rise_time = 800;
+int fall_speed = -200;//lower claw
+int fall_time = 800;
 /*      Arm         */
 int shooting_speed = 1050;
-int shooting_time = 240;
+int shooting_time = 280;
 int shooting_cooldown = 400;
 
-int shoot_ball(uint8_t* components)
-{
-    /* NOTE: maybe we need to shoot based on sensor input */
-    /*       i.e. don't shoot always at maximum range */
-    if (ball_slot2 == 1)
-    {
-        set_tacho_speed_sp(components[ARM], -shooting_speed);
-        set_tacho_time_sp(components[ARM], shooting_time);
-        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
-        Sleep(shooting_time);
-        set_tacho_speed_sp(components[ARM], +shooting_speed / 5);
-        set_tacho_time_sp(components[ARM], shooting_cooldown);
-        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
-        // set flags
-        ball_slot2 = 0;
-    }
-    else
-    {
-        if (ball_slot1 == 0)
-            printf("Find a ball first!\n");
-        if (ball_slot1 == 1)
-            printf("Load the ball first!\n");
-    }
-    return 0;
-}
-
-int grab_ball(uint8_t* components)
+int grab_ball()
 {
     /* Used to grab the ball from the ground */
     /* NOTE: this function does not imply rising the ball
@@ -80,16 +54,22 @@ int grab_ball(uint8_t* components)
 
     if (ball_slot1 == 0)
     {
-        // step 1: go down
-        set_tacho_speed_sp(components[HAND], risefall_speed);
-        set_tacho_time_sp(components[HAND], risefall_time);
+        //int time;
+        // step 1: go up
+        set_tacho_speed_sp(components[HAND], rise_speed);
+        set_tacho_time_sp(components[HAND], rise_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(risefall_time);
-        // step 2: align
-        // TODO: check values accordingly to predicted distance
-        move_timed(400,300,components);
-        // step 3: grab
-        set_tacho_speed_sp(components[HAND], -grabbing_speed);
+        Sleep(rise_time);
+        // step 2: go down
+        set_tacho_speed_sp(components[HAND], fall_speed);
+        set_tacho_time_sp(components[HAND], fall_time);
+        set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
+        Sleep(fall_time);
+        // step 3: align
+        //move_timed(, );
+        Sleep(2700);
+        // step 4: grab
+        set_tacho_speed_sp(components[HAND], grabbing_speed);
         set_tacho_time_sp(components[HAND], grabbing_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
         Sleep(grabbing_time);
@@ -103,7 +83,7 @@ int grab_ball(uint8_t* components)
     return 0;
 }
 
-int reload(uint8_t* components)
+int reload()
 {
     /* NOTE: use this function after take_ball
              so we can assume that the ball is already
@@ -111,15 +91,15 @@ int reload(uint8_t* components)
     if (ball_slot1 == 1 && ball_slot2 == 0)
     {
         // step 1: go up
-        set_tacho_speed_sp(components[HAND], -risefall_speed);
-        set_tacho_time_sp(components[HAND], risefall_time);
+        set_tacho_speed_sp(components[HAND], rise_speed);
+        set_tacho_time_sp(components[HAND], rise_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(risefall_time);
+        Sleep(rise_time);
         // step 2: release
-        set_tacho_speed_sp(components[HAND], +grabbing_speed);
-        set_tacho_time_sp(components[HAND], grabbing_time);
+        set_tacho_speed_sp(components[HAND], release_speed);
+        set_tacho_time_sp(components[HAND], release_time);
         set_tacho_command_inx(components[HAND], TACHO_RUN_TIMED);
-        Sleep(grabbing_time);
+        Sleep(release_time);
         // update flags
         ball_slot1 = 0;
         ball_slot2 = 1;
@@ -132,6 +112,32 @@ int reload(uint8_t* components)
             printf("Ball already loaded!\n");
         if (ball_slot1 == 1 && ball_slot2 == 1)
             printf("Shot the other ball first!\n");
+    }
+    return 0;
+}
+
+int shoot_ball()
+{
+    /* NOTE: maybe we need to shoot based on sensor input */
+    /*       i.e. don't shoot always at maximum range */
+    if (ball_slot2 == 1)
+    {
+        set_tacho_speed_sp(components[ARM], shooting_speed);
+        set_tacho_time_sp(components[ARM], shooting_time);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
+        Sleep(shooting_time);
+        set_tacho_speed_sp(components[ARM], -shooting_speed / 5);
+        set_tacho_time_sp(components[ARM], shooting_cooldown);
+        set_tacho_command_inx(components[ARM], TACHO_RUN_TIMED);
+        // set flags
+        ball_slot2 = 0;
+    }
+    else
+    {
+        if (ball_slot1 == 0)
+            printf("Find a ball first!\n");
+        if (ball_slot1 == 1)
+            printf("Load the ball first!\n");
     }
     return 0;
 }

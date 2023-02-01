@@ -1,5 +1,10 @@
-#include "ev3.h"
+#ifndef HEADER_BALL
+#define HEADER_BALL
 
-int shoot_ball(uint8_t* components);
-int grab_ball(uint8_t* components);
-int reload(uint8_t* components);
+extern uint8_t components[];
+
+int shoot_ball();
+int grab_ball();
+int reload();
+
+#endif

@@ -4,7 +4,8 @@
 #include "ev3.h"
 #include "ev3_port.h"
 #include "ev3_tacho.h"
-#include "../include/utils.h"
+#include "ev3_sensor.h"
+#include "utils.h"
 
 #define INITIAL_CAPACITY 10 //Initial capacity for the Dynamic storage structure (List)
 #define WHEEL_RADIUS 27.5
@@ -18,27 +19,21 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-/// @brief Structure used to store the data collected from the sonar sensor
-struct Ray {
-    int distance;
-    int angle;
-};
-
-void initRay(struct Ray* ray, int distance, int angle) {
+void initRay(Ray* ray, int distance, int angle) {
     ray->distance = distance;
     ray->angle = angle;
 }
 
-void init(struct List* list) {
+void init(List* list) {
     list->size = 0;
     list->capacity = INITIAL_CAPACITY;
-    list->data = malloc(sizeof(struct Ray) * INITIAL_CAPACITY);
+    list->data = malloc(sizeof(Ray) * INITIAL_CAPACITY);
 }
 
-void put(struct List* list, struct Ray* value) {
+void put(List* list, Ray* value) {
     if (list->size == list->capacity) {
         int new_capacity = list->capacity * 2;
-        struct Ray* new_data = malloc(sizeof(struct Ray) * new_capacity);
+        Ray* new_data = malloc(sizeof(Ray) * new_capacity);
         for (int i = 0; i < list->size; i++) {
             new_data[i] = list->data[i];
         }
@@ -50,14 +45,14 @@ void put(struct List* list, struct Ray* value) {
     list->size++;
 }
 
-struct Ray* get(struct List* list, int index) {
+Ray* get(List* list, int index) {
     if (index >= list->size || index < 0) {
         return NULL;
     }
     return &list->data[index];
 }
 
-void remove_at(struct List* list, int index) {
+void remove_at(List* list, int index) {
     if (index < 0 || index >= list->size) {
         return;
     }
@@ -67,23 +62,23 @@ void remove_at(struct List* list, int index) {
     list->size--;
 }
 
-void clear(struct List* list) {
+void clear(List* list) {
     free(list->data);
     list->size = 0;
     list->capacity = 0;
 }
 
-int length(struct List* list) {
+int length(List* list) {
     return list->size;
 }
 
-void int_list_init(struct IntList* list) {
+void int_list_init(IntList* list) {
     list->size = 0;
     list->capacity = INITIAL_CAPACITY;
     list->data = malloc(sizeof(int) * INITIAL_CAPACITY);
 }
 
-void int_list_put(struct IntList* list, int value) {
+void int_list_put(IntList* list, int value) {
     if (list->size == list->capacity) {
         int new_capacity = list->capacity * 2;
         int* new_data = malloc(sizeof(int) * new_capacity);
@@ -98,7 +93,7 @@ void int_list_put(struct IntList* list, int value) {
     list->size++;
 }
 
-int int_list_remove_at(struct IntList* list, int index) {
+int int_list_remove_at(IntList* list, int index) {
     if (index >= list->size || index < 0) {
         printf("Error: Index out of bounds\n");
         return -1;
@@ -111,7 +106,7 @@ int int_list_remove_at(struct IntList* list, int index) {
     return removed;
 }
 
-int int_list_get(struct IntList* list, int index) {
+int int_list_get(IntList* list, int index) {
     if (index >= list->size || index < 0) {
         printf("Error: Index out of bounds\n");
         return -1;
@@ -119,17 +114,17 @@ int int_list_get(struct IntList* list, int index) {
     return list->data[index];
 }
 
-int int_list_length(struct IntList* list) {
+int int_list_length(IntList* list) {
     return list->size;
 }
 
-void int_list_clear(struct IntList* list) {
+void int_list_clear(IntList* list) {
     free(list->data);
     int_list_init(list);
 }
 
 /// @brief Update a ray with the sensor offset translation
-void update_with_offset(struct Ray* ray) {
+void update_with_offset(Ray* ray) {
     double x;
     double y;
     
@@ -146,9 +141,9 @@ void update_with_offset(struct Ray* ray) {
     initRay(ray, distance, angle);
 }
 
-float cal_run_time(uint8_t component, int distance, int speed) {
+float cal_run_time(int distance, int speed) {
     int count_per_rot;
-    get_tacho_count_per_rot(component, &count_per_rot);
+    get_tacho_count_per_rot(components[LEFT_MOTOR], &count_per_rot);
     return (float) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
     
