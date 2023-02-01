@@ -44,9 +44,7 @@ void collect_and_store_ray(List* list) {
 /// @param angle angle (in degrees) of the sweep
 /// @param scan if != 0, rays data will be collected
 List turn_robot(int angle, int scan) {
-    int radiants = (angle * PI) / 180;
-    
-    // Reset sonar
+s    // Reset sonar
     reset_sonar();
 
     // Initialise rays collection (if we don't scan we'll just return an empty list and ignore its value anyways)
@@ -208,7 +206,7 @@ void move_wheel_timed(int speed_sp, int time_sp, int flag)
 void movement_test()
 {
     printf("\n\n-- STARTING MOVEMENT TEST --\n\n");
-    int angle = 45;
+    int angle = 90;
 
     //Setting speeds (If turning speed is too high, the rotation is not smooth. i.e. don't exceed 200)
     set_tacho_speed_sp(components[LEFT_MOTOR], 150);
