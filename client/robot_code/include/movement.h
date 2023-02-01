@@ -27,7 +27,9 @@ void move_timed(int speed_sp, int time_sp);
 void move_wheel_timed(int speed_sp, int time_sp, int flag);
 
 /// @brief turns the robot to its right
-void turn_right(int speed_sp, int time_sp)
+void turn_right(int speed_sp, int time_sp);
 
 /// @brief turns the robot to its right
-void turn_left(int speed_sp, int time_sp)
+void turn_left(int speed_sp, int time_sp);
+
+#endif
