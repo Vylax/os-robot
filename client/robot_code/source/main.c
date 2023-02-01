@@ -26,7 +26,7 @@
 
 enum {SONAR, GYRO, COLOR, TOUCH, COMPASS, LEFT_MOTOR, RIGHT_MOTOR, ARM, HAND};
 
-uint8_t components[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
+uint8_[9] = {-1, -1, -1, -1, -1, -1, -1, -1, -1};
 
 void stop_handler()
 {
@@ -80,7 +80,7 @@ void test4()
 void attacker()
 {
     int speed_forward, speed_backward, speed_turning;
-    int t1, t2, t3, t4, t5, t6;
+    int t1, t2, t3, t4, t5, t6, t7;
 
     speed_forward = 400;
     speed_backward = 300;
@@ -89,37 +89,37 @@ void attacker()
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
     t1 = 200;
-    move_timed(speed_forward, t1, components);
+    move_timed(speed_forward, t1);
     
     // 2)turn right to +90 
     t2 = 200;
-    turn_right(speed_turning, t2, components);
+    turn_right(speed_turning, t2);
     
     // 3)move backward for 40cm 
     t3 = 200;
-    move_timed(speed_forward, t3, components);
+    move_timed(speed_forward, t3);
     
     // (get the 1st ball) 
     
     
     // 4) turn right to +180 
     t4 = 200;
-    turn_right(speed_turning, t4, components);
+    turn_right(speed_turning, t4);
     
     // 5) move backward for 50cm 
     t5 = 200;
-    move_timed(speed_forward, t5, components);
+    move_timed(speed_forward, t5);
     
     // (get the second ball) 
     
 
     // 6)  moving forward 60cm (to the shooting point) 
     t6 = 200;
-    move_timed(speed_forward, t6, components);
+    move_timed(speed_forward, t6);
 
     // 7) turn left to 0 (shoot)
     t7 = 400;
-    turn_left(speed_turning, t7, components);
+    turn_left(speed_turning, t7);
 }
 
 /// @brief  Behave as an defender
@@ -136,7 +136,7 @@ int main()
     /* Should print all the corrispondent ports */
     for (int i = 0; i < 9; i++)
     {
-        printf("Components[%d]: %d\n", i, components[i]);
+        printf("components[%d]: %d\n", i, components[i]);
     }
     
     
