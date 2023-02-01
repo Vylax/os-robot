@@ -103,7 +103,7 @@ void attacker()
 
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
-    printf("1 ");
+    printf("1 \n");
     t1 = cal_run_time(650, speed_forward);
     move_timed(speed_forward, 2000);
     
