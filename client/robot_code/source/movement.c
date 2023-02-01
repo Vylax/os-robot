@@ -181,6 +181,25 @@ void move_timed(int speed_sp, int time_sp, uint8_t* components)
         return;
     _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
     _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
+    Sleep(time_sp);
+}
+
+void turn_right(int speed_sp, int time_sp, uint8_t* components)
+{
+    if (speed_sp == 0 || time_sp == 0)
+        return;
+    _run_motor_timed(components[LEFT_MOTOR], speed_sp, time_sp);
+    _run_motor_timed(components[RIGHT_MOTOR], -speed_sp, time_sp);
+    Sleep(time_sp);
+}
+
+void turn_left(int speed_sp, int time_sp, uint8_t* components)
+{
+    if (speed_sp == 0 || time_sp == 0)
+        return;
+    _run_motor_timed(components[LEFT_MOTOR], -speed_sp, time_sp);
+    _run_motor_timed(components[RIGHT_MOTOR], speed_sp, time_sp);
+    Sleep(time_sp);
 }
 
 /// @brief Used as a test of movement functionalities

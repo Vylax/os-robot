@@ -21,3 +21,9 @@ void move_timed(int speed_sp, int time_sp, uint8_t* components);
 
 /// @brief Used as a test of movement functionalities
 void movement_test(uint8_t* components);
+
+/// @brief keeps two motors moving at a speed for a period of time
+void move_timed(int speed_sp, int time_sp, uint8_t* components);
+
+/// @brief keeps two motors moving at a speed for a period of time
+void move_timed(int speed_sp, int time_sp, uint8_t* components);
