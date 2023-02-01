@@ -95,7 +95,7 @@ int reload()
              been grabbed */
     if (ball_slot1 == 1 && ball_slot2 == 0)
     {
-        Sleep(3 * shooting_time);
+        Sleep(5 * shooting_time);
         
         // step 1: go up
         set_tacho_speed_sp(components[HAND], rise_speed);
