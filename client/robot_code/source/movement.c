@@ -194,7 +194,7 @@ void move_timed(int speed_sp, int time_sp)
     Sleep(time_sp);
 }
 
-void turn_right(int speed_sp, int time_sp, uint8_t* components)
+void turn_right(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
@@ -203,7 +203,7 @@ void turn_right(int speed_sp, int time_sp, uint8_t* components)
     Sleep(time_sp);
 }
 
-void turn_left(int speed_sp, int time_sp, uint8_t* components)
+void turn_left(int speed_sp, int time_sp)
 {
     if (speed_sp == 0 || time_sp == 0)
         return;
