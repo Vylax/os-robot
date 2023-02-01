@@ -141,7 +141,7 @@ int main()
     
     
     // movement test from movement.c
-    movement_test();
+    //movement_test();
 
     // test1()
 
@@ -149,7 +149,7 @@ int main()
 
     // test3()
 
-    // attacker()
+    attacker();
 
     // defender()
 
