@@ -82,6 +82,7 @@ void test4()
 
 void test5 ()
 {
+    cal_run_time(100, 500);
     return;
 }
 
