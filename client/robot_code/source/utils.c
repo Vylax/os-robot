@@ -143,6 +143,9 @@ void update_with_offset(Ray* ray) {
 
 float cal_run_time(int distance, int speed) {
     int count_per_rot;
+    if (speed < 0) {
+        spped = -speed;
+    }
     get_tacho_count_per_rot(components[LEFT_MOTOR], &count_per_rot);
     return (int) (1000 * count_per_rot * abs(distance) )/(speed * PI * WHEEL_DIAM) ;
 }
