@@ -56,7 +56,7 @@ void test1()
 void test2()
 {
     //TODO: remove later
-    //move_forever(200);
+    //move_forever(2000);
     //Sleep(3000);
     //grab_ball();
     //reload();
@@ -103,37 +103,37 @@ void attacker()
 
     // Todo: implement the strategy
     // 1)from the start position, move forward for 65cm 
-    t1 = 200;
+    t1 = 2000;
     move_timed(speed_forward, t1);
     
     // 2)turn right to +90 
-    t2 = 200;
+    t2 = 2000;
     turn_right(speed_turning, t2);
     
     // 3)move backward for 40cm 
-    t3 = 200;
+    t3 = 2000;
     move_timed(speed_forward, t3);
     
     // (get the 1st ball) 
     
     
     // 4) turn right to +180 
-    t4 = 200;
+    t4 = 2000;
     turn_right(speed_turning, t4);
     
     // 5) move backward for 50cm 
-    t5 = 200;
+    t5 = 2000;
     move_timed(speed_forward, t5);
     
     // (get the second ball) 
     
 
     // 6)  moving forward 60cm (to the shooting point) 
-    t6 = 200;
+    t6 = 2000;
     move_timed(speed_forward, t6);
 
     // 7) turn left to 0 (shoot)
-    t7 = 400;
+    t7 = 4000;
     turn_left(speed_turning, t7);
 }
 
