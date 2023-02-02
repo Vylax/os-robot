@@ -91,6 +91,32 @@ void test5 ()
     return;
 }
 
+void attacker_routine(){
+    int speed_forward, speed_backward, speed_turning;
+    int t1, t2, t3, t4, t5, t6, t7;
+    speed_forward = -200;
+    speed_backward = 200;
+    speed_turning = 45;
+    t1 = cal_run_time(650, speed_forward);
+    t2 = 5000;
+    t3 = cal_run_time(350, speed_forward);
+    t4 = 5000;
+    t5 = cal_run_time(440, speed_forward);
+    t6 = cal_run_time(100, speed_forward);
+    t7 = 9000;
+    move_timed(speed_forward, t1);
+    turn_right(speed_turning, t2);
+    move_timed(speed_backward, t3);
+    grab_ball(1);
+    turn_right(speed_turning, t4);
+    move_timed(speed_backward, t5);
+    grab_ball(2);
+    move_timed(speed_forward, t6);
+    turn_left(speed_turning, t7);
+    shoot_ball();
+    reload();
+    shoot_ball();
+}
 /// @brief Behave as an attacker
 void attacker()
 {
@@ -110,7 +136,7 @@ void attacker()
     
     // 2)turn right to +90 
     printf("2 \n");
-    t2 = 5000;
+    t2 = 6000;
     turn_right(speed_turning, t2);
     
     // 3)move backward for 40cm 
@@ -124,7 +150,7 @@ void attacker()
     
     // 4) turn right to +180 
     printf("4 \n");
-    t4 = 5000;
+    t4 = 6000;
     turn_right(speed_turning, t4);
     
     // 5) move backward for 50cm 
@@ -142,7 +168,7 @@ void attacker()
 
     // 7) turn left to 0 (shoot)
     printf("7 \n");
-    t7 = 9000;
+    t7 = 12000;
     turn_left(speed_turning, t7);
 
     shoot_ball();
