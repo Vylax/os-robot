@@ -157,6 +157,18 @@ void attacker()
 void defender()
 {
     // Todo: implement the startegy
+    int t0, t1;
+    int speed, n;
+    n = 0;
+    speed = 900;
+    t0 = cal_run_time(550, speed);
+    t1 = 2 * t0;
+    while (n <360) 
+    {
+        move_timed(speed, t1);
+        move_timed(-speed, t1);
+    }
+
 }
 
 
